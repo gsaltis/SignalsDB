@@ -36,7 +36,7 @@ class SettingDisplayWindow : public SignalDisplayWindow
 
  //! Constructors
  public :
-  SettingDisplayWindow          ();
+  SettingDisplayWindow          (QString InText);
 
  //! Destructor
  public :
@@ -59,7 +59,6 @@ class SettingDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : AlarmDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : SignalsInformation.h
+ * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _alarmdisplaywindow_h_
-#define _alarmdisplaywindow_h_
+#ifndef _signalsinformation_h_
+#define _signalsinformation_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,34 +13,30 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <sqlite3.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ALARM_DISPLAY_WINDOW_X          200
-#define ALARM_DISPLAY_WINDOW_Y          200
-#define ALARM_DISPLAY_WINDOW_WIDTH      200
-#define ALARM_DISPLAY_WINDOW_HEIGHT     200
 
 /*****************************************************************************!
- * Exported Class : AlarmDisplayWindow
+ * Exported Class : SignalsInformation
  *****************************************************************************/
-class AlarmDisplayWindow : public SignalDisplayWindow
+class SignalsInformation : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  AlarmDisplayWindow            (QString InText);
+  SignalsInformation            ();
 
  //! Destructor
  public :
-  ~AlarmDisplayWindow           ();
+  ~SignalsInformation           ();
 
  //! Public Methods
  public :
@@ -56,9 +52,6 @@ class AlarmDisplayWindow : public SignalDisplayWindow
 
  //! Private Methods
  private :
-  void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
 
  //! Private Data
  private :
@@ -74,4 +67,4 @@ class AlarmDisplayWindow : public SignalDisplayWindow
 
 };
 
-#endif /* _alarmdisplaywindow_h_*/
+#endif /* _signalsinformation_h_*/

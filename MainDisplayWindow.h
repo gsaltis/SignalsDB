@@ -13,6 +13,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QTabBar>
 
 /*****************************************************************************!
  * Local Headers
@@ -60,19 +61,24 @@ class MainDisplayWindow : public QWidget
   void                          Initialize              ();
   void                          InitializeSubWindows    ();
   void                          CreateSubWindows        ();
+  void                          CreateConnections       ();
   void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          HideWindows             (void);
 
  //! Private Data
  private :
-  SignalTabWindow*              tabWindow;
   AlarmDisplayWindow*           alarmDisplayWindow;
   ControlDisplayWindow*         controlDisplayWindow;
   EquipmentDisplayWindow*       equipmentDisplayWindow;
   SampleDisplayWindow*          sampleDisplayWindow;
   SettingDisplayWindow*         settingDisplayWindow;
   
+  QTabBar*                      tabBar;
+  QList<QWidget*>               windows;
+
  //! Public Slots
  public slots :
+  void                          SlotTabSelected         (int InTabIndex);
 
  //! Public Signals
  signals :

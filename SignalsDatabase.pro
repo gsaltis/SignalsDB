@@ -12,7 +12,7 @@ QMAKE_LFLAGS_WINDOWS            += -mwindows
 
 QMAKE_CXXFLAGS                  += 
 
-QMAKE_LIBS                      = 
+QMAKE_LIBS                      = -lwsock32
 
 TARGET                          = SignalsDB
 
@@ -28,48 +28,56 @@ QT                              += core gui widgets
 DEFINES                         += \
 
 SOURCES                         += \
-				   AlarmDisplayWindow.cpp			\
-				   ControlDisplayWindow.cpp			\
-				   EquipmentDisplayWindow.cpp			\
-				   MainDisplayWindow.cpp			\
-				   MainWindow.cpp				\
-				   NCUAlarmSignal.cpp				\
-				   NCUControlSignal.cpp				\
-				   NCUEquipment.cpp				\
-				   NCUEquipmentSet.cpp				\
-				   NCUSampleSignal.cpp				\
-				   NCUSettingSignal.cpp				\
-				   NCUSignal.cpp				\
-				   SampleDisplayWindow.cpp			\
-				   SettingDisplayWindow.cpp			\
-				   SignalDisplayWindow.cpp			\
-                                   SignalStatsWindow.cpp                        \
-                                   SignalTabWindow.cpp                          \
-				   SystemConfig.cpp				\
-				   main.cpp					\
-				   sqlite3.c					\
+				   AlarmDisplayWindow.cpp                       \
+				   ControlDisplayWindow.cpp                     \
+				   EquipmentDisplayWindow.cpp                   \
+				   EquipmentInformation.cpp                     \
+				   MainDisplayWindow.cpp                        \
+				   MainWindow.cpp                               \
+				   NCUAlarmSignal.cpp                           \
+				   NCUControlSignal.cpp                         \
+				   NCUEquipment.cpp                             \
+				   NCUEquipmentSet.cpp                          \
+				   NCUSampleSignal.cpp                          \
+				   NCUSettingSignal.cpp                         \
+				   NCUSignal.cpp                                \
+				   SampleDisplayWindow.cpp                      \
+				   SettingDisplayWindow.cpp                     \
+				   SignalDisplayWindow.cpp                      \
+				   SignalStatsWindow.cpp                        \
+				   SignalTabWindow.cpp                          \
+				   SignalsInformation.cpp                       \
+				   SystemConfig.cpp                             \
+				   WindowHeader.cpp                             \
+				   main.cpp                                     \
+				   sqlite3.c                                    \
+				   trace.cpp                                    \
 
 
 HEADERS                         += \
-				   AlarmDisplayWindow.h				\
-				   ControlDisplayWindow.h			\
-				   EquipmentDisplayWindow.h			\
-				   MainDisplayWindow.h				\
-				   MainWindow.h					\
-				   NCUAlarmSignal.h				\
-				   NCUControlSignal.h				\
-				   NCUEquipment.h				\
-				   NCUEquipmentSet.h				\
-				   NCUSampleSignal.h				\
-				   NCUSettingSignal.h				\
-				   NCUSignal.h					\
-				   SampleDisplayWindow.h			\
-				   SettingDisplayWindow.h			\
-				   SignalDisplayWindow.h			\
-                                   SignalStatsWindow.h                          \
-                                   SignalTabWindow.h                            \
-				   SystemConfig.h				\
-				   sqlite3.h					\
+				   AlarmDisplayWindow.h                         \
+				   ControlDisplayWindow.h                       \
+				   EquipmentDisplayWindow.h                     \
+				   EquipmentInformation.h                       \
+				   MainDisplayWindow.h                          \
+				   MainWindow.h                                 \
+				   NCUAlarmSignal.h                             \
+				   NCUControlSignal.h                           \
+				   NCUEquipment.h                               \
+				   NCUEquipmentSet.h                            \
+				   NCUSampleSignal.h                            \
+				   NCUSettingSignal.h                           \
+				   NCUSignal.h                                  \
+				   SampleDisplayWindow.h                        \
+				   SettingDisplayWindow.h                       \
+				   SignalDisplayWindow.h                        \
+				   SignalStatsWindow.h                          \
+				   SignalTabWindow.h                            \
+				   SignalsInformation.h                         \
+				   SystemConfig.h                               \
+				   WindowHeader.h                               \
+				   sqlite3.h                                    \
+				   trace_winnet.h                               \
 
 FORMS                           += \
 

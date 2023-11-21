@@ -1,6 +1,6 @@
 /*****************************************************************************
- * FILE NAME    : SignalTabWindow.cpp
- * DATE         : November 20 2023
+ * FILE NAME    : WindowHeader.cpp
+ * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
@@ -8,7 +8,6 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -16,26 +15,28 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalTabWindow.h"
+#include "WindowHeader.h"
 
 /*****************************************************************************!
- * Function : SignalTabWindow
+ * Function : WindowHeader
  *****************************************************************************/
-SignalTabWindow::SignalTabWindow
-() : QTabWidget()
+WindowHeader::WindowHeader
+(QString InText, QWidget* InParent) : QWidget(InParent)
 {
   QPalette pal;
+
+  text = InText;
   pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
+  pal.setBrush(QPalette::Window, QBrush(QColor(0, 0, 0, 0)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
 }
 
 /*****************************************************************************!
- * Function : ~SignalTabWindow
+ * Function : ~WindowHeader
  *****************************************************************************/
-SignalTabWindow::~SignalTabWindow
+WindowHeader::~WindowHeader
 ()
 {
 }
@@ -44,7 +45,7 @@ SignalTabWindow::~SignalTabWindow
  * Function : initialize
  *****************************************************************************/
 void
-SignalTabWindow::initialize()
+WindowHeader::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
@@ -54,16 +55,24 @@ SignalTabWindow::initialize()
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-SignalTabWindow::CreateSubWindows()
+WindowHeader::CreateSubWindows()
 {
-  
+
+  //! Create label  
+  TextLabel = new QLabel();
+  TextLabel->setParent(this);
+  TextLabel->move(5, 0);
+  TextLabel->resize(100, 20);
+  TextLabel->setText(text);
+  TextLabel->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+  TextLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
 }
 
 /*****************************************************************************!
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-SignalTabWindow::InitializeSubWindows()
+WindowHeader::InitializeSubWindows()
 {
   
 }
@@ -72,20 +81,16 @@ SignalTabWindow::InitializeSubWindows()
  * Function : resizeEvent
  *****************************************************************************/
 void
-SignalTabWindow::resizeEvent
+WindowHeader::resizeEvent
 (QResizeEvent* InEvent)
 {
   QSize					size;  
   int					width;
   int					height;
 
-  TRACE_FUNCTION_START();
   size = InEvent->size();
   width = size.width();
   height = size.height();
-  TRACE_FUNCTION_INT(width);
-  TRACE_FUNCTION_INT(height);
-  (void)height;
-  (void)width;
-  TRACE_FUNCTION_END();
+
+  TextLabel->resize(width-5, height);
 }

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : AlarmDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : EquipmentInformation.h
+ * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _alarmdisplaywindow_h_
-#define _alarmdisplaywindow_h_
+#ifndef _equipmentinformation_h_
+#define _equipmentinformation_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,33 +17,32 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
+#include "SignalsInformation.h"
+#include "NCUEquipment.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ALARM_DISPLAY_WINDOW_X          200
-#define ALARM_DISPLAY_WINDOW_Y          200
-#define ALARM_DISPLAY_WINDOW_WIDTH      200
-#define ALARM_DISPLAY_WINDOW_HEIGHT     200
 
 /*****************************************************************************!
- * Exported Class : AlarmDisplayWindow
+ * Exported Class : EquipmentInformation
  *****************************************************************************/
-class AlarmDisplayWindow : public SignalDisplayWindow
+class EquipmentInformation : public SignalsInformation
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  AlarmDisplayWindow            (QString InText);
+  EquipmentInformation          ();
 
  //! Destructor
  public :
-  ~AlarmDisplayWindow           ();
+  ~EquipmentInformation         ();
 
  //! Public Methods
  public :
+  void                          AddEquipment            (NCUEquipment* InEquipment);
+  NCUEquipment*                 FindEquipmentByID       (int InTrack, int InID);
 
  //! Public Data
  public :
@@ -56,13 +55,11 @@ class AlarmDisplayWindow : public SignalDisplayWindow
 
  //! Private Methods
  private :
-  void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
 
  //! Private Data
  private :
-
+  QList<NCUEquipment*>          equipment;;
+  
  //! Public Slots
  public slots :
 
@@ -74,4 +71,4 @@ class AlarmDisplayWindow : public SignalDisplayWindow
 
 };
 
-#endif /* _alarmdisplaywindow_h_*/
+#endif /* _equipmentinformation_h_*/

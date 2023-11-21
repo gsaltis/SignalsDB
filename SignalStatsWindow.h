@@ -14,15 +14,17 @@
 #include <QtGui>
 #include <QWidget>
 #include <QLabel>
+#include <QString>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "WindowHeader.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SIGNAL_STATS_WINDOW_HEIGHT      60
+#define SIGNAL_STATS_WINDOW_HEIGHT      160
 
 /*****************************************************************************!
  * Exported Class : SignalStatsWindow
@@ -33,7 +35,7 @@ class SignalStatsWindow : public QWidget
 
  //! Constructors
  public :
-  SignalStatsWindow             ();
+  SignalStatsWindow             (QString InText);
 
  //! Destructor
  public :
@@ -77,6 +79,9 @@ class SignalStatsWindow : public QWidget
   int                           Track2MissingSignals;
   int                           Track3MissingSignals;
   
+  WindowHeader*                 header;
+  QString                       text;
+
  //! Public Slots
  public slots :
   void                          SlotSetTrack2Totals     (int InSignals);

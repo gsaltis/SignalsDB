@@ -36,7 +36,7 @@ class SampleDisplayWindow : public SignalDisplayWindow
 
  //! Constructors
  public :
-  SampleDisplayWindow           ();
+  SampleDisplayWindow           (QString InText);
 
  //! Destructor
  public :
@@ -59,7 +59,6 @@ class SampleDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :

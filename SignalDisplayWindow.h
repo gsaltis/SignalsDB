@@ -36,7 +36,7 @@ class SignalDisplayWindow : public QWidget
 
  //! Constructors
  public :
-  SignalDisplayWindow           ();
+  SignalDisplayWindow           (QString InText);
 
  //! Destructor
  public :
@@ -64,7 +64,8 @@ class SignalDisplayWindow : public QWidget
  //! Private Data
  private :
   SignalStatsWindow*            statsWindow;
-
+  QString                       text;
+  
  //! Public Slots
  public slots :
 

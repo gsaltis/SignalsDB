@@ -1,69 +1,57 @@
 /*****************************************************************************
- * FILE NAME    : AlarmDisplayWindow.cpp
- * DATE         : November 20 2023
- * PROJECT      : 
- * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
+ * FILE NAME    : trace.cpp
+ * DATE         : April 09 2021
+ * COPYRIGHT    : Copyright (C) 2021 by Gregory R Saltis
  *****************************************************************************/
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <QtCore>
-#include <QtGui>
-#include <QWidget>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
+#include <unistd.h>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "AlarmDisplayWindow.h"
+#include "trace_winnet.h"
 
 /*****************************************************************************!
- * Function : AlarmDisplayWindow
+ * Local Macros
  *****************************************************************************/
-AlarmDisplayWindow::AlarmDisplayWindow
-(QString InText) : SignalDisplayWindow(InText)
-{
-  QPalette pal;
-  pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
-  setPalette(pal);
-  setAutoFillBackground(true);
-  initialize();
-}
 
 /*****************************************************************************!
- * Function : ~AlarmDisplayWindow
+ * Local Data
  *****************************************************************************/
-AlarmDisplayWindow::~AlarmDisplayWindow
-()
-{
-}
+int
+TraceIndent = 0;
+
+char
+TraceOutputBuffer[TRACE_OUTPUT_BUFFER_SIZE +1];
 
 /*****************************************************************************!
- * Function : initialize
+ * Local Functions
+ *****************************************************************************/
+
+/*****************************************************************************!
+ * Function : TraceInitializeNetwork
  *****************************************************************************/
 void
-AlarmDisplayWindow::initialize()
+TraceInitializeNetwork
+(void)
 {
-  InitializeSubWindows();  
-  CreateSubWindows();
+
 }
 
 /*****************************************************************************!
- * Function : CreateSubWindows
+ * Function : TraceSocketClose
  *****************************************************************************/
 void
-AlarmDisplayWindow::CreateSubWindows()
+TraceSocketClose
+(int InSocket)
 {
-  
+  close(InSocket);
 }
-
-/*****************************************************************************!
- * Function : InitializeSubWindows
- *****************************************************************************/
-void
-AlarmDisplayWindow::InitializeSubWindows()
-{
-  
-}
-

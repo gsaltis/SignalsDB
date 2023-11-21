@@ -1,6 +1,6 @@
 /*****************************************************************************
- * FILE NAME    : AlarmDisplayWindow.cpp
- * DATE         : November 20 2023
+ * FILE NAME    : EquipmentInformation.cpp
+ * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
@@ -15,55 +15,48 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "AlarmDisplayWindow.h"
+#include "EquipmentInformation.h"
 
 /*****************************************************************************!
- * Function : AlarmDisplayWindow
+ * Function : EquipmentInformation
  *****************************************************************************/
-AlarmDisplayWindow::AlarmDisplayWindow
-(QString InText) : SignalDisplayWindow(InText)
+EquipmentInformation::EquipmentInformation
+() : SignalsInformation()
 {
-  QPalette pal;
-  pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
-  setPalette(pal);
-  setAutoFillBackground(true);
-  initialize();
 }
 
 /*****************************************************************************!
- * Function : ~AlarmDisplayWindow
+ * Function : ~EquipmentInformation
  *****************************************************************************/
-AlarmDisplayWindow::~AlarmDisplayWindow
+EquipmentInformation::~EquipmentInformation
 ()
 {
 }
 
 /*****************************************************************************!
- * Function : initialize
+ * Function : AddEquipment
  *****************************************************************************/
 void
-AlarmDisplayWindow::initialize()
+EquipmentInformation::AddEquipment
+(NCUEquipment* InEquipment)
 {
-  InitializeSubWindows();  
-  CreateSubWindows();
+  if ( NULL == InEquipment ) {
+    return;
+  }
+  equipment << InEquipment;
 }
 
 /*****************************************************************************!
- * Function : CreateSubWindows
+ * Function : FindEquipmentByID
  *****************************************************************************/
-void
-AlarmDisplayWindow::CreateSubWindows()
+NCUEquipment*
+EquipmentInformation::FindEquipmentByID
+(int InTrack, int InID)
 {
-  
+  for ( auto i : equipment ) {
+    if ( i->GetTrack() == InTrack && i->GetID() == InID ) {
+      return i;
+    }
+  }
+  return NULL;
 }
-
-/*****************************************************************************!
- * Function : InitializeSubWindows
- *****************************************************************************/
-void
-AlarmDisplayWindow::InitializeSubWindows()
-{
-  
-}
-

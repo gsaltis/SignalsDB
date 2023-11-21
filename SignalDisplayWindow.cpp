@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -21,10 +22,11 @@
  * Function : SignalDisplayWindow
  *****************************************************************************/
 SignalDisplayWindow::SignalDisplayWindow
-() : QWidget()
+(QString InText) : QWidget()
 {
   QPalette pal;
   pal = palette();
+  text = InText;
   pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
   setPalette(pal);
   setAutoFillBackground(true);
@@ -55,7 +57,7 @@ SignalDisplayWindow::initialize()
 void
 SignalDisplayWindow::CreateSubWindows()
 {
-  statsWindow = new SignalStatsWindow();  
+  statsWindow = new SignalStatsWindow(text);
   statsWindow->setParent(this);
 }
 
@@ -79,6 +81,7 @@ SignalDisplayWindow::resizeEvent
   int					width;
   int					height;
 
+  TRACE_FUNCTION_START();
   size = InEvent->size();
   width = size.width();
   height = size.height();
@@ -86,5 +89,7 @@ SignalDisplayWindow::resizeEvent
   (void)width;
   if ( statsWindow ) {
     statsWindow->resize(width, SIGNAL_STATS_WINDOW_HEIGHT);
+    TRACE_FUNCTION_INT(width);
   }
+  TRACE_FUNCTION_END();
 }

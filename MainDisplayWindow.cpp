@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -16,6 +17,11 @@
  * Local Headers
  *****************************************************************************/
 #include "MainDisplayWindow.h"
+
+/*****************************************************************************!
+ * Local Macros
+ *****************************************************************************/
+#define TABBAR_HEIGHT                   25
 
 /*****************************************************************************!
  * Function : MainDisplayWindow
@@ -49,6 +55,7 @@ MainDisplayWindow::Initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
 }
 
 /*****************************************************************************!
@@ -57,7 +64,6 @@ MainDisplayWindow::Initialize()
 void
 MainDisplayWindow::InitializeSubWindows()
 {
-  tabWindow = NULL;  
 }
 
 /*****************************************************************************!
@@ -66,20 +72,40 @@ MainDisplayWindow::InitializeSubWindows()
 void
 MainDisplayWindow::CreateSubWindows()
 {
-  tabWindow = new SignalTabWindow();  
-  tabWindow->setParent(this);
+  tabBar = new QTabBar(this);
+  tabBar->move(0, 0);
 
-  alarmDisplayWindow = new AlarmDisplayWindow();
-  controlDisplayWindow = new ControlDisplayWindow();
-  equipmentDisplayWindow = new EquipmentDisplayWindow();
-  sampleDisplayWindow = new SampleDisplayWindow();
-  settingDisplayWindow = new SettingDisplayWindow();
+  alarmDisplayWindow = new AlarmDisplayWindow("Alarms");
+  alarmDisplayWindow->setParent(this);
+  
+  controlDisplayWindow = new ControlDisplayWindow("Control");
+  controlDisplayWindow->setParent(this);
+  
+  equipmentDisplayWindow = new EquipmentDisplayWindow("Equipment");
+  equipmentDisplayWindow->setParent(this);
+  
+  sampleDisplayWindow = new SampleDisplayWindow("Sample");
+  sampleDisplayWindow->setParent(this);
+  
+  settingDisplayWindow = new SettingDisplayWindow("Setting");
+  settingDisplayWindow->setParent(this);
 
-  tabWindow->addTab(alarmDisplayWindow, "Alarm");
-  tabWindow->addTab(controlDisplayWindow, "Control");
-  tabWindow->addTab(equipmentDisplayWindow, "Equipment");
-  tabWindow->addTab(sampleDisplayWindow, "Sample");
-  tabWindow->addTab(settingDisplayWindow, "Settingr");
+  windows << alarmDisplayWindow;
+  windows << controlDisplayWindow;
+  windows << equipmentDisplayWindow;
+  windows << sampleDisplayWindow;
+  windows << settingDisplayWindow;
+  
+  controlDisplayWindow->hide();
+  equipmentDisplayWindow->hide();
+  sampleDisplayWindow->hide();
+  settingDisplayWindow->hide();
+  
+  tabBar->addTab("Alarm");
+  tabBar->addTab("Control");
+  tabBar->addTab("Equipment");
+  tabBar->addTab("Sample");
+  tabBar->addTab("Setting");
 }
 
 /*****************************************************************************!
@@ -89,6 +115,8 @@ void
 MainDisplayWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   windowY;
+  int                                   windowH;
   QSize					size;  
   int					width;
   int					height;
@@ -96,7 +124,65 @@ MainDisplayWindow::resizeEvent
   size = InEvent->size();
   width = size.width();
   height = size.height();
-  if ( tabWindow ) {
-    tabWindow->resize(width, height);
-  }
+
+  windowH = height - TABBAR_HEIGHT;
+  windowY = TABBAR_HEIGHT;
+
+  
+  alarmDisplayWindow->resize(width, windowH);
+  alarmDisplayWindow->move(0, windowY);
+
+  controlDisplayWindow->resize(width, windowH);
+  controlDisplayWindow->move(0, windowY);
+
+  equipmentDisplayWindow->resize(width, windowH);
+  equipmentDisplayWindow->move(0, windowY);
+
+  sampleDisplayWindow->resize(width, windowH);
+  sampleDisplayWindow->move(0, windowY);
+
+  settingDisplayWindow->resize(width, windowH);
+  settingDisplayWindow->move(0, windowY);
+
+  tabBar->resize(width, TABBAR_HEIGHT);
+}
+
+/*****************************************************************************!
+ * Function : SlotTabSelected
+ *****************************************************************************/
+void
+MainDisplayWindow::SlotTabSelected
+(int InTabIndex)
+{
+  TRACE_FUNCTION_START();
+  TRACE_FUNCTION_INT(InTabIndex);
+  TRACE_FUNCTION_END();
+  HideWindows();
+  windows[InTabIndex]->show();
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+MainDisplayWindow::CreateConnections
+()
+{
+  connect(tabBar,
+          QTabBar::tabBarClicked,
+          this,
+          MainDisplayWindow::SlotTabSelected);
+}
+
+/*****************************************************************************!
+ * Function : HideWindows
+ *****************************************************************************/
+void
+MainDisplayWindow::HideWindows(void)
+{
+  alarmDisplayWindow->hide();
+  controlDisplayWindow->hide();
+  alarmDisplayWindow->hide();
+  sampleDisplayWindow->hide();
+  settingDisplayWindow->hide();
 }

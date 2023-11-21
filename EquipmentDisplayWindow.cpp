@@ -21,7 +21,7 @@
  * Function : EquipmentDisplayWindow
  *****************************************************************************/
 EquipmentDisplayWindow::EquipmentDisplayWindow
-() : SignalDisplayWindow()
+(QString InText) : SignalDisplayWindow(InText)
 {
   QPalette pal;
   pal = palette();
@@ -67,20 +67,3 @@ EquipmentDisplayWindow::InitializeSubWindows()
   
 }
 
-/*****************************************************************************!
- * Function : resizeEvent
- *****************************************************************************/
-void
-EquipmentDisplayWindow::resizeEvent
-(QResizeEvent* InEvent)
-{
-  QSize					size;  
-  int					width;
-  int					height;
-
-  size = InEvent->size();
-  width = size.width();
-  height = size.height();
-  (void)height;
-  (void)width;
-}

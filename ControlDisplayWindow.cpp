@@ -21,7 +21,7 @@
  * Function : ControlDisplayWindow
  *****************************************************************************/
 ControlDisplayWindow::ControlDisplayWindow
-() : SignalDisplayWindow()
+(QString InText) : SignalDisplayWindow(InText)
 {
   QPalette pal;
   pal = palette();
@@ -67,20 +67,3 @@ ControlDisplayWindow::InitializeSubWindows()
   
 }
 
-/*****************************************************************************!
- * Function : resizeEvent
- *****************************************************************************/
-void
-ControlDisplayWindow::resizeEvent
-(QResizeEvent* InEvent)
-{
-  QSize					size;  
-  int					width;
-  int					height;
-
-  size = InEvent->size();
-  width = size.width();
-  height = size.height();
-  (void)height;
-  (void)width;
-}

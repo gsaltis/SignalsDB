@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : AlarmDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : WindowHeader.h
+ * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _alarmdisplaywindow_h_
-#define _alarmdisplaywindow_h_
+#ifndef _windowheader_h_
+#define _windowheader_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,34 +13,32 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QLabel>
+#include <QString>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ALARM_DISPLAY_WINDOW_X          200
-#define ALARM_DISPLAY_WINDOW_Y          200
-#define ALARM_DISPLAY_WINDOW_WIDTH      200
-#define ALARM_DISPLAY_WINDOW_HEIGHT     200
+#define WINDOW_HEADER_HEIGHT            40
 
 /*****************************************************************************!
- * Exported Class : AlarmDisplayWindow
+ * Exported Class : WindowHeader
  *****************************************************************************/
-class AlarmDisplayWindow : public SignalDisplayWindow
+class WindowHeader : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  AlarmDisplayWindow            (QString InText);
+  WindowHeader                  (QString InText, QWidget* InParent);
 
  //! Destructor
  public :
-  ~AlarmDisplayWindow           ();
+  ~WindowHeader                 ();
 
  //! Public Methods
  public :
@@ -59,9 +57,12 @@ class AlarmDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
+  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
+  QLabel*                       TextLabel;
+  QString                       text;
 
  //! Public Slots
  public slots :
@@ -74,4 +75,4 @@ class AlarmDisplayWindow : public SignalDisplayWindow
 
 };
 
-#endif /* _alarmdisplaywindow_h_*/
+#endif /* _windowheader_h_*/

@@ -36,7 +36,7 @@ class EquipmentDisplayWindow : public SignalDisplayWindow
 
  //! Constructors
  public :
-  EquipmentDisplayWindow        ();
+  EquipmentDisplayWindow        (QString InText);
 
  //! Destructor
  public :
@@ -59,7 +59,6 @@ class EquipmentDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :

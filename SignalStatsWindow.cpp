@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -21,11 +22,14 @@
  * Function : SignalStatsWindow
  *****************************************************************************/
 SignalStatsWindow::SignalStatsWindow
-() : QWidget()
+(QString InText) : QWidget()
 {
   QPalette pal;
+
+  text = InText;
   pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
+  
+  pal.setBrush(QPalette::Window, QBrush(QColor(0, 0, 0, 32)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
@@ -60,10 +64,9 @@ SignalStatsWindow::CreateSubWindows()
   int                                   y;
   int                                   labelWidth;
   int                                   labelHeight;
-
   
   x = 10;
-  y = 10;
+  y = WINDOW_HEADER_HEIGHT + 10;
   labelWidth = 120;
   labelWidth2 = 80;
   labelHeight = 15;
@@ -89,6 +92,8 @@ SignalStatsWindow::CreateSubWindows()
   Track2DifferLabel = CreateDisplayLabel(x1, y, labelWidth2, labelHeight);
   Track3DifferLabel = CreateDisplayLabel(x2, y, labelWidth2, labelHeight);
   y += labelHeight + 10;
+  
+  header = new WindowHeader(text, this);
 }
 
 /*****************************************************************************!
@@ -97,7 +102,7 @@ SignalStatsWindow::CreateSubWindows()
 void
 SignalStatsWindow::InitializeSubWindows()
 {
-  
+  header = NULL;  
 }
 
 /*****************************************************************************!
@@ -111,11 +116,16 @@ SignalStatsWindow::resizeEvent
   int					width;
   int					height;
 
+  TRACE_FUNCTION_START();
   size = InEvent->size();
   width = size.width();
   height = size.height();
-  (void)height;
-  (void)width;
+  TRACE_FUNCTION_INT(width);
+  TRACE_FUNCTION_INT(height);
+  if ( header ) {
+    header->resize(width, WINDOW_HEADER_HEIGHT);
+  }
+  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
