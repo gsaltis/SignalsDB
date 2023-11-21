@@ -57,7 +57,7 @@ MainDisplayWindow::Initialize()
 void
 MainDisplayWindow::InitializeSubWindows()
 {
-  
+  tabWindow = NULL;  
 }
 
 /*****************************************************************************!
@@ -66,7 +66,20 @@ MainDisplayWindow::InitializeSubWindows()
 void
 MainDisplayWindow::CreateSubWindows()
 {
-  
+  tabWindow = new SignalTabWindow();  
+  tabWindow->setParent(this);
+
+  alarmDisplayWindow = new AlarmDisplayWindow();
+  controlDisplayWindow = new ControlDisplayWindow();
+  equipmentDisplayWindow = new EquipmentDisplayWindow();
+  sampleDisplayWindow = new SampleDisplayWindow();
+  settingDisplayWindow = new SettingDisplayWindow();
+
+  tabWindow->addTab(alarmDisplayWindow, "Alarm");
+  tabWindow->addTab(controlDisplayWindow, "Control");
+  tabWindow->addTab(equipmentDisplayWindow, "Equipment");
+  tabWindow->addTab(sampleDisplayWindow, "Sample");
+  tabWindow->addTab(settingDisplayWindow, "Settingr");
 }
 
 /*****************************************************************************!
@@ -83,6 +96,7 @@ MainDisplayWindow::resizeEvent
   size = InEvent->size();
   width = size.width();
   height = size.height();
-  (void)height;
-  (void)width;
+  if ( tabWindow ) {
+    tabWindow->resize(width, height);
+  }
 }

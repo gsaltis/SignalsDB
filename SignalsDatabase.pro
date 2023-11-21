@@ -44,6 +44,7 @@ SOURCES                         += \
 				   SettingDisplayWindow.cpp			\
 				   SignalDisplayWindow.cpp			\
                                    SignalStatsWindow.cpp                        \
+                                   SignalTabWindow.cpp                          \
 				   SystemConfig.cpp				\
 				   main.cpp					\
 				   sqlite3.c					\
@@ -66,6 +67,7 @@ HEADERS                         += \
 				   SettingDisplayWindow.h			\
 				   SignalDisplayWindow.h			\
                                    SignalStatsWindow.h                          \
+                                   SignalTabWindow.h                            \
 				   SystemConfig.h				\
 				   sqlite3.h					\
 

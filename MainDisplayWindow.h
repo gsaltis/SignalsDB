@@ -17,6 +17,12 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "SignalTabWindow.h"
+#include "AlarmDisplayWindow.h"
+#include "ControlDisplayWindow.h"
+#include "EquipmentDisplayWindow.h"
+#include "SampleDisplayWindow.h"
+#include "SettingDisplayWindow.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -58,7 +64,13 @@ class MainDisplayWindow : public QWidget
 
  //! Private Data
  private :
-
+  SignalTabWindow*              tabWindow;
+  AlarmDisplayWindow*           alarmDisplayWindow;
+  ControlDisplayWindow*         controlDisplayWindow;
+  EquipmentDisplayWindow*       equipmentDisplayWindow;
+  SampleDisplayWindow*          sampleDisplayWindow;
+  SettingDisplayWindow*         settingDisplayWindow;
+  
  //! Public Slots
  public slots :
 
