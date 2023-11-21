@@ -28,6 +28,9 @@ QT                              += core gui widgets
 DEFINES                         += \
 
 SOURCES                         += \
+				   AlarmDisplayWindow.cpp			\
+				   ControlDisplayWindow.cpp			\
+				   EquipmentDisplayWindow.cpp			\
 				   MainDisplayWindow.cpp			\
 				   MainWindow.cpp				\
 				   NCUAlarmSignal.cpp				\
@@ -37,12 +40,19 @@ SOURCES                         += \
 				   NCUSampleSignal.cpp				\
 				   NCUSettingSignal.cpp				\
 				   NCUSignal.cpp				\
+				   SampleDisplayWindow.cpp			\
+				   SettingDisplayWindow.cpp			\
+				   SignalDisplayWindow.cpp			\
+                                   SignalStatsWindow.cpp                        \
 				   SystemConfig.cpp				\
 				   main.cpp					\
-                                   sqlite3.c                                    \
+				   sqlite3.c					\
 
 
 HEADERS                         += \
+				   AlarmDisplayWindow.h				\
+				   ControlDisplayWindow.h			\
+				   EquipmentDisplayWindow.h			\
 				   MainDisplayWindow.h				\
 				   MainWindow.h					\
 				   NCUAlarmSignal.h				\
@@ -52,8 +62,12 @@ HEADERS                         += \
 				   NCUSampleSignal.h				\
 				   NCUSettingSignal.h				\
 				   NCUSignal.h					\
+				   SampleDisplayWindow.h			\
+				   SettingDisplayWindow.h			\
+				   SignalDisplayWindow.h			\
+                                   SignalStatsWindow.h                          \
 				   SystemConfig.h				\
-                                   sqlite3.h                                    \
+				   sqlite3.h					\
 
 FORMS                           += \
 
