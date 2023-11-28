@@ -19,6 +19,8 @@
  *****************************************************************************/
 #include "SignalsInformation.h"
 #include "NCUEquipment.h"
+#include "sqlite3.h"
+#include "EquipmentSignalPair.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -43,6 +45,8 @@ class EquipmentInformation : public SignalsInformation
  public :
   void                          AddEquipment            (NCUEquipment* InEquipment);
   NCUEquipment*                 FindEquipmentByID       (int InTrack, int InID);
+  void                          SQLRead                 (sqlite3* InDatabase);
+  int                           GetCountByTrack         (int InTrack);
 
  //! Public Data
  public :
@@ -59,6 +63,7 @@ class EquipmentInformation : public SignalsInformation
  //! Private Data
  private :
   QList<NCUEquipment*>          equipment;;
+  QList<EquipmentSignalPair*>   equipmentPairs;
   
  //! Public Slots
  public slots :

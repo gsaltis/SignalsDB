@@ -30,8 +30,12 @@ DEFINES                         += \
 SOURCES                         += \
 				   AlarmDisplayWindow.cpp                       \
 				   ControlDisplayWindow.cpp                     \
+				   ElementDisplayLine.cpp                       \
+				   EquipmentDisplayForm.cpp                     \
 				   EquipmentDisplayWindow.cpp                   \
 				   EquipmentInformation.cpp                     \
+				   EquipmentSignalPair.cpp                      \
+				   MainConfig.cpp                               \
 				   MainDisplayWindow.cpp                        \
 				   MainWindow.cpp                               \
 				   NCUAlarmSignal.cpp                           \
@@ -43,6 +47,7 @@ SOURCES                         += \
 				   NCUSignal.cpp                                \
 				   SampleDisplayWindow.cpp                      \
 				   SettingDisplayWindow.cpp                     \
+				   SignalDisplayForm.cpp                        \
 				   SignalDisplayWindow.cpp                      \
 				   SignalStatsWindow.cpp                        \
 				   SignalTabWindow.cpp                          \
@@ -57,8 +62,12 @@ SOURCES                         += \
 HEADERS                         += \
 				   AlarmDisplayWindow.h                         \
 				   ControlDisplayWindow.h                       \
+				   ElementDisplayLine.h                         \
+				   EquipmentDisplayForm.h                       \
 				   EquipmentDisplayWindow.h                     \
 				   EquipmentInformation.h                       \
+				   EquipmentSignalPair.h                        \
+				   MainConfig.h                                 \
 				   MainDisplayWindow.h                          \
 				   MainWindow.h                                 \
 				   NCUAlarmSignal.h                             \
@@ -70,6 +79,7 @@ HEADERS                         += \
 				   NCUSignal.h                                  \
 				   SampleDisplayWindow.h                        \
 				   SettingDisplayWindow.h                       \
+				   SignalDisplayForm.h                          \
 				   SignalDisplayWindow.h                        \
 				   SignalStatsWindow.h                          \
 				   SignalTabWindow.h                            \

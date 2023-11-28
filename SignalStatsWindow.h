@@ -24,7 +24,7 @@
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SIGNAL_STATS_WINDOW_HEIGHT      160
+#define SIGNAL_STATS_WINDOW_HEIGHT      145
 
 /*****************************************************************************!
  * Exported Class : SignalStatsWindow
@@ -49,7 +49,7 @@ class SignalStatsWindow : public QWidget
 
  //! Protected Methods
  protected :
-
+  void                          paintEvent              (QPaintEvent* InEvent);
  //! Protected Data
  protected :
 

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUSignal.h
- * DATE         : November 20 2023
+ * FILE NAME    : MainConfig.h
+ * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncusignal_h_
-#define _ncusignal_h_
+#ifndef _mainconfig_h_
+#define _mainconfig_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -14,53 +14,41 @@
 #include <QtGui>
 #include <QWidget>
 
-
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "sqlite3.h"
+#include "EquipmentInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Class : NCUSignal
+ * Exported Class : MainConfig
  *****************************************************************************/
-class NCUSignal : public QWidget
+class MainConfig : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUSignal                     ();
+  MainConfig                    ();
 
  //! Destructor
  public :
-  ~NCUSignal                    ();
+  ~MainConfig                   ();
 
  //! Public Methods
  public :
-  int                           GetTrack                (void);
-  void                          SetTrack                (int InTrack);
-  int                           GetID                   (void);
-  void                          SetID                   (int InID);
-  int                           GetType                 (void);
-  void                          SetType                 (int InType);
-  QString                       GetName                 (void);
-  void                          SetName                 (QString InName);
-  QString                       GetIDName               (void);
-  void                          SetIDName               (QString InIDName);
 
  //! Public Data
  public :
-
+  static sqlite3*                       database;
+  static EquipmentInformation*          equipmentInformation;
+  
  //! Protected Methods
  protected :
-  int                           Track;
-  int                           ID;
-  int                           Type;
-  QString                       Name;
-  QString                       IDName; 
 
  //! Protected Data
  protected :
@@ -82,4 +70,4 @@ class NCUSignal : public QWidget
 
 };
 
-#endif /* _ncusignal_h_*/
+#endif /* _mainconfig_h_*/

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUSignal.h
- * DATE         : November 20 2023
+ * FILE NAME    : EquipmentSignalPair.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncusignal_h_
-#define _ncusignal_h_
+#ifndef _equipmentsignalpair_h_
+#define _equipmentsignalpair_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -14,53 +14,39 @@
 #include <QtGui>
 #include <QWidget>
 
-
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "NCUEquipment.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Class : NCUSignal
+ * Exported Class : EquipmentSignalPair
  *****************************************************************************/
-class NCUSignal : public QWidget
+class EquipmentSignalPair : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUSignal                     ();
+  EquipmentSignalPair           (int InID, NCUEquipment* InTrack2Signal, NCUEquipment* InTrack3Signal);
 
  //! Destructor
  public :
-  ~NCUSignal                    ();
+  ~EquipmentSignalPair          ();
 
  //! Public Methods
  public :
-  int                           GetTrack                (void);
-  void                          SetTrack                (int InTrack);
   int                           GetID                   (void);
-  void                          SetID                   (int InID);
-  int                           GetType                 (void);
-  void                          SetType                 (int InType);
-  QString                       GetName                 (void);
-  void                          SetName                 (QString InName);
-  QString                       GetIDName               (void);
-  void                          SetIDName               (QString InIDName);
 
  //! Public Data
  public :
 
  //! Protected Methods
  protected :
-  int                           Track;
-  int                           ID;
-  int                           Type;
-  QString                       Name;
-  QString                       IDName; 
 
  //! Protected Data
  protected :
@@ -70,6 +56,9 @@ class NCUSignal : public QWidget
 
  //! Private Data
  private :
+  NCUEquipment*                 Track2Signal;
+  NCUEquipment*                 Track3Signal;
+  int                           id;
 
  //! Public Slots
  public slots :
@@ -82,4 +71,4 @@ class NCUSignal : public QWidget
 
 };
 
-#endif /* _ncusignal_h_*/
+#endif /* _equipmentsignalpair_h_*/

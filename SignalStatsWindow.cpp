@@ -24,14 +24,8 @@
 SignalStatsWindow::SignalStatsWindow
 (QString InText) : QWidget()
 {
-  QPalette pal;
 
   text = InText;
-  pal = palette();
-  
-  pal.setBrush(QPalette::Window, QBrush(QColor(0, 0, 0, 32)));
-  setPalette(pal);
-  setAutoFillBackground(true);
   initialize();
 }
 
@@ -60,39 +54,41 @@ void
 SignalStatsWindow::CreateSubWindows()
 {
   int                                   labelWidth2;
-  int                                   x, x1, x2;
+  int                                   x0, x1, x2, x3;
   int                                   y;
   int                                   labelWidth;
   int                                   labelHeight;
   
-  x = 10;
-  y = WINDOW_HEADER_HEIGHT + 10;
+  y = WINDOW_HEADER_HEIGHT;
+
   labelWidth = 120;
-  labelWidth2 = 80;
+  labelWidth2 = 175;
+  
   labelHeight = 15;
   
-  x1 = x + labelWidth + 10;
-  x2 = x1 + labelWidth2 + 10;
 
-  CreateSimpleLabel("Track 2", x1, y, labelWidth2, labelHeight);
-  CreateSimpleLabel("Track 3", x2, y, labelWidth2, labelHeight);
-  y += labelHeight + 10;
-
-  CreateSimpleLabel("Total Signals", x, y, labelWidth, labelHeight);
-  Track2TotalLabel = CreateDisplayLabel(x1, y, labelWidth2, labelHeight);
-  Track3TotalLabel = CreateDisplayLabel(x2, y, labelWidth2, labelHeight);
-  y += labelHeight + 10;
-
-  CreateSimpleLabel("Missing Signals", x, y, labelWidth, labelHeight);
-  Track2MissingLabel = CreateDisplayLabel(x1, y, labelWidth2, labelHeight);
-  Track3MissingLabel = CreateDisplayLabel(x2, y, labelWidth2, labelHeight);
-  y += labelHeight + 10;
-
-  CreateSimpleLabel("Differing Signals", x, y, labelWidth, labelHeight);
-  Track2DifferLabel = CreateDisplayLabel(x1, y, labelWidth2, labelHeight);
-  Track3DifferLabel = CreateDisplayLabel(x2, y, labelWidth2, labelHeight);
-  y += labelHeight + 10;
+  x0 = 0;
+  x1 = labelWidth2 + 10;
+  x2 = x1 + labelWidth + 10;
+  x3 = x2 + labelWidth + 10;;
   
+
+  CreateSimpleLabel("Total Signals",     x1, y, labelWidth, labelHeight);
+  CreateSimpleLabel("Missing Signals",   x2, y, labelWidth, labelHeight);
+  CreateSimpleLabel("Differing Signals", x3, y, labelWidth, labelHeight);
+  y += labelHeight;
+
+  CreateSimpleLabel("TRACK 2", x0, y, labelWidth2, labelHeight);
+  Track2TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
+  Track2MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
+  Track2DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
+  y += labelHeight + 10;
+
+  CreateSimpleLabel("TRACK 3", x0, y, labelWidth2, labelHeight);
+  Track3TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
+  Track3MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
+  Track3DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
+
   header = new WindowHeader(text, this);
 }
 
@@ -239,3 +235,31 @@ SignalStatsWindow::SlotSetTrack3Missing
 {
   Track3MissingSignals = InSignals;      
 }
+
+/*****************************************************************************!
+ * Function : paintEvent
+ *****************************************************************************/
+void
+SignalStatsWindow::paintEvent
+(QPaintEvent*)
+{
+  QPainter                              painter(this);
+  QSize                                 s = size();
+  QRect                                 r = QRect(QPoint(0, 0), s);
+  QPoint                                p1 = QPoint(0, 0);
+  QPoint                                p2 = QPoint(0, s.height());
+  QLinearGradient                       grad = QLinearGradient(p1, p2);
+  QPen                                  pen = QPen(QColor(0xB0, 0xB0, 0xB0), 2);
+  
+  grad.setColorAt(0, QColor(0xB4, 0xB4, 0xB4));
+  grad.setColorAt(1, QColor(0xEC, 0xEC, 0xEC));
+  QBrush                                brush(grad);
+  
+  painter.setBrush(brush);
+  painter.drawRect(r);
+
+  painter.setPen(pen);
+  painter.drawLine(0, s.height(), s.width(), s.height());
+}
+
+  

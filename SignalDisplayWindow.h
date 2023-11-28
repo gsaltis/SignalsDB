@@ -50,20 +50,20 @@ class SignalDisplayWindow : public QWidget
 
  //! Protected Methods
  protected :
+  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Protected Data
  protected :
+  SignalStatsWindow*            statsWindow;
 
  //! Private Methods
  private :
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-  SignalStatsWindow*            statsWindow;
   QString                       text;
   
  //! Public Slots

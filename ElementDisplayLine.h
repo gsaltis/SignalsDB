@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUSignal.h
- * DATE         : November 20 2023
+ * FILE NAME    : ElementDisplayLine.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncusignal_h_
-#define _ncusignal_h_
+#ifndef _elementdisplayline_h_
+#define _elementdisplayline_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,7 +13,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
-
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
@@ -22,55 +22,48 @@
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
+#define ELEMENT_DISPLAY_LINE_HEIGHT     30
 
 /*****************************************************************************!
- * Exported Class : NCUSignal
+ * Exported Class : ElementDisplayLine
  *****************************************************************************/
-class NCUSignal : public QWidget
+class ElementDisplayLine : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUSignal                     ();
+  ElementDisplayLine            (QString InLabelText, QColor InBackgroundColor);
 
  //! Destructor
  public :
-  ~NCUSignal                    ();
+  ~ElementDisplayLine           ();
 
  //! Public Methods
  public :
-  int                           GetTrack                (void);
-  void                          SetTrack                (int InTrack);
-  int                           GetID                   (void);
-  void                          SetID                   (int InID);
-  int                           GetType                 (void);
-  void                          SetType                 (int InType);
-  QString                       GetName                 (void);
-  void                          SetName                 (QString InName);
-  QString                       GetIDName               (void);
-  void                          SetIDName               (QString InIDName);
 
  //! Public Data
  public :
 
  //! Protected Methods
  protected :
-  int                           Track;
-  int                           ID;
-  int                           Type;
-  QString                       Name;
-  QString                       IDName; 
 
  //! Protected Data
  protected :
 
  //! Private Methods
  private :
+  void                          initialize              ();
+  void                          CreateSubWindows        ();
+  void                          InitializeSubWindows    ();
+  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Private Data
  private :
-
+  QString                       labelText;
+  QColor                        backgroundColor;
+  QLabel*                       label;
+  
  //! Public Slots
  public slots :
 
@@ -82,4 +75,4 @@ class NCUSignal : public QWidget
 
 };
 
-#endif /* _ncusignal_h_*/
+#endif /* _elementdisplayline_h_*/

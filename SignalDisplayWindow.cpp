@@ -27,7 +27,7 @@ SignalDisplayWindow::SignalDisplayWindow
   QPalette pal;
   pal = palette();
   text = InText;
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
+  pal.setBrush(QPalette::Window, QBrush(QColor(0xEC, 0xEC, 0xEC)));
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();

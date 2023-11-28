@@ -18,6 +18,8 @@
  * Local Headers
  *****************************************************************************/
 #include "SignalDisplayWindow.h"
+#include "EquipmentInformation.h"
+#include "EquipmentDisplayForm.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -50,6 +52,7 @@ class EquipmentDisplayWindow : public SignalDisplayWindow
 
  //! Protected Methods
  protected :
+  void                          resizeEvent             (QResizeEvent* InEvent);
 
  //! Protected Data
  protected :
@@ -59,9 +62,13 @@ class EquipmentDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-
+  void                          SetEquipmentInformation ();
+  
  //! Private Data
  private :
+  EquipmentInformation*         EquipmentInfo;
+  
+  EquipmentDisplayForm*         equipForm;
 
  //! Public Slots
  public slots :
