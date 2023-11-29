@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -18,6 +19,7 @@
  * Local Headers
  *****************************************************************************/
 #include "MainWindow.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : MainWindow
@@ -33,11 +35,11 @@ MainWindow::MainWindow
 MainWindow::MainWindow
 (QWidget* parent) : QMainWindow(parent)
 {
-    Initialize();
-    CreateActions();
-    CreateMenus();
-    InitializeSubWindows();
-    CreateSubWindows();
+  Initialize();
+  CreateActions();
+  CreateMenus();
+  InitializeSubWindows();
+  CreateSubWindows();
 }
 
 /*****************************************************************************!
@@ -101,6 +103,8 @@ MainWindow::resizeEvent
     displayWindow->move(0, menu_size.height());
     displayWindow->resize(width, height);
   }
+
+  MainSetMainWindowGeometry(pos(), size);
 }
 
 /*****************************************************************************!
@@ -133,4 +137,16 @@ void
 MainWindow::SlotExit(void)
 {
   exit(EXIT_SUCCESS);  
+}
+
+/*****************************************************************************!
+ * Function : moveEvent
+ *****************************************************************************/
+void
+MainWindow::moveEvent
+(QMoveEvent* InEvent)
+{
+  QPoint                                pos;
+  pos = InEvent->pos();
+  MainSetMainWindowGeometry(pos, size());
 }

@@ -65,12 +65,12 @@ void
 NavigationWindow::CreateSubWindows()
 {
   //! Create the NextElementButton button  
-  HTMButton = new QPushButton();
-  HTMButton->setParent(this);
-  HTMButton->move(0, 0);
-  HTMButton->resize(32,32);
-  HTMButton->setIcon(QIcon(QPixmap(":/Images/HTM.png")));
-  connect(HTMButton, SIGNAL(pressed()), this, SLOT(SlotHTMButtonPushed()));
+  XCLButton = new QPushButton();
+  XCLButton->setParent(this);
+  XCLButton->move(0, 0);
+  XCLButton->resize(32,32);
+  XCLButton->setIcon(QIcon(QPixmap(":/Images/XCL.png")));
+  connect(XCLButton, SIGNAL(pressed()), this, SLOT(SlotXCLButtonPushed()));
 
   //! Create the NextElementButton button  
   NextElementButton = new QPushButton();
@@ -210,8 +210,8 @@ NavigationWindow::resizeEvent
   PrevDifferElementButton->move(prevDifferX, prevDifferY);
   PrevDifferElementButton->resize(prevDifferW, prevDifferH);
 
-  HTMButton->move(htmX, htmY);
-  HTMButton->resize(htmW, htmH);
+  XCLButton->move(htmX, htmY);
+  XCLButton->resize(htmW, htmH);
 
   IndexLabel->move(indexlabelX, indexlabelY);
   IndexLabel->resize(indexlabelW, indexlabelH);
@@ -245,12 +245,12 @@ NavigationWindow::SlotNextElementButtonPushed(void)
 }
 
 /*****************************************************************************!
- * Function : SlotHTMButtonPushed
+ * Function : SlotXCLButtonPushed
  *****************************************************************************/
 void
-NavigationWindow::SlotHTMButtonPushed(void)
+NavigationWindow::SlotXCLButtonPushed(void)
 {
-  emit SignalHTM();
+  emit SignalXCL();
 }
 
 /*****************************************************************************!

@@ -65,6 +65,7 @@ class MainWindow : public QMainWindow
   void                          resizeEvent             (QResizeEvent* InEvent);
   void                          CreateActions           ();
   void                          CreateMenus             ();
+  void                          moveEvent               (QMoveEvent* InEvent);
 
  //! Private Data
  private :

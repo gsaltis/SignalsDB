@@ -67,7 +67,7 @@ class NavigationWindow : public QFrame
   QPushButton*                  NextDifferElementButton;
   QPushButton*                  PrevDifferElementButton;
   QPushButton*                  NextElementButton;
-  QPushButton*                  HTMButton;
+  QPushButton*                  XCLButton;
   QPushButton*                  PreviousElementButton;
   int                           buttonWidth;
   int                           buttonHeight;
@@ -84,7 +84,7 @@ class NavigationWindow : public QFrame
   void                          SlotPreviousElementButtonPushed   (void);
   void                          SlotSetSignalCount                (int InSignalCount);
   void                          SlotSetCurrentSignalIndex         (int InCurrentSignalIndex);
-  void                          SlotHTMButtonPushed               (void);
+  void                          SlotXCLButtonPushed               (void);
   void                          SlotPrevDifferElementButtonPushed (void);
 
 
@@ -94,7 +94,7 @@ class NavigationWindow : public QFrame
   void                          SignalPreviousElement   (void);
   void                          SignalNextDifferElement (void);
   void                          SignalPrevDifferElement (void);
-  void                          SignalHTM               (void);
+  void                          SignalXCL               (void);
 
  //! Public Actions
  public :

@@ -15,6 +15,7 @@
 #include <string.h>
 #include <QtGui>
 #include <QMessageBox>
+#include <QSettings>
 
 /*****************************************************************************!
  * Local Headers
@@ -47,7 +48,13 @@ MainDB = NULL;
 
 QString
 MainDBFilename = "Config.db";
-  
+
+QString
+MainOrginzationName = "Vertiv";
+
+QString
+MainApplicationName = "SignalsDB";
+
 /*****************************************************************************!
  * Function : main
  *****************************************************************************/
@@ -57,7 +64,9 @@ main
 {
   QApplication 				application(argc, argv);
   MainWindow* 				w;
-
+  QPoint                                position;
+  QSize                                 size;
+  
   Initialize();
   application.setApplicationName("SignalsDatabase");
   application.setApplicationVersion("0.0.0");
@@ -65,8 +74,9 @@ main
   application.setOrganizationDomain("www.gsaltis.com");
   
   w = new MainWindow(NULL);
-  w->resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-  w->move(1980, MAIN_WINDOW_Y);
+  MainGetMainWindowGeometry(position, size);
+  w->resize(size);
+  w->move(position);
   w->show();
   
   return application.exec();
@@ -104,3 +114,43 @@ MainOpenDB
   }
   MainConfig::database = MainDB;
 }
+
+/*****************************************************************************!
+ * Function : MainSetMainWindowGeometry
+ *****************************************************************************/
+void
+MainSetMainWindowGeometry
+(QPoint InPosition, QSize InSize)
+{
+  QSettings                             settings(MainOrginzationName, MainApplicationName);
+
+  settings.setValue("MainWindow/X", InPosition.x());
+  settings.setValue("MainWindow/Y", InPosition.y());
+  settings.setValue("MainWindow/Width", InSize.width());
+  settings.setValue("MainWindow/Height", InSize.height());
+}
+
+/*****************************************************************************!
+ * Function : MainGetMainWidnowGeometry
+ *****************************************************************************/
+void
+MainGetMainWindowGeometry
+(QPoint &InPosition, QSize &InSize)
+{
+  QSettings                             settings(MainOrginzationName, MainApplicationName);
+  int                                   x, y, width, height;
+
+  x = settings.value("MainWindow/X", MAIN_WINDOW_X).toInt();
+  y = settings.value("MainWindow/Y", MAIN_WINDOW_Y).toInt();
+  width = settings.value("MainWindow/Width", MAIN_WINDOW_WIDTH).toInt();
+  height = settings.value("MainWindow/Height", MAIN_WINDOW_HEIGHT).toInt();
+
+  InPosition.setX(x);
+  InPosition.setY(y);
+
+  InSize.setWidth(width);
+  InSize.setHeight(height);
+}
+
+  
+  

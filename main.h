@@ -21,6 +21,13 @@
 /*****************************************************************************!
  * Exported Functions
  *****************************************************************************/
+void
+MainSetMainWindowGeometry
+(QPoint InPosition, QSize InSize);
+
+void
+MainGetMainWindowGeometry
+(QPoint &InPosition, QSize &InSize);
 
 /*****************************************************************************!
  * Exported Data

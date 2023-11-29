@@ -8,13 +8,13 @@ QMAKE_LINK                      = @echo [LD] $@ && g++
 
 QMAKE_RC                        = @echo [RC] $@ && windres 
 
-QMAKE_LFLAGS_WINDOWS            += -mwindows
+QMAKE_LFLAGS_WINDOWS            += -mwindows -LD:/usr/local/lib
 
-QMAKE_CXXFLAGS                  += 
+QMAKE_CXXFLAGS                  += -ID:/usr/local/include
 
 RESOURCES                       += SignalsDB.qrc
 
-QMAKE_LIBS                      = -lwsock32
+QMAKE_LIBS                      = -lwsock32 -ltraceclient
 
 TARGET                          = SignalsDB
 
@@ -59,7 +59,6 @@ SOURCES                         += \
 				   WindowHeader.cpp                             \
 				   main.cpp                                     \
 				   sqlite3.c                                    \
-				   trace.cpp                                    \
 
 
 HEADERS                         += \
@@ -91,7 +90,6 @@ HEADERS                         += \
 				   SystemConfig.h                               \
 				   WindowHeader.h                               \
 				   sqlite3.h                                    \
-				   trace_winnet.h                               \
 
 FORMS                           += \
 
