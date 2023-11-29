@@ -22,7 +22,7 @@
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ELEMENT_DISPLAY_LINE_HEIGHT     30
+#define ELEMENT_DISPLAY_LINE_HEIGHT     25
 
 /*****************************************************************************!
  * Exported Class : ElementDisplayLine
@@ -41,6 +41,10 @@ class ElementDisplayLine : public QWidget
 
  //! Public Methods
  public :
+  void                          SetTrack2Value          (QString InValue);
+  void                          SetTrack3Value          (QString InValue);
+  void                          Clear                   (void);
+  void                          Compare                 (void);
 
  //! Public Data
  public :
@@ -62,7 +66,15 @@ class ElementDisplayLine : public QWidget
  private :
   QString                       labelText;
   QColor                        backgroundColor;
-  QLabel*                       label;
+  QLabel*                       SignalLabel;
+  int                           SignalLabelWidth;
+  QColor                        NormalColor;
+  QColor                        DifferColor;
+  QLabel*                       Track2Value;
+  QLabel*                       Track3Value;
+  QLabel*                       Spacer;
+  QColor                        SpacerColor;
+  int                           SpacerWidth;
   
  //! Public Slots
  public slots :

@@ -73,19 +73,6 @@ SignalTabWindow::InitializeSubWindows()
  *****************************************************************************/
 void
 SignalTabWindow::resizeEvent
-(QResizeEvent* InEvent)
+(QResizeEvent*)
 {
-  QSize					size;  
-  int					width;
-  int					height;
-
-  TRACE_FUNCTION_START();
-  size = InEvent->size();
-  width = size.width();
-  height = size.height();
-  TRACE_FUNCTION_INT(width);
-  TRACE_FUNCTION_INT(height);
-  (void)height;
-  (void)width;
-  TRACE_FUNCTION_END();
 }

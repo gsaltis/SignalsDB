@@ -23,6 +23,7 @@
  * Exported Macros
  *****************************************************************************/
 
+
 /*****************************************************************************!
  * Exported Class : NCUEquipment
  *****************************************************************************/
@@ -40,6 +41,8 @@ class NCUEquipment : public NCUSignal
 
  //! Public Methods
  public :
+  bool                                  Equal                   (NCUEquipment* InEquipment);
+  void                          Dump                    (void);
 
  //! Public Data
  public :
@@ -50,7 +53,7 @@ class NCUEquipment : public NCUSignal
   QString                               NumofSet;
   QString                               NumofAlarm;
   QString                               Related;
-
+  
  //! Protected Methods
  protected :
 
@@ -59,7 +62,6 @@ class NCUEquipment : public NCUSignal
 
  //! Private Methods
  private :
-  bool                                  operator==(NCUEquipment* InEquipment);
   
  //! Private Data
  private :

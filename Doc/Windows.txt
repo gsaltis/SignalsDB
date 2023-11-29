@@ -1,0 +1,15 @@
+MainWindow
+  MainDisplayWindow
+    AlarmDisplayWindow
+    ControlDisplayWindow
+    EquipmentDisplayWindow : SignalDisplayWindow
+      EquipmentDisplayForm : SignalDisplayForm
+        NavigationWindow
+    SampleDisplayWindow
+    SettingDisplayWindow
+    QTabBar
+
+SignalDisplayForm
+
+SignalDisplayWindow
+  SignalStatsWindow

@@ -41,6 +41,10 @@ class EquipmentSignalPair : public QWidget
  //! Public Methods
  public :
   int                           GetID                   (void);
+  void                          AddTrack3Signal         (NCUEquipment* InTrack3);
+  NCUEquipment*                 GetTrack2               (void);
+  NCUEquipment*                 GetTrack3               (void);
+  bool                          Differ                  (void);
 
  //! Public Data
  public :

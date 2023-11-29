@@ -53,14 +53,14 @@ class NCUSignal : public QWidget
 
  //! Public Data
  public :
-
- //! Protected Methods
- protected :
   int                           Track;
   int                           ID;
   int                           Type;
   QString                       Name;
   QString                       IDName; 
+
+ //! Protected Methods
+ protected :
 
  //! Protected Data
  protected :

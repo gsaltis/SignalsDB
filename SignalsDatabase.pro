@@ -12,6 +12,8 @@ QMAKE_LFLAGS_WINDOWS            += -mwindows
 
 QMAKE_CXXFLAGS                  += 
 
+RESOURCES                       += SignalsDB.qrc
+
 QMAKE_LIBS                      = -lwsock32
 
 TARGET                          = SignalsDB
@@ -38,6 +40,7 @@ SOURCES                         += \
 				   MainConfig.cpp                               \
 				   MainDisplayWindow.cpp                        \
 				   MainWindow.cpp                               \
+                                   NavigationWindow.cpp                         \
 				   NCUAlarmSignal.cpp                           \
 				   NCUControlSignal.cpp                         \
 				   NCUEquipment.cpp                             \
@@ -70,6 +73,7 @@ HEADERS                         += \
 				   MainConfig.h                                 \
 				   MainDisplayWindow.h                          \
 				   MainWindow.h                                 \
+                                   NavigationWindow.h                           \
 				   NCUAlarmSignal.h                             \
 				   NCUControlSignal.h                           \
 				   NCUEquipment.h                               \

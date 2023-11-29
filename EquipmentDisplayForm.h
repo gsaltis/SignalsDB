@@ -13,11 +13,14 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
 #include "SignalDisplayForm.h"
+#include "NavigationWindow.h"
+#include "EquipmentInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -60,15 +63,27 @@ class EquipmentDisplayForm : public SignalDisplayForm
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          CreateConnections       (void);
+  void                          SetTrackInformation     (EquipmentSignalPair* InPair);
 
  //! Private Data
  private :
-
+  NavigationWindow*             navigationWindow;
+  EquipmentInformation*         equipmentInformation;
+  QLabel*                       EquipmentIDLabel;
+  int                           currentEquipIndex;
+  QLabel*                       Track3Label;
+  
  //! Public Slots
  public slots :
-
+  void                          SlotNextElement         (void);
+  void                          SlotPreviousElement     (void);
+  void                          SlotNextDifferElement   (void);
+  void                          SlotPrevDifferElement   (void);
+  
  //! Public Signals
  signals :
+  void                          SignalSetCurrentEquipmentIndex (int InCurrentEquipmentIndex);
 
  //! Public Actions
  public :

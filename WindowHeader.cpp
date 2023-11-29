@@ -61,10 +61,10 @@ WindowHeader::CreateSubWindows()
   //! Create label  
   TextLabel = new QLabel();
   TextLabel->setParent(this);
-  TextLabel->move(0, 20);
-  TextLabel->resize(175, 25);
+  TextLabel->move(0, 10);
+  TextLabel->resize(175, 35);
   TextLabel->setText(text);
-  TextLabel->setAlignment(Qt::AlignVCenter | Qt::AlignRight);
+  TextLabel->setAlignment(Qt::AlignTop | Qt::AlignRight);
   TextLabel->setFont(QFont("Segoe UI", 20, QFont::Bold));
 }
 

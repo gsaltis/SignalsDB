@@ -81,7 +81,6 @@ SignalDisplayWindow::resizeEvent
   int					width;
   int					height;
 
-  TRACE_FUNCTION_START();
   size = InEvent->size();
   width = size.width();
   height = size.height();
@@ -89,7 +88,5 @@ SignalDisplayWindow::resizeEvent
   (void)width;
   if ( statsWindow ) {
     statsWindow->resize(width, SIGNAL_STATS_WINDOW_HEIGHT);
-    TRACE_FUNCTION_INT(width);
   }
-  TRACE_FUNCTION_END();
 }

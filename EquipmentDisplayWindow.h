@@ -63,11 +63,11 @@ class EquipmentDisplayWindow : public SignalDisplayWindow
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          SetEquipmentInformation ();
+  void                          CreateConnections       ();
   
  //! Private Data
  private :
   EquipmentInformation*         EquipmentInfo;
-  
   EquipmentDisplayForm*         equipForm;
 
  //! Public Slots

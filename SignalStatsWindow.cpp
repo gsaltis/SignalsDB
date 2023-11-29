@@ -54,7 +54,7 @@ void
 SignalStatsWindow::CreateSubWindows()
 {
   int                                   labelWidth2;
-  int                                   x0, x1, x2, x3;
+  int                                   x0, x1, x2, x3, x4;
   int                                   y;
   int                                   labelWidth;
   int                                   labelHeight;
@@ -64,30 +64,34 @@ SignalStatsWindow::CreateSubWindows()
   labelWidth = 120;
   labelWidth2 = 175;
   
-  labelHeight = 15;
+  labelHeight = 20;
   
 
   x0 = 0;
   x1 = labelWidth2 + 10;
   x2 = x1 + labelWidth + 10;
   x3 = x2 + labelWidth + 10;;
+  x4 = x3 + labelWidth + 10;;
   
 
   CreateSimpleLabel("Total Signals",     x1, y, labelWidth, labelHeight);
   CreateSimpleLabel("Missing Signals",   x2, y, labelWidth, labelHeight);
   CreateSimpleLabel("Differing Signals", x3, y, labelWidth, labelHeight);
+  CreateSimpleLabel("Combined Signals",  x4, y, labelWidth, labelHeight);
   y += labelHeight;
 
   CreateSimpleLabel("TRACK 2", x0, y, labelWidth2, labelHeight);
   Track2TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
   Track2MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
   Track2DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
+  CombinedSignalsLabel = CreateDisplayLabel(x4, y, labelWidth, labelHeight);
   y += labelHeight + 10;
 
   CreateSimpleLabel("TRACK 3", x0, y, labelWidth2, labelHeight);
   Track3TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
   Track3MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
-  Track3DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
+  
+  // Track3DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
 
   header = new WindowHeader(text, this);
 }
@@ -110,18 +114,12 @@ SignalStatsWindow::resizeEvent
 {
   QSize					size;  
   int					width;
-  int					height;
 
-  TRACE_FUNCTION_START();
   size = InEvent->size();
   width = size.width();
-  height = size.height();
-  TRACE_FUNCTION_INT(width);
-  TRACE_FUNCTION_INT(height);
   if ( header ) {
     header->resize(width, WINDOW_HEADER_HEIGHT);
   }
-  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
@@ -237,6 +235,16 @@ SignalStatsWindow::SlotSetTrack3Missing
 }
 
 /*****************************************************************************!
+ * Function : SlotSetTrack3Missing
+ *****************************************************************************/
+void
+SignalStatsWindow::SlotSetCombinedSignals
+(int InSignals)
+{
+  CombinedSignals = InSignals;      
+}
+
+/*****************************************************************************!
  * Function : paintEvent
  *****************************************************************************/
 void
@@ -262,4 +270,44 @@ SignalStatsWindow::paintEvent
   painter.drawLine(0, s.height(), s.width(), s.height());
 }
 
-  
+/*****************************************************************************!
+ * Function : SetTrackCounts
+ *****************************************************************************/
+void
+SignalStatsWindow::SetTrackCounts
+(int InTrack2Count, int InTrack3Count)
+{
+  Track2TotalLabel->setText(QString("%1").arg(InTrack2Count));
+  Track3TotalLabel->setText(QString("%1").arg(InTrack3Count));
+}
+
+/*****************************************************************************!
+ * Function : SetMissingTrackCounts
+ *****************************************************************************/
+void
+SignalStatsWindow::SetMissingTrackCounts
+(int InTrack2Count, int InTrack3Count)
+{
+  Track2MissingLabel->setText(QString("%1").arg(InTrack2Count));
+  Track3MissingLabel->setText(QString("%1").arg(InTrack3Count));
+}
+
+/*****************************************************************************!
+ * Function : SetTrackDifferCount
+ *****************************************************************************/
+void
+SignalStatsWindow::SetTrackDifferCount
+(int InDifferCount)
+{
+  Track2DifferLabel->setText(QString("%1").arg(InDifferCount));
+}
+
+/*****************************************************************************!
+ * Function : SetCombinedSignalCount
+ *****************************************************************************/
+void
+SignalStatsWindow::SetCombinedSignalCount
+(int InDifferCount)
+{
+  CombinedSignalsLabel->setText(QString("%1").arg(InDifferCount));
+}

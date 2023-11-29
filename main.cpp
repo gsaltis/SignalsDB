@@ -66,7 +66,7 @@ main
   
   w = new MainWindow(NULL);
   w->resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-  w->move(MAIN_WINDOW_X, MAIN_WINDOW_Y);
+  w->move(1980, MAIN_WINDOW_Y);
   w->show();
   
   return application.exec();

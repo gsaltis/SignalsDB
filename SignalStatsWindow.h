@@ -43,6 +43,10 @@ class SignalStatsWindow : public QWidget
 
  //! Public Methods
  public :
+  void                          SetTrackCounts          (int InTrack2Count, int InTrack3Count);
+  void                          SetMissingTrackCounts   (int InTrack2Count, int InTrack3Count);
+  void                          SetTrackDifferCount     (int InDifferCount);
+  void                          SetCombinedSignalCount  (int InDifferCount);
 
  //! Public Data
  public :
@@ -71,6 +75,7 @@ class SignalStatsWindow : public QWidget
   QLabel*                       Track3DifferLabel;
   QLabel*                       Track2MissingLabel;
   QLabel*                       Track3MissingLabel;
+  QLabel*                       CombinedSignalsLabel;
   
   int                           Track2TotalSignals;
   int                           Track3TotalSignals;
@@ -78,7 +83,9 @@ class SignalStatsWindow : public QWidget
   int                           Track3DifferSignals;
   int                           Track2MissingSignals;
   int                           Track3MissingSignals;
-  
+  int                           CombinedSignals;
+
+
   WindowHeader*                 header;
   QString                       text;
 
@@ -90,6 +97,7 @@ class SignalStatsWindow : public QWidget
   void                          SlotSetTrack3Differs    (int InSignals);
   void                          SlotSetTrack2Missing    (int InSignals);
   void                          SlotSetTrack3Missing    (int InSignals);
+  void                          SlotSetCombinedSignals  (int InSignals);
 
  //! Public Signals
  signals :

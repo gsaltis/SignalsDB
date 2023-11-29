@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -39,7 +40,7 @@ NCUEquipment::~NCUEquipment
  * Function : operator==
  *****************************************************************************/
 bool
-NCUEquipment::operator==
+NCUEquipment::Equal
 (NCUEquipment* InEquipment)
 {
   if ( TypeName != InEquipment->TypeName ) {
@@ -73,3 +74,21 @@ NCUEquipment::operator==
   return true;
 }
 
+/*****************************************************************************!
+ * Function : Dump
+ *****************************************************************************/
+void
+NCUEquipment::Dump(void)
+{
+  TRACE_FUNCTION_INT(Track);
+  TRACE_FUNCTION_INT(ID);
+  TRACE_FUNCTION_INT(Type);
+  TRACE_FUNCTION_QSTRING(Name);
+  TRACE_FUNCTION_QSTRING(TypeName);
+  TRACE_FUNCTION_QSTRING(GroupName);
+  TRACE_FUNCTION_QSTRING(NumofSamples);
+  TRACE_FUNCTION_QSTRING(NumofCtrl);
+  TRACE_FUNCTION_QSTRING(NumofSet);
+  TRACE_FUNCTION_QSTRING(NumofAlarm);
+  TRACE_FUNCTION_QSTRING(Related);
+}

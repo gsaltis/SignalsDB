@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -43,4 +44,44 @@ int
 EquipmentSignalPair::GetID(void)
 {
   return id;
+}
+
+/*****************************************************************************!
+ * Function : AddTrack3Signal
+ *****************************************************************************/
+void
+EquipmentSignalPair::AddTrack3Signal
+(NCUEquipment* InTrack3)
+{
+  Track3Signal = InTrack3;
+}
+
+/*****************************************************************************!
+ * Function : GetTrack2
+ *****************************************************************************/
+NCUEquipment*
+EquipmentSignalPair::GetTrack2(void)
+{
+  return Track2Signal;
+}
+
+/*****************************************************************************!
+ * Function : GetTrack3
+ *****************************************************************************/
+NCUEquipment*
+EquipmentSignalPair::GetTrack3(void)
+{
+  return Track3Signal;
+}
+
+/*****************************************************************************!
+ * Function : Differ
+ *****************************************************************************/
+bool
+EquipmentSignalPair::Differ(void)
+{
+  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+    return false;
+  }
+  return ! Track2Signal->Equal(Track3Signal);
 }

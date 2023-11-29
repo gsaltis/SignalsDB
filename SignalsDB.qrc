@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>Images/Left.png</file>
+    <file>Images/Right.png</file>
+    <file>Images/DoubleRight.png</file>
+    <file>Images/DoubleLeft.png</file>
+    <file>Images/HTM.png</file>
+</qresource>
+</RCC>

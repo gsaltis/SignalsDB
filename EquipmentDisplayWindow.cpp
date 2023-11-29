@@ -49,6 +49,7 @@ EquipmentDisplayWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  CreateConnections();
   SetEquipmentInformation();
 }
 
@@ -60,6 +61,15 @@ EquipmentDisplayWindow::CreateSubWindows()
 {
   equipForm = new EquipmentDisplayForm();
   equipForm->setParent(this);
+}
+
+/*****************************************************************************!
+ * Function : CreateConnections
+ *****************************************************************************/
+void
+EquipmentDisplayWindow::CreateConnections
+()
+{
 }
 
 /*****************************************************************************!
@@ -78,15 +88,28 @@ void
 EquipmentDisplayWindow::SetEquipmentInformation
 ()
 {
-  int                                   t2;
-  int                                   t3;
+  int                                   combinedSignals;
+  int                                   trackDiffer;
+  int                                   track2Missing;
+  int                                   track3Missing;
+  int                                   track3Count;
+  int                                   track2Count;
+
   EquipmentInfo = MainConfig::equipmentInformation;
 
-  t2 = EquipmentInfo->GetCountByTrack(2);
-  TRACE_FUNCTION_INT(t2);
+  track2Count = EquipmentInfo->GetTrack2Count();
+  track3Count = EquipmentInfo->GetTrack3Count();
 
-  t3 = EquipmentInfo->GetCountByTrack(3);
-  TRACE_FUNCTION_INT(t3);
+  track2Missing = EquipmentInfo->GetTrack2MissingCount();
+  track3Missing = EquipmentInfo->GetTrack3MissingCount();
+
+  trackDiffer = EquipmentInfo->GetTrackDifferCount();
+  combinedSignals = EquipmentInfo->GetPairCount();
+  
+  statsWindow->SetTrackCounts(track2Count, track3Count);
+  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackDifferCount(trackDiffer);
+  statsWindow->SetCombinedSignalCount(combinedSignals);
 }
 
 /*****************************************************************************!
@@ -121,3 +144,4 @@ EquipmentDisplayWindow::resizeEvent
     equipForm->resize(equipFormW, equipFormH);
   }
 }
+

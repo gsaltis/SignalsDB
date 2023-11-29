@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnet.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -75,9 +76,21 @@ EquipmentInformation::SQLRead
   int                                   n;
   sqlite3_stmt*                         statement;
   QString                               sqlStatement;
-
+  QString                               s;
   
-  sqlStatement = QString("SELECT Track, Eq, Type, Name, TypeName, GroupName, NumofSamples, NumofCtrl, NumofSet, NumofAlarm, Related FROM Equipment;");
+  sqlStatement = QString("SELECT "
+                         "Track,"                            // 0
+                         "Eq,"                               // 1
+                         "Type,"                             // 2
+                         "Name,"                             // 3
+                         "TypeName,"                         // 4
+                         "GroupName,"                        // 5
+                         "NumofSamples,"                     // 6
+                         "NumofCtrl,"                        // 7
+                         "NumofSet,"                         // 8
+                         "NumofAlarm,"                       // 9
+                         "Related "                          // 10
+                         "FROM Equipment;");
 
   n = sqlite3_prepare_v2(InDatabase, sqlStatement.toStdString().c_str(), sqlStatement.length(), &statement, NULL);
   if ( n != SQLITE_OK ) {
@@ -95,6 +108,7 @@ EquipmentInformation::SQLRead
     exit(EXIT_FAILURE);
   }
 
+  //!
   finished = false;
   while ( ! finished ) {
     n = sqlite3_step(statement);
@@ -111,10 +125,14 @@ EquipmentInformation::SQLRead
       case SQLITE_ROW : {
         equip = new NCUEquipment();
         equip->SetTrack(sqlite3_column_int(statement, 0));
-        equip->SetID(sqlite3_column_int(statement, 1));
-        equip->SetType(sqlite3_column_int(statement, 2));
-        equip->SetName((char*)sqlite3_column_text(statement, 3));
+
+        s = QString((char*)sqlite3_column_text(statement, 1));
+        equip->SetID(s.toInt());
         
+        s = QString((char*)sqlite3_column_text(statement, 2));
+        equip->SetType(s.toInt());
+        
+        equip->Name             = ((char*)sqlite3_column_text(statement, 3));
         equip->TypeName         = (char*)sqlite3_column_text(statement, 4);
         equip->GroupName	= (char*)sqlite3_column_text(statement, 5);
         equip->NumofSamples	= (char*)sqlite3_column_text(statement, 6);
@@ -123,6 +141,7 @@ EquipmentInformation::SQLRead
         equip->NumofAlarm	= (char*)sqlite3_column_text(statement, 9);
         equip->Related          = (char*)sqlite3_column_text(statement, 10);
         equipment << equip;
+
         break;
       }
       
@@ -138,6 +157,7 @@ EquipmentInformation::SQLRead
   };
 
   sqlite3_finalize(statement);
+  CreatePairs();
 }
 
 /*****************************************************************************!
@@ -157,4 +177,192 @@ EquipmentInformation::GetCountByTrack
     }
   }
   return n;
+}
+
+/*****************************************************************************!
+ * Function : CreatePairs
+ *****************************************************************************/
+void
+EquipmentInformation::CreatePairs(void)
+{
+  EquipmentSignalPair*                  equipmentPair;
+  NCUEquipment*                         e;
+  int                                   i;
+  int                                   n;
+
+  n = equipment.size();
+  for (i = 0; i < n; i++) {
+    e = equipment[i];
+    if ( e->Track != 2 ) {
+      continue;
+    }
+
+    equipmentPair = new EquipmentSignalPair(e->ID, e, NULL);
+    equipmentPairs << equipmentPair;
+  }
+
+  for ( i = 0; i < n; i++ ){
+    e = equipment[i];
+    if ( e->Track != 3 ) {
+      continue;
+    }
+    equipmentPair = FindPairByID(e->ID);
+    if ( NULL == equipmentPair ) {
+      equipmentPair = new EquipmentSignalPair(e->ID, NULL, e);
+      equipmentPairs << equipmentPair;
+      continue;
+    }
+    equipmentPair->AddTrack3Signal(e);
+  }
+}
+
+/*****************************************************************************!
+ * Function : FindPairByID
+ *****************************************************************************/
+EquipmentSignalPair*
+EquipmentInformation::FindPairByID
+(int InID)
+{
+  int                                   i, n;
+  EquipmentSignalPair*                  pair;
+
+  n = equipmentPairs.size();
+  for (i = 0; i < n; i++) {
+    pair = equipmentPairs[i];
+    if ( pair->GetID() == InID ) {
+      return pair;
+    }
+  }
+  return NULL;
+}
+
+/*****************************************************************************!
+ * Function : GetTrack2Count
+ *****************************************************************************/
+int
+EquipmentInformation::GetTrack2Count(void)
+{
+  return GetTrackCount(2);
+}
+
+/*****************************************************************************!
+ * Function : GetTrack3Count
+ *****************************************************************************/
+int
+EquipmentInformation::GetTrack3Count(void)
+{
+  return GetTrackCount(3);
+}
+
+/*****************************************************************************!
+ * Function : GetTrackCount
+ *****************************************************************************/
+int
+EquipmentInformation::GetTrackCount
+(int InTrack)
+{
+  int                           count;
+  int                           i;
+  int                           n;
+  NCUEquipment*                 e;
+
+  count = 0;
+  n = equipment.size();
+  for (i = 0; i < n; i++) {
+    e = equipment[i];
+
+    if ( e->Track == InTrack ) {
+      count++;
+    }
+  }
+  return count;
+}
+
+/*****************************************************************************!
+ * Function : GetTrack2MissingCount
+ *****************************************************************************/
+int
+EquipmentInformation::GetTrack2MissingCount(void)
+{
+  EquipmentSignalPair*                  ep;
+  int                                   i;
+  int                                   n;
+  int                                   count;
+
+  count = 0;
+  n = equipmentPairs.size();
+  for (i = 0; i < n; i++) {
+    ep = equipmentPairs[i];
+    if ( ep->GetTrack2() == NULL ) {
+      count++;
+    }
+  }
+  return count;  
+}
+
+/*****************************************************************************!
+ * Function : GetTrack3MissingCount
+ *****************************************************************************/
+int
+EquipmentInformation::GetTrack3MissingCount(void)
+{
+  EquipmentSignalPair*                  ep;
+  int                                   i;
+  int                                   n;
+  int                                   count;
+
+  count = 0;
+  n = equipmentPairs.size();
+  for (i = 0; i < n; i++) {
+    ep = equipmentPairs[i];
+    if ( ep->GetTrack3() == NULL ) {
+      count++;
+    }
+  }
+  return count;
+}
+
+/*****************************************************************************!
+ * Function : GetTrackDifferCount
+ *****************************************************************************/
+int
+EquipmentInformation::GetTrackDifferCount(void)
+{
+  EquipmentSignalPair*                  ep;
+  int                                   i;
+  int                                   n;
+  int                                   count;
+
+  count = 0;
+  n = equipmentPairs.size();
+  for (i = 0; i < n; i++) {
+    ep = equipmentPairs[i];
+    if ( ep->Differ() ) {
+      count++;
+    }
+  }
+  return count;
+}
+
+/*****************************************************************************!
+ * Function : GetPairByIndex
+ *****************************************************************************/
+EquipmentSignalPair*
+EquipmentInformation::GetPairByIndex
+(int InIndex)
+{
+  if ( InIndex >= equipmentPairs.size() ) {
+    return NULL;
+  }
+  return equipmentPairs[InIndex];
+}
+
+/*****************************************************************************!
+ * Function : GetPairCount
+ *****************************************************************************/
+int
+EquipmentInformation::GetPairCount
+()
+{
+  return equipmentPairs.size();
 }

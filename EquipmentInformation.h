@@ -46,8 +46,16 @@ class EquipmentInformation : public SignalsInformation
   void                          AddEquipment            (NCUEquipment* InEquipment);
   NCUEquipment*                 FindEquipmentByID       (int InTrack, int InID);
   void                          SQLRead                 (sqlite3* InDatabase);
+  EquipmentSignalPair*          FindPairByID            (int InID);
+  int                           GetTrack2Count          (void);
+  int                           GetTrack3Count          (void);
+  int                           GetTrack2MissingCount   (void);
+  int                           GetTrack3MissingCount   (void);
+  int                           GetTrackDifferCount     (void);
   int                           GetCountByTrack         (int InTrack);
-
+  EquipmentSignalPair*          GetPairByIndex          (int InIndex);
+  int                           GetPairCount            (void);
+  
  //! Public Data
  public :
 
@@ -59,6 +67,8 @@ class EquipmentInformation : public SignalsInformation
 
  //! Private Methods
  private :
+  void                          CreatePairs             (void);
+  int                           GetTrackCount           (int InTrack);
 
  //! Private Data
  private :

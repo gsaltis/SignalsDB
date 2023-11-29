@@ -95,9 +95,10 @@ MainDisplayWindow::CreateSubWindows()
   windows << equipmentDisplayWindow;
   windows << sampleDisplayWindow;
   windows << settingDisplayWindow;
-  
+
+  alarmDisplayWindow->hide();
   controlDisplayWindow->hide();
-  equipmentDisplayWindow->hide();
+  equipmentDisplayWindow->show();
   sampleDisplayWindow->hide();
   settingDisplayWindow->hide();
   
@@ -106,6 +107,7 @@ MainDisplayWindow::CreateSubWindows()
   tabBar->addTab("Equipment");
   tabBar->addTab("Sample");
   tabBar->addTab("Setting");
+  tabBar->setCurrentIndex(2);
 }
 
 /*****************************************************************************!
@@ -154,9 +156,6 @@ void
 MainDisplayWindow::SlotTabSelected
 (int InTabIndex)
 {
-  TRACE_FUNCTION_START();
-  TRACE_FUNCTION_INT(InTabIndex);
-  TRACE_FUNCTION_END();
   HideWindows();
   windows[InTabIndex]->show();
 }
