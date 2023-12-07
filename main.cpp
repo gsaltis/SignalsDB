@@ -108,8 +108,12 @@ Initialize
   MainConfig::equipmentInformation->SQLRead(MainConfig::database);
   MainConfig::controlInformation = new ControlInformation();
   MainConfig::controlInformation->SQLRead(MainConfig::database);
+
   MainConfig::alarmInformation = new AlarmInformation();
   MainConfig::alarmInformation->SQLRead(MainConfig::database);
+
+  MainConfig::settingInformation = new SettingInformation();
+  MainConfig::settingInformation->SQLRead(MainConfig::database);
 }
 
 /*****************************************************************************!

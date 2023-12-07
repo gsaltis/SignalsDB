@@ -16,6 +16,7 @@
  * Local Headers
  *****************************************************************************/
 #include "SettingDisplayWindow.h"
+#include "MainConfig.h"
 
 /*****************************************************************************!
  * Function : SettingDisplayWindow
@@ -47,6 +48,7 @@ SettingDisplayWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  SetSettingInformation();
 }
 
 /*****************************************************************************!
@@ -55,7 +57,40 @@ SettingDisplayWindow::initialize()
 void
 SettingDisplayWindow::CreateSubWindows()
 {
+  settingForm = new SettingDisplayForm();  
+  settingForm->setParent(this);
+}
+
+/*****************************************************************************!
+ * Function : SetSettingInformation
+ *****************************************************************************/
+void
+SettingDisplayWindow::SetSettingInformation
+()
+{
+  int                                   combinedSignals;
+  int                                   trackDiffer;
+  int                                   track2Missing;
+  int                                   track3Missing;
+  int                                   track3Count;
+  int                                   track2Count;
+  SettingInformation*                   settingInfo;
   
+  settingInfo = MainConfig::settingInformation;
+
+  track2Count = settingInfo->GetTrack2Count();
+  track3Count = settingInfo->GetTrack3Count();
+
+  track2Missing = settingInfo->GetTrack2MissingCount();
+  track3Missing = settingInfo->GetTrack3MissingCount();
+
+  trackDiffer = settingInfo->GetTrackDifferCount();
+  combinedSignals = settingInfo->GetPairCount();
+  
+  statsWindow->SetTrackCounts(track2Count, track3Count);
+  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackDifferCount(trackDiffer);
+  statsWindow->SetCombinedSignalCount(combinedSignals);
 }
 
 /*****************************************************************************!
@@ -64,6 +99,39 @@ SettingDisplayWindow::CreateSubWindows()
 void
 SettingDisplayWindow::InitializeSubWindows()
 {
+  settingForm = NULL;  
+}
+
+/*****************************************************************************!
+ * Function : resizeEvent
+ *****************************************************************************/
+void
+SettingDisplayWindow::resizeEvent
+(QResizeEvent* InEvent)
+{
+  QSize					size;  
+  int					width;
+  int					height;
+  int                                   settingFormX;
+  int                                   settingFormY;
+  int                                   settingFormW;
+  int                                   settingFormH;
   
+  size = InEvent->size();
+  width = size.width();
+  height = size.height();
+
+  settingFormX = 0;
+  settingFormY = SIGNAL_STATS_WINDOW_HEIGHT;
+  settingFormW = width;
+  settingFormH = height - SIGNAL_STATS_WINDOW_HEIGHT;
+  
+  if ( statsWindow ) {
+    statsWindow->resize(width, SIGNAL_STATS_WINDOW_HEIGHT);
+  }
+  if ( settingForm ) {
+    settingForm->move(settingFormX, settingFormY);
+    settingForm->resize(settingFormW, settingFormH);
+  }
 }
 

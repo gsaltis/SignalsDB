@@ -40,9 +40,11 @@ class NCUSettingSignal : public NCUSignal
 
  //! Public Methods
  public :
-  bool                                  operator==              (NCUSettingSignal* InSetting);
+  bool                                  Equal                   (NCUSettingSignal* InSetting);
+  
  //! Public Data
  public :
+  QString                               SETName;
   QString                               Unit;
   QString                               SIndx;
   QString                               SChan;

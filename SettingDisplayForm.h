@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : SettingDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : SettingDisplayForm.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _settingdisplaywindow_h_
-#define _settingdisplaywindow_h_
+#ifndef _settingdisplayform_h_
+#define _settingdisplayform_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,35 +13,37 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
-#include "SettingDisplayForm.h"
+#include "SignalDisplayForm.h"
+#include "NavigationWindow.h"
+#include "SettingInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SETTING_DISPLAY_WINDOW_X        200
-#define SETTING_DISPLAY_WINDOW_Y        200
-#define SETTING_DISPLAY_WINDOW_WIDTH    200
-#define SETTING_DISPLAY_WINDOW_HEIGHT   200
+#define SETTING_DISPLAY_FORM_X        200
+#define SETTING_DISPLAY_FORM_Y        200
+#define SETTING_DISPLAY_FORM_WIDTH    200
+#define SETTING_DISPLAY_FORM_HEIGHT   200
 
 /*****************************************************************************!
- * Exported Class : SettingDisplayWindow
+ * Exported Class : SettingDisplayForm
  *****************************************************************************/
-class SettingDisplayWindow : public SignalDisplayWindow
+class SettingDisplayForm : public SignalDisplayForm
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  SettingDisplayWindow          (QString InText);
+  SettingDisplayForm          ();
 
  //! Destructor
  public :
-  ~SettingDisplayWindow         ();
+  ~SettingDisplayForm         ();
 
  //! Public Methods
  public :
@@ -61,21 +63,32 @@ class SettingDisplayWindow : public SignalDisplayWindow
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          SetSettingInformation   ();
-  
+  void                          CreateConnections       (void);
+  void                          SetTrackInformation     (SettingSignalPair* InPair);
+
  //! Private Data
  private :
-  SettingDisplayForm*           settingForm;
+  NavigationWindow*             navigationWindow;
+  SettingInformation*           settingInformation;
+  QLabel*                       SettingIDLabel;
+  int                           currentEquipIndex;
+  QLabel*                       Track3Label;
+  QLabel*                       SignalIDLabel;
 
  //! Public Slots
  public slots :
-
+  void                          SlotNextElement         (void);
+  void                          SlotPreviousElement     (void);
+  void                          SlotNextDifferElement   (void);
+  void                          SlotPrevDifferElement   (void);
+  
  //! Public Signals
  signals :
+  void                          SignalSetCurrentSettingIndex (int InCurrentSettingIndex);
 
  //! Public Actions
  public :
 
 };
 
-#endif /* _settingdisplaywindow_h_*/
+#endif /* _settingdisplayform_h_*/

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : SettingDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : SettingSignalPair.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _settingdisplaywindow_h_
-#define _settingdisplaywindow_h_
+#ifndef _settingsignalpair_h_
+#define _settingsignalpair_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,34 +17,35 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
-#include "SettingDisplayForm.h"
+#include "NCUSettingSignal.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SETTING_DISPLAY_WINDOW_X        200
-#define SETTING_DISPLAY_WINDOW_Y        200
-#define SETTING_DISPLAY_WINDOW_WIDTH    200
-#define SETTING_DISPLAY_WINDOW_HEIGHT   200
 
 /*****************************************************************************!
- * Exported Class : SettingDisplayWindow
+ * Exported Class : SettingSignalPair
  *****************************************************************************/
-class SettingDisplayWindow : public SignalDisplayWindow
+class SettingSignalPair : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  SettingDisplayWindow          (QString InText);
+  SettingSignalPair           (int InID, int SID, NCUSettingSignal* InTrack2Signal, NCUSettingSignal* InTrack3Signal);
 
  //! Destructor
  public :
-  ~SettingDisplayWindow         ();
+  ~SettingSignalPair          ();
 
  //! Public Methods
  public :
+  int                           GetID                   ();
+  int                           GetSID                  ();
+  void                          AddTrack3Signal         (NCUSettingSignal* InTrack3);
+  NCUSettingSignal*             GetTrack2               ();
+  NCUSettingSignal*             GetTrack3               ();
+  bool                          Differ                  ();
 
  //! Public Data
  public :
@@ -57,16 +58,14 @@ class SettingDisplayWindow : public SignalDisplayWindow
 
  //! Private Methods
  private :
-  void                          initialize              ();
-  void                          CreateSubWindows        ();
-  void                          InitializeSubWindows    ();
-  void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          SetSettingInformation   ();
-  
+
  //! Private Data
  private :
-  SettingDisplayForm*           settingForm;
-
+  NCUSettingSignal*             Track2Signal;
+  NCUSettingSignal*             Track3Signal;
+  int                           id;
+  int                           sid;
+  
  //! Public Slots
  public slots :
 
@@ -78,4 +77,4 @@ class SettingDisplayWindow : public SignalDisplayWindow
 
 };
 
-#endif /* _settingdisplaywindow_h_*/
+#endif /* _settingsignalpair_h_*/

@@ -32,6 +32,9 @@ MainConfig::controlInformation = NULL;
 AlarmInformation*
 MainConfig::alarmInformation = NULL;
 
+SettingInformation*
+MainConfig::settingInformation = NULL;
+
 /*****************************************************************************!
  * Function : MainConfig
  *****************************************************************************/

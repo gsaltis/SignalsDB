@@ -35,10 +35,10 @@ NCUSettingSignal::~NCUSettingSignal
 }
 
 /*****************************************************************************!
- * Function : NCUSettingSignal
+ * Function : Equal
  *****************************************************************************/
 bool
-NCUSettingSignal::operator==
+NCUSettingSignal::Equal
 (NCUSettingSignal* InSetting)
 {
   if ( Unit != InSetting->Unit ) {
