@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QApplication>
 #include <stdio.h>
@@ -62,18 +63,31 @@ int
 main
 (int argc, char** argv)
 {
+  int                                   initialTab;
   QApplication 				application(argc, argv);
   MainWindow* 				w;
   QPoint                                position;
   QSize                                 size;
+  QCommandLineParser                    commandLineParser;
   
   Initialize();
   application.setApplicationName("SignalsDatabase");
   application.setApplicationVersion("0.0.0");
   application.setOrganizationName("Greg Saltis");
   application.setOrganizationDomain("www.gsaltis.com");
-  
-  w = new MainWindow(NULL);
+
+  commandLineParser.setApplicationDescription("Signal Database Viewer");
+  commandLineParser.addHelpOption();
+  commandLineParser.addVersionOption();
+
+  QCommandLineOption                    InitWindowOption(QStringList() << "s" << "signal",
+                                                         QString("Select initial signal window"),
+                                                         QString("index"));
+  commandLineParser.addOption(InitWindowOption);
+  commandLineParser.process(application);
+  TRACE_COMMAND_CLEAR();
+  initialTab = commandLineParser.value(InitWindowOption).toInt();
+  w = new MainWindow(initialTab);
   MainGetMainWindowGeometry(position, size);
   w->resize(size);
   w->move(position);
@@ -89,9 +103,14 @@ void
 Initialize
 ()
 {
+  int                                   controlCount;
   MainOpenDB();
   MainConfig::equipmentInformation = new EquipmentInformation();
   MainConfig::equipmentInformation->SQLRead(MainConfig::database);
+  MainConfig::controlInformation = new ControlInformation();
+  MainConfig::controlInformation->SQLRead(MainConfig::database);
+  controlCount = MainConfig::controlInformation->GetTrack2Count();
+  TRACE_FUNCTION_INT(controlCount);
 }
 
 /*****************************************************************************!

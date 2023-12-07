@@ -131,3 +131,100 @@ NCUControlSignal::operator==(NCUControlSignal* InControl)
   return true;
 }
 
+/*****************************************************************************!
+ * Function : Equal
+ *****************************************************************************/
+bool
+NCUControlSignal::Equal
+(NCUControlSignal* InControlSignal)
+{
+  if ( CTRLName != InControlSignal->CTRLName ) {
+    return false;
+  }
+  
+  if ( Unit != InControlSignal->Unit ) {
+    return false;
+  }
+  
+  if ( SIndx != InControlSignal->SIndx ) {
+    return false;
+  }
+  
+  if ( SChan != InControlSignal->SChan ) {
+    return false;
+  }
+  
+  if ( ValType != InControlSignal->ValType ) {
+    return false;
+  }
+  
+  if ( Defaults != InControlSignal->Defaults ) {
+    return false;
+  }
+  
+  if ( Range != InControlSignal->Range ) {
+    return false;
+  }
+  
+  if ( DisplayAttr != InControlSignal->DisplayAttr ) {
+    return false;
+  }
+  
+  if ( CtrlAttr != InControlSignal->CtrlAttr ) {
+    return false;
+  }
+  
+  if ( Threshold != InControlSignal->Threshold ) {
+    return false;
+  }
+  
+  if ( CableExpRPN != InControlSignal->CableExpRPN ) {
+    return false;
+  }
+  
+  if ( CableExpFull != InControlSignal->CableExpFull ) {
+    return false;
+  }
+  
+  if ( Auth != InControlSignal->Auth ) {
+    return false;
+  }
+  
+  if ( DisplayID != InControlSignal->DisplayID ) {
+    return false;
+  }
+  
+  if ( DispFmt != InControlSignal->DispFmt ) {
+    return false;
+  }
+  
+  if ( ChID != InControlSignal->ChID ) {
+    return false;
+  }
+  
+  if ( CStep != InControlSignal->CStep ) {
+    return false;
+  }
+  
+  if ( CParam != InControlSignal->CParam ) {
+    return false;
+  }
+  
+  if ( CexpRPN != InControlSignal->CexpRPN ) {
+    return false;
+  }
+  
+  if ( CexpFullDispExp != InControlSignal->CexpFullDispExp ) {
+    return false;
+  }
+  
+  if ( States != InControlSignal->States ) {
+    return false;
+  }
+  
+  if ( CAction != InControlSignal->CAction ) {
+    return false;
+  }
+
+  return true;
+}

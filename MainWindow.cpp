@@ -25,16 +25,9 @@
  * Function : MainWindow
  *****************************************************************************/
 MainWindow::MainWindow
-() : QMainWindow()
+(int InInitialTab) : QMainWindow(NULL)
 {
-}
-
-/*****************************************************************************!
- * Function : MainWindow
- *****************************************************************************/
-MainWindow::MainWindow
-(QWidget* parent) : QMainWindow(parent)
-{
+  InitialTab = InInitialTab;
   Initialize();
   CreateActions();
   CreateMenus();
@@ -66,7 +59,7 @@ MainWindow::Initialize()
 void
 MainWindow::CreateSubWindows()
 {
-  displayWindow = new MainDisplayWindow();  
+  displayWindow = new MainDisplayWindow(InitialTab);
   displayWindow->setParent(this);
   statusbar = statusBar();
 }

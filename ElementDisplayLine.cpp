@@ -29,7 +29,7 @@ ElementDisplayLine::ElementDisplayLine
   backgroundColor = InBackgroundColor;
   SpacerColor = InBackgroundColor;
   SpacerWidth = 5;
-  SignalLabelWidth = 180;
+  SignalLabelWidth = 240;
   
   pal = palette();
   pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
@@ -238,10 +238,6 @@ ElementDisplayLine::Compare(void)
   QFont                                 normalFont = QFont("Segoe UI", 10, QFont::Normal);
   QFont                                 differFont = QFont("Segoe UI", 10, QFont::Bold);
   
-  if ( Track2Value->text().isEmpty() && Track2Value->text().isEmpty() ) {
-    return;
-  }
-
   pal = Track2Value->palette();
   pal.setBrush(QPalette::WindowText, QBrush(NormalColor));
   Track2Value->setPalette(pal);

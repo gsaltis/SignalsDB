@@ -40,6 +40,7 @@ class NCUControlSignal : public NCUSignal
 
  //! Public Methods
  public :
+  bool                                  Equal                   (NCUControlSignal* InControlSignal);
 
  //! Public Data
  public :

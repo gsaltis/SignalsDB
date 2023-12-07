@@ -8,7 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnet.h>
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -27,7 +27,7 @@
  * Function : MainDisplayWindow
  *****************************************************************************/
 MainDisplayWindow::MainDisplayWindow
-() : QWidget()
+(int InInitialTab) : QWidget()
 {
   QPalette				pal;
 
@@ -37,6 +37,7 @@ MainDisplayWindow::MainDisplayWindow
   setAutoFillBackground(true);
 
   Initialize();
+  SlotTabSelected(InInitialTab);
 }
 
 /*****************************************************************************!
@@ -107,7 +108,6 @@ MainDisplayWindow::CreateSubWindows()
   tabBar->addTab("Equipment");
   tabBar->addTab("Sample");
   tabBar->addTab("Setting");
-  tabBar->setCurrentIndex(2);
 }
 
 /*****************************************************************************!
@@ -179,9 +179,7 @@ MainDisplayWindow::CreateConnections
 void
 MainDisplayWindow::HideWindows(void)
 {
-  alarmDisplayWindow->hide();
-  controlDisplayWindow->hide();
-  alarmDisplayWindow->hide();
-  sampleDisplayWindow->hide();
-  settingDisplayWindow->hide();
+  for ( auto window : windows ) {
+    window->hide();
+  }
 }

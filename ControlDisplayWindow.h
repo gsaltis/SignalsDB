@@ -18,6 +18,8 @@
  * Local Headers
  *****************************************************************************/
 #include "SignalDisplayWindow.h"
+#include "ControlInformation.h"
+#include "ControlDisplayForm.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -50,7 +52,8 @@ class ControlDisplayWindow : public SignalDisplayWindow
 
  //! Protected Methods
  protected :
-
+  void                          resizeEvent             (QResizeEvent* InEvent);
+  
  //! Protected Data
  protected :
 
@@ -59,9 +62,12 @@ class ControlDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-
+  void                          SetControlInformation   ();
+  
  //! Private Data
  private :
+  ControlInformation*           controlInfo;
+  ControlDisplayForm*           controlForm;
 
  //! Public Slots
  public slots :

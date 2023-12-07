@@ -1,48 +1,49 @@
 /*****************************************************************************
- * FILE NAME    : MainWindow.h
- * DATE         : November 21 2023
- * PROJECT      : Signals Database
+ * FILE NAME    : ControlDisplayForm.h
+ * DATE         : November 22 2023
+ * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _mainwindow_h_
-#define _mainwindow_h_
+#ifndef _controldisplayform_h_
+#define _controldisplayform_h_
 
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
 #include <QtCore>
 #include <QtGui>
-#include <QMainWindow>
-#include <QAction>
+#include <QWidget>
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "MainDisplayWindow.h"
-#include "SystemConfig.h"
+#include "SignalDisplayForm.h"
+#include "NavigationWindow.h"
+#include "ControlInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define MAIN_WINDOW_WIDTH                       840
-#define MAIN_WINDOW_HEIGHT                      780
-#define MAIN_WINDOW_Y                           100
-#define MAIN_WINDOW_X                           100
+#define CONTROL_DISPLAY_FORM_X        200
+#define CONTROL_DISPLAY_FORM_Y        200
+#define CONTROL_DISPLAY_FORM_WIDTH    200
+#define CONTROL_DISPLAY_FORM_HEIGHT   200
 
 /*****************************************************************************!
- * Exported Class : MainWindow
+ * Exported Class : ControlDisplayForm
  *****************************************************************************/
-class MainWindow : public QMainWindow
+class ControlDisplayForm : public SignalDisplayForm
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  MainWindow                    (int InInitialTab);
+  ControlDisplayForm          ();
 
  //! Destructor
  public :
-  ~MainWindow                   ();
+  ~ControlDisplayForm         ();
 
  //! Public Methods
  public :
@@ -58,33 +59,35 @@ class MainWindow : public QMainWindow
 
  //! Private Methods
  private :
-  void                          Initialize              ();
+  void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          CreateActions           ();
-  void                          CreateMenus             ();
-  void                          moveEvent               (QMoveEvent* InEvent);
+  void                          CreateConnections       (void);
+  void                          SetTrackInformation     (ControlSignalPair* InPair);
 
  //! Private Data
  private :
-  MainDisplayWindow*            displayWindow;
-  QMenuBar*                     menubar;
-  QMenu*                        fileMenu;
-  QStatusBar*                   statusbar;
-  int                           InitialTab;
-
+  NavigationWindow*             navigationWindow;
+  ControlInformation*           controlInformation;
+  QLabel*                       ControlIDLabel;
+  int                           currentEquipIndex;
+  QLabel*                       Track3Label;
+  
  //! Public Slots
  public slots :
-  void                          SlotExit                (void);
-
+  void                          SlotNextElement         (void);
+  void                          SlotPreviousElement     (void);
+  void                          SlotNextDifferElement   (void);
+  void                          SlotPrevDifferElement   (void);
+  
  //! Public Signals
  signals :
+  void                          SignalSetCurrentControlIndex (int InCurrentControlIndex);
 
  //! Public Actions
  public :
-  QAction*                      ActionExit;
 
 };
 
-#endif /* _mainwindow_h_*/
+#endif /* _controldisplayform_h_*/

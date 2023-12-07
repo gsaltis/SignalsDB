@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUEquipment.h
- * DATE         : November 20 2023
+ * FILE NAME    : ControlSignalPair.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncuequipment_h_
-#define _ncuequipment_h_
+#ifndef _controlsignalpair_h_
+#define _controlsignalpair_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,43 +17,39 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "NCUSignal.h"
+#include "NCUControlSignal.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
-
 /*****************************************************************************!
- * Exported Class : NCUEquipment
+ * Exported Class : ControlSignalPair
  *****************************************************************************/
-class NCUEquipment : public NCUSignal
+class ControlSignalPair : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUEquipment                  ();
+  ControlSignalPair           (int InID, int SID, NCUControlSignal* InTrack2Signal, NCUControlSignal* InTrack3Signal);
 
  //! Destructor
  public :
-  ~NCUEquipment                 ();
+  ~ControlSignalPair          ();
 
  //! Public Methods
  public :
-  bool                                  Equal                   (NCUEquipment* InEquipment);
-  void                                  Dump                    (void);
+  int                           GetID                   ();
+  int                           GetSID                  ();
+  void                          AddTrack3Signal         (NCUControlSignal* InTrack3);
+  NCUControlSignal*             GetTrack2               ();
+  NCUControlSignal*             GetTrack3               ();
+  bool                          Differ                  ();
 
  //! Public Data
  public :
-  QString                               TypeName;
-  QString                               GroupName;
-  QString                               NumofSamples;
-  QString                               NumofCtrl;
-  QString                               NumofSet;
-  QString                               NumofAlarm;
-  QString                               Related;
-  
+
  //! Protected Methods
  protected :
 
@@ -62,10 +58,14 @@ class NCUEquipment : public NCUSignal
 
  //! Private Methods
  private :
-  
+
  //! Private Data
  private :
-
+  NCUControlSignal*             Track2Signal;
+  NCUControlSignal*             Track3Signal;
+  int                           id;
+  int                           sid;
+  
  //! Public Slots
  public slots :
 
@@ -77,4 +77,4 @@ class NCUEquipment : public NCUSignal
 
 };
 
-#endif /* _ncuequipment_h_*/
+#endif /* _controlsignalpair_h_*/

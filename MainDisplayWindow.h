@@ -38,7 +38,7 @@ class MainDisplayWindow : public QWidget
 
  //! Constructors
  public :
-  MainDisplayWindow             ();
+  MainDisplayWindow             (int InInitialTab);
 
  //! Destructor
  public :

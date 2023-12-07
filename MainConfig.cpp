@@ -26,6 +26,9 @@ MainConfig::database = NULL;
 EquipmentInformation*
 MainConfig::equipmentInformation = NULL;
 
+ControlInformation*
+MainConfig::controlInformation = NULL;
+
 /*****************************************************************************!
  * Function : MainConfig
  *****************************************************************************/

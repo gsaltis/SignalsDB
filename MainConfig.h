@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "sqlite3.h"
 #include "EquipmentInformation.h"
+#include "ControlInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -46,6 +47,7 @@ class MainConfig : public QWidget
  public :
   static sqlite3*                       database;
   static EquipmentInformation*          equipmentInformation;
+  static ControlInformation*            controlInformation;
   
  //! Protected Methods
  protected :

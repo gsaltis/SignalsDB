@@ -31,16 +31,17 @@ DEFINES                         += \
 
 SOURCES                         += \
 				   AlarmDisplayWindow.cpp                       \
+				   ControlDisplayForm.cpp                       \
 				   ControlDisplayWindow.cpp                     \
+				   ControlSignalPair.cpp                        \
 				   ElementDisplayLine.cpp                       \
-				   EquipmentDisplayForm.cpp                     \
 				   EquipmentDisplayWindow.cpp                   \
 				   EquipmentInformation.cpp                     \
 				   EquipmentSignalPair.cpp                      \
+				   Equipmentdisplayform.cpp                     \
 				   MainConfig.cpp                               \
 				   MainDisplayWindow.cpp                        \
 				   MainWindow.cpp                               \
-                                   NavigationWindow.cpp                         \
 				   NCUAlarmSignal.cpp                           \
 				   NCUControlSignal.cpp                         \
 				   NCUEquipment.cpp                             \
@@ -57,6 +58,8 @@ SOURCES                         += \
 				   SignalsInformation.cpp                       \
 				   SystemConfig.cpp                             \
 				   WindowHeader.cpp                             \
+                                   ControlInformation.cpp                       \
+                                   NavigationWindow.cpp                         \
 				   main.cpp                                     \
 				   sqlite3.c                                    \
 
@@ -64,6 +67,7 @@ SOURCES                         += \
 HEADERS                         += \
 				   AlarmDisplayWindow.h                         \
 				   ControlDisplayWindow.h                       \
+				   ControlSignalPair.h                          \
 				   ElementDisplayLine.h                         \
 				   EquipmentDisplayForm.h                       \
 				   EquipmentDisplayWindow.h                     \
@@ -72,7 +76,6 @@ HEADERS                         += \
 				   MainConfig.h                                 \
 				   MainDisplayWindow.h                          \
 				   MainWindow.h                                 \
-                                   NavigationWindow.h                           \
 				   NCUAlarmSignal.h                             \
 				   NCUControlSignal.h                           \
 				   NCUEquipment.h                               \
@@ -89,6 +92,9 @@ HEADERS                         += \
 				   SignalsInformation.h                         \
 				   SystemConfig.h                               \
 				   WindowHeader.h                               \
+                                   ControlDisplayForm.h                         \
+                                   ControlInformation.h                         \
+                                   NavigationWindow.h                           \
 				   sqlite3.h                                    \
 
 FORMS                           += \

@@ -1,5 +1,5 @@
 /*****************************************************************************
- * FILE NAME    : EquipmentDisplayForm.cpp
+ * FILE NAME    : ControlDisplayForm.cpp
  * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
@@ -17,14 +17,14 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "EquipmentDisplayForm.h"
+#include "ControlDisplayForm.h"
 #include "ElementDisplayLine.h"
 #include "MainConfig.h"
 
 /*****************************************************************************!
- * Function : EquipmentDisplayForm
+ * Function : ControlDisplayForm
  *****************************************************************************/
-EquipmentDisplayForm::EquipmentDisplayForm
+ControlDisplayForm::ControlDisplayForm
 () : SignalDisplayForm()
 {
   QPalette pal;
@@ -37,9 +37,9 @@ EquipmentDisplayForm::EquipmentDisplayForm
 }
 
 /*****************************************************************************!
- * Function : ~EquipmentDisplayForm
+ * Function : ~ControlDisplayForm
  *****************************************************************************/
-EquipmentDisplayForm::~EquipmentDisplayForm
+ControlDisplayForm::~ControlDisplayForm
 ()
 {
 }
@@ -48,26 +48,26 @@ EquipmentDisplayForm::~EquipmentDisplayForm
  * Function : initialize
  *****************************************************************************/
 void
-EquipmentDisplayForm::initialize()
+ControlDisplayForm::initialize()
 {
-  EquipmentSignalPair*                  pair;
+  ControlSignalPair*                  pair;
 
   currentEquipIndex = 0;
-  equipmentInformation = MainConfig::equipmentInformation;
+  controlInformation = MainConfig::controlInformation;
   InitializeSubWindows();  
   CreateSubWindows();
   CreateConnections();
-  pair = equipmentInformation->GetPairByIndex(0);
+  pair = controlInformation->GetPairByIndex(0);
   SetTrackInformation(pair);
   navigationWindow->SlotSetCurrentSignalIndex(1);
-  navigationWindow->SlotSetSignalCount(equipmentInformation->GetPairCount());
+  navigationWindow->SlotSetSignalCount(controlInformation->GetPairCount());
 }
 
 /*****************************************************************************!
  * Function : CreateSubWindows
  *****************************************************************************/
 void
-EquipmentDisplayForm::CreateSubWindows()
+ControlDisplayForm::CreateSubWindows()
 {
   int                                   headingLabelHeight;
   int                                   n;
@@ -87,14 +87,28 @@ EquipmentDisplayForm::CreateSubWindows()
     QColor(0xEC, 0xEC, 0xEC)
   };
   labelNames << "Type ID"
-             << "Name"
-             << "Type Name"
-             << "Group Name"
-             << "Number of Samples"
-             << "Number of Controls"
-             << "Number of Alarms"
-             << "Number of Settings"
-             << "Related";
+             << "Control Name"
+             << "Unit"
+             << "Signal Index"
+             << "Signal Channel"
+             << "Value Type"
+             << "Defaults"
+             << "Range"
+             << "Display Attribute"
+             << "Control Attribute"
+             << "Threshold"
+             << "Cable Expression RPN"
+             << "Cable Expression Full"
+             << "Auth"
+             << "Display ID"
+             << "Display Format"
+             << "Channel ID"
+             << "Channel Step"
+             << "ChannelParam"
+             << "Channel Expression RPN"
+             << "Channel Expression Full Disp Exp"
+             << "States"
+             << "CAction";
 
   x1 = 10;
   x2 = x1 + labelWidth + 20;
@@ -127,14 +141,14 @@ EquipmentDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Equipment ID : "));
+  label->setText(QString("Control ID : "));
   label->setAlignment(Qt::AlignRight);
 
-  EquipmentIDLabel = new QLabel(this);
-  EquipmentIDLabel->move(x1 + 230, y);
-  EquipmentIDLabel->resize(80, labelHeight);
-  EquipmentIDLabel->setAlignment(Qt::AlignLeft);
-  EquipmentIDLabel->setFont(valueFont);
+  ControlIDLabel = new QLabel(this);
+  ControlIDLabel->move(x1 + 230, y);
+  ControlIDLabel->resize(80, labelHeight);
+  ControlIDLabel->setAlignment(Qt::AlignLeft);
+  ControlIDLabel->setFont(valueFont);
 
   //!
   y = 55;
@@ -159,7 +173,7 @@ EquipmentDisplayForm::CreateSubWindows()
  * Function : InitializeSubWindows
  *****************************************************************************/
 void
-EquipmentDisplayForm::InitializeSubWindows()
+ControlDisplayForm::InitializeSubWindows()
 {
   navigationWindow = NULL;
 }
@@ -168,7 +182,7 @@ EquipmentDisplayForm::InitializeSubWindows()
  * Function : resizeEvent
  *****************************************************************************/
 void
-EquipmentDisplayForm::resizeEvent
+ControlDisplayForm::resizeEvent
 (QResizeEvent* InEvent)
 {
   int                                   y2;
@@ -229,26 +243,26 @@ EquipmentDisplayForm::resizeEvent
  * Function : CreateConnections
  *****************************************************************************/
 void
-EquipmentDisplayForm::CreateConnections(void)
+ControlDisplayForm::CreateConnections(void)
 {
   connect(navigationWindow,
           NavigationWindow::SignalNextDifferElement,
           this,
-          EquipmentDisplayForm::SlotNextDifferElement);
+          ControlDisplayForm::SlotNextDifferElement);
   connect(navigationWindow,
           NavigationWindow::SignalPrevDifferElement,
           this,
-          EquipmentDisplayForm::SlotPrevDifferElement);
+          ControlDisplayForm::SlotPrevDifferElement);
   connect(navigationWindow,
           NavigationWindow::SignalNextElement,
           this,
-          EquipmentDisplayForm::SlotNextElement);
+          ControlDisplayForm::SlotNextElement);
   connect(navigationWindow,
           NavigationWindow::SignalPreviousElement,
           this,
-          EquipmentDisplayForm::SlotPreviousElement);
+          ControlDisplayForm::SlotPreviousElement);
   connect(this,
-          EquipmentDisplayForm::SignalSetCurrentEquipmentIndex,
+          ControlDisplayForm::SignalSetCurrentControlIndex,
           navigationWindow,
           NavigationWindow::SlotSetCurrentSignalIndex);
 }
@@ -257,37 +271,37 @@ EquipmentDisplayForm::CreateConnections(void)
  * Function : SlotNextElement
  *****************************************************************************/
 void
-EquipmentDisplayForm::SlotNextElement(void)
+ControlDisplayForm::SlotNextElement(void)
 {
-  EquipmentSignalPair*                  pair;
-  if ( currentEquipIndex + 1 >= equipmentInformation->GetPairCount() ) {
+  ControlSignalPair*                  pair;
+  if ( currentEquipIndex + 1 >= controlInformation->GetPairCount() ) {
     return;
   }
 
   currentEquipIndex++;
-  pair = equipmentInformation->GetPairByIndex(currentEquipIndex);
+  pair = controlInformation->GetPairByIndex(currentEquipIndex);
   SetTrackInformation(pair);
-  emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);
+  emit SignalSetCurrentControlIndex(currentEquipIndex + 1);
 }
 
 /*****************************************************************************!
  * Function : SlotNextDifferElement
  *****************************************************************************/
 void
-EquipmentDisplayForm::SlotNextDifferElement(void)
+ControlDisplayForm::SlotNextDifferElement(void)
 {
   int                                   i, n;
-  EquipmentSignalPair*                  pair;
+  ControlSignalPair*                  pair;
   
-  n = equipmentInformation->GetPairCount();
+  n = controlInformation->GetPairCount();
 
   for ( i = currentEquipIndex + 1 ; i < n ; i++ ) {
-    pair = equipmentInformation->GetPairByIndex(i);
+    pair = controlInformation->GetPairByIndex(i);
     if ( ! pair->Differ() ) {
       continue;
     }
     currentEquipIndex = i;
-    emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);
+    emit SignalSetCurrentControlIndex(currentEquipIndex + 1);
     SetTrackInformation(pair);
     return;
   }
@@ -297,18 +311,18 @@ EquipmentDisplayForm::SlotNextDifferElement(void)
  * Function : SlotPrevDifferElement
  *****************************************************************************/
 void
-EquipmentDisplayForm::SlotPrevDifferElement(void)
+ControlDisplayForm::SlotPrevDifferElement(void)
 {
   int                                   i;
-  EquipmentSignalPair*                  pair;
+  ControlSignalPair*                  pair;
   
   for ( i = currentEquipIndex - 1; i >= 0 ; i-- ) {
-    pair = equipmentInformation->GetPairByIndex(i);
+    pair = controlInformation->GetPairByIndex(i);
     if ( ! pair->Differ() ) {
       continue;
     }
     currentEquipIndex = i;
-    emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);
+    emit SignalSetCurrentControlIndex(currentEquipIndex + 1);
     SetTrackInformation(pair);
     return;
   }
@@ -318,30 +332,31 @@ EquipmentDisplayForm::SlotPrevDifferElement(void)
  * Function : SlotPreviousElement
  *****************************************************************************/
 void
-EquipmentDisplayForm::SlotPreviousElement(void)
+ControlDisplayForm::SlotPreviousElement(void)
 {
-  EquipmentSignalPair*                  pair;
+  ControlSignalPair*                  pair;
   if ( currentEquipIndex == 0 ) {
     return;
   }
   currentEquipIndex--;
-  pair = equipmentInformation->GetPairByIndex(currentEquipIndex);
+  pair = controlInformation->GetPairByIndex(currentEquipIndex);
   SetTrackInformation(pair);  
-    emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);
+    emit SignalSetCurrentControlIndex(currentEquipIndex + 1);
 }
 
 /*****************************************************************************!
  * Function : SetTrackInformation
  *****************************************************************************/
 void
-EquipmentDisplayForm::SetTrackInformation
-(EquipmentSignalPair* InPair)
+ControlDisplayForm::SetTrackInformation
+(ControlSignalPair* InPair)
 {
+  
   int                                   i;
-  NCUEquipment*                         track2;
-  NCUEquipment*                         track3;
+  NCUControlSignal*                     track2;
+  NCUControlSignal*                     track3;
 
-  EquipmentIDLabel->setText(QString("%1").arg(InPair->GetID()));
+  ControlIDLabel->setText(QString("%1").arg(InPair->GetID()));
 
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
@@ -351,27 +366,57 @@ EquipmentDisplayForm::SetTrackInformation
   }
 
   if ( track2 ) {
-    elementLines[0]->SetTrack2Value(QString("%1").arg(track2->Type));
-    elementLines[1]->SetTrack2Value(track2->Name);
-    elementLines[2]->SetTrack2Value(track2->TypeName);
-    elementLines[3]->SetTrack2Value(track2->GroupName);
-    elementLines[4]->SetTrack2Value(track2->NumofSamples);
-    elementLines[5]->SetTrack2Value(track2->NumofCtrl);
-    elementLines[6]->SetTrack2Value(track2->NumofAlarm);
-    elementLines[7]->SetTrack2Value(track2->NumofSet);
-    elementLines[8]->SetTrack2Value(track2->Related);
+    i = 0;
+    elementLines[i++]->SetTrack2Value(QString("%1").arg(track2->Type));
+    elementLines[i++]->SetTrack2Value(track2->CTRLName);
+    elementLines[i++]->SetTrack2Value(track2->Unit);
+    elementLines[i++]->SetTrack2Value(track2->SIndx);
+    elementLines[i++]->SetTrack2Value(track2->SChan);
+    elementLines[i++]->SetTrack2Value(track2->ValType);
+    elementLines[i++]->SetTrack2Value(track2->Defaults);
+    elementLines[i++]->SetTrack2Value(track2->Range);
+    elementLines[i++]->SetTrack2Value(track2->DisplayAttr);
+    elementLines[i++]->SetTrack2Value(track2->CtrlAttr);
+    elementLines[i++]->SetTrack2Value(track2->Threshold);
+    elementLines[i++]->SetTrack2Value(track2->CableExpRPN);
+    elementLines[i++]->SetTrack2Value(track2->CableExpFull);
+    elementLines[i++]->SetTrack2Value(track2->Auth);
+    elementLines[i++]->SetTrack2Value(track2->DisplayID);
+    elementLines[i++]->SetTrack2Value(track2->DispFmt);
+    elementLines[i++]->SetTrack2Value(track2->ChID);
+    elementLines[i++]->SetTrack2Value(track2->CStep);
+    elementLines[i++]->SetTrack2Value(track2->CParam);
+    elementLines[i++]->SetTrack2Value(track2->CexpRPN);
+    elementLines[i++]->SetTrack2Value(track2->CexpFullDispExp);
+    elementLines[i++]->SetTrack2Value(track2->States);
+    elementLines[i++]->SetTrack2Value(track2->CAction);
   }
 
   if ( track3 ) {
-    elementLines[0]->SetTrack3Value(QString("%1").arg(track3->Type));
-    elementLines[1]->SetTrack3Value(track3->Name);
-    elementLines[2]->SetTrack3Value(track3->TypeName);
-    elementLines[3]->SetTrack3Value(track3->GroupName);
-    elementLines[4]->SetTrack3Value(track3->NumofSamples);
-    elementLines[5]->SetTrack3Value(track3->NumofCtrl);
-    elementLines[6]->SetTrack3Value(track3->NumofAlarm);
-    elementLines[7]->SetTrack3Value(track3->NumofSet);
-    elementLines[8]->SetTrack3Value(track3->Related);
+    i = 0;
+    elementLines[i++]->SetTrack3Value(QString("%1").arg(track3->Type));
+    elementLines[i++]->SetTrack3Value(track3->CTRLName);
+    elementLines[i++]->SetTrack3Value(track3->Unit);
+    elementLines[i++]->SetTrack3Value(track3->SIndx);
+    elementLines[i++]->SetTrack3Value(track3->SChan);
+    elementLines[i++]->SetTrack3Value(track3->ValType);
+    elementLines[i++]->SetTrack3Value(track3->Defaults);
+    elementLines[i++]->SetTrack3Value(track3->Range);
+    elementLines[i++]->SetTrack3Value(track3->DisplayAttr);
+    elementLines[i++]->SetTrack3Value(track3->CtrlAttr);
+    elementLines[i++]->SetTrack3Value(track3->Threshold);
+    elementLines[i++]->SetTrack3Value(track3->CableExpRPN);
+    elementLines[i++]->SetTrack3Value(track3->CableExpFull);
+    elementLines[i++]->SetTrack3Value(track3->Auth);
+    elementLines[i++]->SetTrack3Value(track3->DisplayID);
+    elementLines[i++]->SetTrack3Value(track3->DispFmt);
+    elementLines[i++]->SetTrack3Value(track3->ChID);
+    elementLines[i++]->SetTrack3Value(track3->CStep);
+    elementLines[i++]->SetTrack3Value(track3->CParam);
+    elementLines[i++]->SetTrack3Value(track3->CexpRPN);
+    elementLines[i++]->SetTrack3Value(track3->CexpFullDispExp);
+    elementLines[i++]->SetTrack3Value(track3->States);
+    elementLines[i++]->SetTrack3Value(track3->CAction);
   }
 
   for ( i = 0 ; i < elementLines.size() ; i++ ) {

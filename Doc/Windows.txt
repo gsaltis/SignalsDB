@@ -1,13 +1,14 @@
 MainWindow
   MainDisplayWindow
-    AlarmDisplayWindow
-    ControlDisplayWindow
-    EquipmentDisplayWindow : SignalDisplayWindow
-      EquipmentDisplayForm : SignalDisplayForm
+    AlarmDisplayWindow                                  alarmDisplayWindow
+    ControlDisplayWindow                                controlDisplayWindow
+    EquipmentDisplayWindow : SignalDisplayWindow        equipmentDisplayWindow
+      EquipmentInformation
+      EquipmentDisplayForm : SignalDisplayForm          equipForm
         NavigationWindow
-    SampleDisplayWindow
-    SettingDisplayWindow
-    QTabBar
+    SampleDisplayWindow                                 sampleDisplayWindow
+    SettingDisplayWindow                                settingDisplayWindow
+    QTabBar                                             tabBar
 
 SignalDisplayForm
 
