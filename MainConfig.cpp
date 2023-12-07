@@ -29,6 +29,9 @@ MainConfig::equipmentInformation = NULL;
 ControlInformation*
 MainConfig::controlInformation = NULL;
 
+AlarmInformation*
+MainConfig::alarmInformation = NULL;
+
 /*****************************************************************************!
  * Function : MainConfig
  *****************************************************************************/

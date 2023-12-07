@@ -35,10 +35,10 @@ NCUAlarmSignal::~NCUAlarmSignal
 }
 
 /*****************************************************************************!
- * Function : operator==
+ * Function : Equal
  *****************************************************************************/
 bool
-NCUAlarmSignal::operator==
+NCUAlarmSignal::Equal
 (NCUAlarmSignal* InAlarm)
 {
   if ( Level != InAlarm->Level ) {

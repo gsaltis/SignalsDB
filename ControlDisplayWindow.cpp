@@ -71,7 +71,7 @@ ControlDisplayWindow::InitializeSubWindows()
 }
 
 /*****************************************************************************!
- * Function : SetEquipmentInformation
+ * Function : SetControlInformation
  *****************************************************************************/
 void
 ControlDisplayWindow::SetControlInformation

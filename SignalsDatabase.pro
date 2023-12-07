@@ -30,7 +30,10 @@ QT                              += core gui widgets
 DEFINES                         += \
 
 SOURCES                         += \
+				   AlarmDisplayForm.cpp                         \
 				   AlarmDisplayWindow.cpp                       \
+                                   AlarmInformation.cpp                         \
+				   AlarmSignalPair.cpp                          \
 				   ControlDisplayForm.cpp                       \
 				   ControlDisplayWindow.cpp                     \
 				   ControlSignalPair.cpp                        \
@@ -65,7 +68,10 @@ SOURCES                         += \
 
 
 HEADERS                         += \
+				   AlarmDisplayForm.h                           \
 				   AlarmDisplayWindow.h                         \
+                                   AlarmInformation.h                           \
+				   AlarmSignalPair.h                            \
 				   ControlDisplayWindow.h                       \
 				   ControlSignalPair.h                          \
 				   ElementDisplayLine.h                         \

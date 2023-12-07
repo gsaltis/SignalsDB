@@ -1,5 +1,5 @@
 /*****************************************************************************
- * FILE NAME    : ControlInformation.cpp
+ * FILE NAME    : AlarmInformation.cpp
  * DATE         : November 21 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
@@ -17,46 +17,46 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "ControlInformation.h"
+#include "AlarmInformation.h"
 #include "MainConfig.h"
 
 /*****************************************************************************!
- * Function : ControlInformation
+ * Function : AlarmInformation
  *****************************************************************************/
-ControlInformation::ControlInformation
+AlarmInformation::AlarmInformation
 () : SignalsInformation()
 {
 }
 
 /*****************************************************************************!
- * Function : ~ControlInformation
+ * Function : ~AlarmInformation
  *****************************************************************************/
-ControlInformation::~ControlInformation
+AlarmInformation::~AlarmInformation
 ()
 {
 }
 
 /*****************************************************************************!
- * Function : AddControl
+ * Function : AddAlarm
  *****************************************************************************/
 void
-ControlInformation::AddControl
-(NCUControlSignal* InControl)
+AlarmInformation::AddAlarm
+(NCUAlarmSignal* InAlarm)
 {
-  if ( NULL == InControl ) {
+  if ( NULL == InAlarm ) {
     return;
   }
-  controls << InControl;
+  alarms << InAlarm;
 }
 
 /*****************************************************************************!
- * Function : FindControlByID
+ * Function : FindAlarmByID
  *****************************************************************************/
-NCUControlSignal*
-ControlInformation::FindControlByID
+NCUAlarmSignal*
+AlarmInformation::FindAlarmByID
 (int InTrack, int InID)
 {
-  for ( auto i : controls ) {
+  for ( auto i : alarms ) {
     if ( i->GetTrack() == InTrack && i->GetID() == InID ) {
       return i;
     }
@@ -68,10 +68,11 @@ ControlInformation::FindControlByID
  * Function : SQLRead
  *****************************************************************************/
 void
-ControlInformation::SQLRead
+AlarmInformation::SQLRead
 (sqlite3* InDatabase)
 {
-  NCUControlSignal*                     control;
+  int                                   i;
+  NCUAlarmSignal*                       alarm;
   bool                                  finished;
   int                                   n;
   sqlite3_stmt*                         statement;
@@ -82,29 +83,16 @@ ControlInformation::SQLRead
                          "Track,"               // 0
                          "Eq,"                  // 1
                          "SID,"                 // 2
-                         "CTRLName,"            // 3
-                         "Unit,"                // 4
-                         "SIndx,"               // 5
-                         "SChan,"               // 6
-                         "ValType,"             // 7
-                         "Defaults,"            // 8
-                         "Range,"               // 9
-                         "DisplayAttr,"         // 10
-                         "CtrlAttr,"            // 11
-                         "Threshold,"           // 12
-                         "CableExpRPN,"         // 13
-                         "CableExpFull,"        // 14
-                         "Auth,"                // 15
-                         "DisplayID,"           // 16
-                         "DispFmt,"             // 17
-                         "ChID,"                // 18
-                         "CStep,"               // 19
-                         "CParam,"              // 20
-                         "CexpRPN,"             // 21
-                         "CexpFullDispExp,"     // 22
-                         "States,"              // 23
-                         "CAction "             // 24                         
-                         "FROM Control ORDER by CAST(Eq AS INTEGER), CAST(SID AS INTEGER), Track;");
+                         "AlarmName,"           // 3
+                         "Level,"               // 4
+                         "ExpRPN,"              // 5
+                         "EXPFull,"             // 6
+                         "Delay,"               // 7
+                         "SuppressRPN,"         // 8
+                         "SuppressFull,"        // 9
+                         "Relay,"               // 10
+                         "Help "                // 11
+                         "FROM Alarms ORDER by CAST(Eq AS INTEGER), CAST(SID AS INTEGER), Track;");
 
   n = sqlite3_prepare_v2(InDatabase, sqlStatement.toStdString().c_str(), sqlStatement.length(), &statement, NULL);
   if ( n != SQLITE_OK ) {
@@ -137,39 +125,31 @@ ControlInformation::SQLRead
       }
       
       case SQLITE_ROW : {
-        control = new NCUControlSignal();
-        control->SetTrack(sqlite3_column_int(statement, 0));
+        alarm = new NCUAlarmSignal();
+        alarm->SetTrack(sqlite3_column_int(statement, 0));
 
         s = QString((char*)sqlite3_column_text(statement, 1));
-        control->SetID(s.toInt());
+        alarm->SetID(s.toInt());
         
         s = QString((char*)sqlite3_column_text(statement, 2));
-        control->SetType(s.toInt());
+        alarm->SetType(s.toInt());
 
+        s = QString((char*)sqlite3_column_text(statement, 1));
+        alarm->SetID(s.toInt());
+        
         //!
-        control->CTRLName = QString((char*)sqlite3_column_text(statement, 3));
-        control->Unit = QString((char*)sqlite3_column_text(statement, 4));
-        control->SIndx = QString((char*)sqlite3_column_text(statement, 5));
-        control->SChan = QString((char*)sqlite3_column_text(statement, 6));
-        control->ValType = QString((char*)sqlite3_column_text(statement, 7));
-        control->Defaults = QString((char*)sqlite3_column_text(statement, 8));
-        control->Range = QString((char*)sqlite3_column_text(statement, 9));
-        control->DisplayAttr = QString((char*)sqlite3_column_text(statement, 10));
-        control->CtrlAttr = QString((char*)sqlite3_column_text(statement, 11));
-        control->Threshold = QString((char*)sqlite3_column_text(statement, 12));
-        control->CableExpRPN = QString((char*)sqlite3_column_text(statement, 13));
-        control->CableExpFull = QString((char*)sqlite3_column_text(statement, 14));
-        control->Auth = QString((char*)sqlite3_column_text(statement, 15));
-        control->DisplayID = QString((char*)sqlite3_column_text(statement, 16));
-        control->DispFmt = QString((char*)sqlite3_column_text(statement, 17));
-        control->ChID = QString((char*)sqlite3_column_text(statement, 18));
-        control->CStep = QString((char*)sqlite3_column_text(statement, 19));
-        control->CParam = QString((char*)sqlite3_column_text(statement, 20));
-        control->CexpRPN = QString((char*)sqlite3_column_text(statement, 21));
-        control->CexpFullDispExp = QString((char*)sqlite3_column_text(statement, 22));
-        control->States = QString((char*)sqlite3_column_text(statement, 23));
-        control->CAction = QString((char*)sqlite3_column_text(statement, 24));
-        controls << control;
+        i = 3;
+        alarm->AlarmName = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->Level = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->ExpRPN = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->EXPFull = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->Delay = QString((char*)sqlite3_column_text(statement, i++));
+
+        alarm->SuppressRPN = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->SuppressFull = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->Relay = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->Help = QString((char*)sqlite3_column_text(statement, i++));
+        alarms << alarm;
         break;
       }
       
@@ -192,14 +172,14 @@ ControlInformation::SQLRead
  * Function : GetCountByTrack
  *****************************************************************************/
 int
-ControlInformation::GetCountByTrack
+AlarmInformation::GetCountByTrack
 (int InTrack)
 {
   int                                   n;
 
   n = 0;
 
-  for ( auto i : controls ) {
+  for ( auto i : alarms ) {
     if ( i->GetTrack() == InTrack ) {
       n++;
     }
@@ -211,52 +191,52 @@ ControlInformation::GetCountByTrack
  * Function : CreatePairs
  *****************************************************************************/
 void
-ControlInformation::CreatePairs(void)
+AlarmInformation::CreatePairs(void)
 {
-  ControlSignalPair*                    controlPair;
-  NCUControlSignal*                     e;
+  AlarmSignalPair*                    alarmPair;
+  NCUAlarmSignal*                     e;
   int                                   i;
   int                                   n;
 
-  n = controls.size();
+  n = alarms.size();
   for (i = 0; i < n; i++) {
-    e = controls[i];
+    e = alarms[i];
     if ( e->Track != 2 ) {
       continue;
     }
 
-    controlPair = new ControlSignalPair(e->ID, e->Type, e, NULL);
-    controlPairs << controlPair;
+    alarmPair = new AlarmSignalPair(e->ID, e->Type, e, NULL);
+    alarmPairs << alarmPair;
   }
 
   for ( i = 0; i < n; i++ ){
-    e = controls[i];
+    e = alarms[i];
     if ( e->Track != 3 ) {
       continue;
     }
-    controlPair = FindPairByID(e->ID, e->Type);
-    if ( NULL == controlPair ) {
-      controlPair = new ControlSignalPair(e->ID, e->Type, NULL, e);
-      controlPairs << controlPair;
+    alarmPair = FindPairByID(e->ID, e->Type);
+    if ( NULL == alarmPair ) {
+      alarmPair = new AlarmSignalPair(e->ID, e->Type, NULL, e);
+      alarmPairs << alarmPair;
       continue;
     }
-    controlPair->AddTrack3Signal(e);
+    alarmPair->AddTrack3Signal(e);
   }
 }
 
 /*****************************************************************************!
  * Function : FindPairByID
  *****************************************************************************/
-ControlSignalPair*
-ControlInformation::FindPairByID
+AlarmSignalPair*
+AlarmInformation::FindPairByID
 (int InID, int InSID)
 {
   int                                   i, n;
-  ControlSignalPair*                    pair;
+  AlarmSignalPair*                    pair;
 
-  n = controlPairs.size();
+  n = alarmPairs.size();
   for (i = 0; i < n; i++) {
-    pair = controlPairs[i];
+    pair = alarmPairs[i];
     if ( pair->GetID() == InID && pair->GetSID() == InSID ) {
       return pair;
     }
@@ -268,7 +248,7 @@ ControlInformation::FindPairByID
  * Function : GetTrack2Count
  *****************************************************************************/
 int
-ControlInformation::GetTrack2Count(void)
+AlarmInformation::GetTrack2Count(void)
 {
   return GetTrackCount(2);
 }
@@ -277,7 +257,7 @@ ControlInformation::GetTrack2Count(void)
  * Function : GetTrack3Count
  *****************************************************************************/
 int
-ControlInformation::GetTrack3Count(void)
+AlarmInformation::GetTrack3Count(void)
 {
   return GetTrackCount(3);
 }
@@ -286,18 +266,18 @@ ControlInformation::GetTrack3Count(void)
  * Function : GetTrackCount
  *****************************************************************************/
 int
-ControlInformation::GetTrackCount
+AlarmInformation::GetTrackCount
 (int InTrack)
 {
   int                                   count;
   int                                   i;
   int                                   n;
-  NCUControlSignal*                     e;
+  NCUAlarmSignal*                     e;
 
   count = 0;
-  n = controls.size();
+  n = alarms.size();
   for (i = 0; i < n; i++) {
-    e = controls[i];
+    e = alarms[i];
 
     if ( e->Track == InTrack ) {
       count++;
@@ -310,17 +290,17 @@ ControlInformation::GetTrackCount
  * Function : GetTrack2MissingCount
  *****************************************************************************/
 int
-ControlInformation::GetTrack2MissingCount(void)
+AlarmInformation::GetTrack2MissingCount(void)
 {
-  ControlSignalPair*                    ep;
+  AlarmSignalPair*                    ep;
   int                                   i;
   int                                   n;
   int                                   count;
 
   count = 0;
-  n = controlPairs.size();
+  n = alarmPairs.size();
   for (i = 0; i < n; i++) {
-    ep = controlPairs[i];
+    ep = alarmPairs[i];
     if ( ep->GetTrack2() == NULL ) {
       count++;
     }
@@ -332,17 +312,17 @@ ControlInformation::GetTrack2MissingCount(void)
  * Function : GetTrack3MissingCount
  *****************************************************************************/
 int
-ControlInformation::GetTrack3MissingCount(void)
+AlarmInformation::GetTrack3MissingCount(void)
 {
-  ControlSignalPair*                  ep;
+  AlarmSignalPair*                  ep;
   int                                   i;
   int                                   n;
   int                                   count;
 
   count = 0;
-  n = controlPairs.size();
+  n = alarmPairs.size();
   for (i = 0; i < n; i++) {
-    ep = controlPairs[i];
+    ep = alarmPairs[i];
     if ( ep->GetTrack3() == NULL ) {
       count++;
     }
@@ -354,17 +334,17 @@ ControlInformation::GetTrack3MissingCount(void)
  * Function : GetTrackDifferCount
  *****************************************************************************/
 int
-ControlInformation::GetTrackDifferCount(void)
+AlarmInformation::GetTrackDifferCount(void)
 {
-  ControlSignalPair*                  ep;
+  AlarmSignalPair*                  ep;
   int                                   i;
   int                                   n;
   int                                   count;
 
   count = 0;
-  n = controlPairs.size();
+  n = alarmPairs.size();
   for (i = 0; i < n; i++) {
-    ep = controlPairs[i];
+    ep = alarmPairs[i];
     if ( ep->Differ() ) {
       count++;
     }
@@ -375,22 +355,22 @@ ControlInformation::GetTrackDifferCount(void)
 /*****************************************************************************!
  * Function : GetPairByIndex
  *****************************************************************************/
-ControlSignalPair*
-ControlInformation::GetPairByIndex
+AlarmSignalPair*
+AlarmInformation::GetPairByIndex
 (int InIndex)
 {
-  if ( InIndex >= controlPairs.size() ) {
+  if ( InIndex >= alarmPairs.size() ) {
     return NULL;
   }
-  return controlPairs[InIndex];
+  return alarmPairs[InIndex];
 }
 
 /*****************************************************************************!
  * Function : GetPairCount
  *****************************************************************************/
 int
-ControlInformation::GetPairCount
+AlarmInformation::GetPairCount
 ()
 {
-  return controlPairs.size();
+  return alarmPairs.size();
 }

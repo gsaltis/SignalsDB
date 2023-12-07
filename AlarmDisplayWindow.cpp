@@ -16,6 +16,7 @@
  * Local Headers
  *****************************************************************************/
 #include "AlarmDisplayWindow.h"
+#include "MainConfig.h"
 
 /*****************************************************************************!
  * Function : AlarmDisplayWindow
@@ -47,6 +48,7 @@ AlarmDisplayWindow::initialize()
 {
   InitializeSubWindows();  
   CreateSubWindows();
+  SetAlarmInformation();
 }
 
 /*****************************************************************************!
@@ -55,7 +57,8 @@ AlarmDisplayWindow::initialize()
 void
 AlarmDisplayWindow::CreateSubWindows()
 {
-  
+  alarmForm = new AlarmDisplayForm();  
+  alarmForm->setParent(this);
 }
 
 /*****************************************************************************!
@@ -64,6 +67,69 @@ AlarmDisplayWindow::CreateSubWindows()
 void
 AlarmDisplayWindow::InitializeSubWindows()
 {
+  alarmForm = NULL;  
+}
+
+/*****************************************************************************!
+ * Function : resizeEvent
+ *****************************************************************************/
+void
+AlarmDisplayWindow::resizeEvent
+(QResizeEvent* InEvent)
+{
+  int                                   alarmFormW;
+  int                                   alarmFormH;
+  int                                   alarmFormY;
+  int                                   alarmFormX;
+  QSize					size;  
+  int					width;
+  int					height;
   
+  size = InEvent->size();
+  width = size.width();
+  height = size.height();
+
+  if ( statsWindow ) {
+    statsWindow->resize(width, SIGNAL_STATS_WINDOW_HEIGHT);
+  }
+
+  alarmFormX = 0;
+  alarmFormY = SIGNAL_STATS_WINDOW_HEIGHT;
+  alarmFormW = width;
+  alarmFormH = height - SIGNAL_STATS_WINDOW_HEIGHT;
+
+  alarmForm->move(alarmFormX, alarmFormY);
+  alarmForm->resize(alarmFormW, alarmFormH);
+}
+
+/*****************************************************************************!
+ * Function : SetAlarmInformation
+ *****************************************************************************/
+void
+AlarmDisplayWindow::SetAlarmInformation
+()
+{
+  int                                   combinedSignals;
+  int                                   trackDiffer;
+  int                                   track2Missing;
+  int                                   track3Missing;
+  int                                   track3Count;
+  int                                   track2Count;
+
+  alarmInfo = MainConfig::alarmInformation;
+
+  track2Count = alarmInfo->GetTrack2Count();
+  track3Count = alarmInfo->GetTrack3Count();
+
+  track2Missing = alarmInfo->GetTrack2MissingCount();
+  track3Missing = alarmInfo->GetTrack3MissingCount();
+
+  trackDiffer = alarmInfo->GetTrackDifferCount();
+  combinedSignals = alarmInfo->GetPairCount();
+  
+  statsWindow->SetTrackCounts(track2Count, track3Count);
+  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackDifferCount(trackDiffer);
+  statsWindow->SetCombinedSignalCount(combinedSignals);
 }
 

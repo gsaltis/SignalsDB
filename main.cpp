@@ -103,14 +103,13 @@ void
 Initialize
 ()
 {
-  int                                   controlCount;
   MainOpenDB();
   MainConfig::equipmentInformation = new EquipmentInformation();
   MainConfig::equipmentInformation->SQLRead(MainConfig::database);
   MainConfig::controlInformation = new ControlInformation();
   MainConfig::controlInformation->SQLRead(MainConfig::database);
-  controlCount = MainConfig::controlInformation->GetTrack2Count();
-  TRACE_FUNCTION_INT(controlCount);
+  MainConfig::alarmInformation = new AlarmInformation();
+  MainConfig::alarmInformation->SQLRead(MainConfig::database);
 }
 
 /*****************************************************************************!

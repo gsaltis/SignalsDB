@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : AlarmDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : AlarmDisplayForm.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _alarmdisplaywindow_h_
-#define _alarmdisplaywindow_h_
+#ifndef _alarmdisplayform_h_
+#define _alarmdisplayform_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,36 +13,37 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
-#include "AlarmDisplayForm.h"
+#include "SignalDisplayForm.h"
+#include "NavigationWindow.h"
 #include "AlarmInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define ALARM_DISPLAY_WINDOW_X          200
-#define ALARM_DISPLAY_WINDOW_Y          200
-#define ALARM_DISPLAY_WINDOW_WIDTH      200
-#define ALARM_DISPLAY_WINDOW_HEIGHT     200
+#define ALARM_DISPLAY_FORM_X        200
+#define ALARM_DISPLAY_FORM_Y        200
+#define ALARM_DISPLAY_FORM_WIDTH    200
+#define ALARM_DISPLAY_FORM_HEIGHT   200
 
 /*****************************************************************************!
- * Exported Class : AlarmDisplayWindow
+ * Exported Class : AlarmDisplayForm
  *****************************************************************************/
-class AlarmDisplayWindow : public SignalDisplayWindow
+class AlarmDisplayForm : public SignalDisplayForm
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  AlarmDisplayWindow            (QString InText);
+  AlarmDisplayForm          ();
 
  //! Destructor
  public :
-  ~AlarmDisplayWindow           ();
+  ~AlarmDisplayForm         ();
 
  //! Public Methods
  public :
@@ -52,8 +53,7 @@ class AlarmDisplayWindow : public SignalDisplayWindow
 
  //! Protected Methods
  protected :
-  void                          resizeEvent             (QResizeEvent* InEvent);
-  
+
  //! Protected Data
  protected :
 
@@ -62,22 +62,33 @@ class AlarmDisplayWindow : public SignalDisplayWindow
   void                          initialize              ();
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
-  void                          SetAlarmInformation     ();
-  
+  void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          CreateConnections       (void);
+  void                          SetTrackInformation     (AlarmSignalPair* InPair);
+
  //! Private Data
  private :
-  AlarmDisplayForm*             alarmForm;
-  AlarmInformation*             alarmInfo;
-  
+  NavigationWindow*             navigationWindow;
+  AlarmInformation*             alarmInformation;
+  QLabel*                       AlarmIDLabel;
+  int                           currentEquipIndex;
+  QLabel*                       Track3Label;
+  QLabel*                       SignalIDLabel;
+
  //! Public Slots
  public slots :
-
+  void                          SlotNextElement         (void);
+  void                          SlotPreviousElement     (void);
+  void                          SlotNextDifferElement   (void);
+  void                          SlotPrevDifferElement   (void);
+  
  //! Public Signals
  signals :
+  void                          SignalSetCurrentAlarmIndex (int InCurrentAlarmIndex);
 
  //! Public Actions
  public :
 
 };
 
-#endif /* _alarmdisplaywindow_h_*/
+#endif /* _alarmdisplayform_h_*/

@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUAlarmSignal.h
- * DATE         : November 20 2023
+ * FILE NAME    : AlarmSignalPair.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncualarmsignal_h_
-#define _ncualarmsignal_h_
+#ifndef _alarmsignalpair_h_
+#define _alarmsignalpair_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,42 +17,38 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "NCUSignal.h"
+#include "NCUAlarmSignal.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Class : NCUAlarmSignal
+ * Exported Class : AlarmSignalPair
  *****************************************************************************/
-class NCUAlarmSignal : public NCUSignal
+class AlarmSignalPair : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUAlarmSignal                ();
+  AlarmSignalPair           (int InID, int SID, NCUAlarmSignal* InTrack2Signal, NCUAlarmSignal* InTrack3Signal);
 
  //! Destructor
  public :
-  ~NCUAlarmSignal               ();
+  ~AlarmSignalPair          ();
 
  //! Public Methods
  public :
-  bool                                  Equal                   (NCUAlarmSignal* InAlarm);
-  
+  int                           GetID                   ();
+  int                           GetSID                  ();
+  void                          AddTrack3Signal         (NCUAlarmSignal* InTrack3);
+  NCUAlarmSignal*               GetTrack2               ();
+  NCUAlarmSignal*               GetTrack3               ();
+  bool                          Differ                  ();
+
  //! Public Data
  public :
-  QString                               AlarmName;
-  QString                               Level;
-  QString                               ExpRPN;
-  QString                               EXPFull;
-  QString                               Delay;
-  QString                               SuppressRPN;
-  QString                               SuppressFull;
-  QString                               Relay;
-  QString                               Help;
 
  //! Protected Methods
  protected :
@@ -65,7 +61,11 @@ class NCUAlarmSignal : public NCUSignal
 
  //! Private Data
  private :
-
+  NCUAlarmSignal*               Track2Signal;
+  NCUAlarmSignal*               Track3Signal;
+  int                           id;
+  int                           sid;
+  
  //! Public Slots
  public slots :
 
@@ -77,4 +77,4 @@ class NCUAlarmSignal : public NCUSignal
 
 };
 
-#endif /* _ncualarmsignal_h_*/
+#endif /* _alarmsignalpair_h_*/
