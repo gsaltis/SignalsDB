@@ -33,7 +33,7 @@ class ElementDisplayLine : public QWidget
 
  //! Constructors
  public :
-  ElementDisplayLine            (QString InLabelText, QColor InBackgroundColor);
+  ElementDisplayLine            (QString InLabelText, QColor InBackgroundColor, QColor InValueColor);
 
  //! Destructor
  public :
@@ -75,7 +75,8 @@ class ElementDisplayLine : public QWidget
   QLabel*                       Spacer;
   QColor                        SpacerColor;
   int                           SpacerWidth;
-  
+  QColor                        ValueColor;
+
  //! Public Slots
  public slots :
 

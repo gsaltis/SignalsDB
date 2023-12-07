@@ -73,7 +73,8 @@ class ControlDisplayForm : public SignalDisplayForm
   QLabel*                       ControlIDLabel;
   int                           currentEquipIndex;
   QLabel*                       Track3Label;
-  
+  QLabel*                       SignalIDLabel;
+
  //! Public Slots
  public slots :
   void                          SlotNextElement         (void);

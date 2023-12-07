@@ -38,7 +38,7 @@ SOURCES                         += \
 				   EquipmentDisplayWindow.cpp                   \
 				   EquipmentInformation.cpp                     \
 				   EquipmentSignalPair.cpp                      \
-				   Equipmentdisplayform.cpp                     \
+				   EquipmentDisplayform.cpp                     \
 				   MainConfig.cpp                               \
 				   MainDisplayWindow.cpp                        \
 				   MainWindow.cpp                               \

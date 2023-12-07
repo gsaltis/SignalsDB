@@ -140,7 +140,7 @@ EquipmentDisplayForm::CreateSubWindows()
   y = 55;
   n = 0;
   for ( auto i : labelNames ) {
-    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2]);
+    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2], ValueColors[n % 2]);
     elementLine->setParent(this);
     elementLine->move(0, y);
     elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT);

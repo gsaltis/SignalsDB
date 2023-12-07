@@ -86,8 +86,8 @@ ControlDisplayForm::CreateSubWindows()
     QColor(0xEC, 0xEC, 0xEC),
     QColor(0xEC, 0xEC, 0xEC)
   };
-  labelNames << "Type ID"
-             << "Control Name"
+
+  labelNames << "Control Name"
              << "Unit"
              << "Signal Index"
              << "Signal Channel"
@@ -117,6 +117,39 @@ ControlDisplayForm::CreateSubWindows()
 
   y = 30;
   
+  //!
+  y = 10;
+  label = new QLabel();
+  label->setParent(this);
+  label->move(x1, y);
+  label->resize(225, labelHeight);
+  label->setFont(labelFont);
+  label->setText(QString("Control ID : "));
+  label->setAlignment(Qt::AlignRight);
+
+  ControlIDLabel = new QLabel(this);
+  ControlIDLabel->move(x1 + 230, y);
+  ControlIDLabel->resize(80, labelHeight);
+  ControlIDLabel->setAlignment(Qt::AlignLeft);
+  ControlIDLabel->setFont(valueFont);
+
+  y += labelHeight;
+  label = new QLabel();
+  label->setParent(this);
+  label->move(x1, y);
+  label->resize(225, labelHeight);
+  label->setFont(labelFont);
+  label->setText(QString("Signal ID : "));
+  label->setAlignment(Qt::AlignRight);
+
+  SignalIDLabel = new QLabel(this);
+  SignalIDLabel->move(x1 + 230, y);
+  SignalIDLabel->resize(80, labelHeight);
+  SignalIDLabel->setAlignment(Qt::AlignLeft);
+  SignalIDLabel->setFont(valueFont);
+
+  //!
+  y += labelHeight + 5;
   label = new QLabel();
   label->setParent(this);
   label->move(x2, y);
@@ -134,27 +167,12 @@ ControlDisplayForm::CreateSubWindows()
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   Track3Label = label;
   
+  
   //!
-  y = 10;
-  label = new QLabel();
-  label->setParent(this);
-  label->move(x1, y);
-  label->resize(225, labelHeight);
-  label->setFont(labelFont);
-  label->setText(QString("Control ID : "));
-  label->setAlignment(Qt::AlignRight);
-
-  ControlIDLabel = new QLabel(this);
-  ControlIDLabel->move(x1 + 230, y);
-  ControlIDLabel->resize(80, labelHeight);
-  ControlIDLabel->setAlignment(Qt::AlignLeft);
-  ControlIDLabel->setFont(valueFont);
-
-  //!
-  y = 55;
+  y += headingLabelHeight;
   n = 0;
   for ( auto i : labelNames ) {
-    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2]);
+    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2], ValueColors[n % 2]);
     elementLine->setParent(this);
     elementLine->move(0, y);
     elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT);
@@ -357,7 +375,8 @@ ControlDisplayForm::SetTrackInformation
   NCUControlSignal*                     track3;
 
   ControlIDLabel->setText(QString("%1").arg(InPair->GetID()));
-
+  SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
+  
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
 
@@ -367,7 +386,6 @@ ControlDisplayForm::SetTrackInformation
 
   if ( track2 ) {
     i = 0;
-    elementLines[i++]->SetTrack2Value(QString("%1").arg(track2->Type));
     elementLines[i++]->SetTrack2Value(track2->CTRLName);
     elementLines[i++]->SetTrack2Value(track2->Unit);
     elementLines[i++]->SetTrack2Value(track2->SIndx);
@@ -394,7 +412,6 @@ ControlDisplayForm::SetTrackInformation
 
   if ( track3 ) {
     i = 0;
-    elementLines[i++]->SetTrack3Value(QString("%1").arg(track3->Type));
     elementLines[i++]->SetTrack3Value(track3->CTRLName);
     elementLines[i++]->SetTrack3Value(track3->Unit);
     elementLines[i++]->SetTrack3Value(track3->SIndx);

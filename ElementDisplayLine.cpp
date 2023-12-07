@@ -21,7 +21,7 @@
  * Function : ElementDisplayLine
  *****************************************************************************/
 ElementDisplayLine::ElementDisplayLine
-(QString InLabelText, QColor InBackgroundColor) : QWidget()
+(QString InLabelText, QColor InBackgroundColor, QColor InValueColor) : QWidget()
 {
   QPalette                              pal;
 
@@ -30,6 +30,7 @@ ElementDisplayLine::ElementDisplayLine
   SpacerColor = InBackgroundColor;
   SpacerWidth = 5;
   SignalLabelWidth = 240;
+  ValueColor = InValueColor;
   
   pal = palette();
   pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
@@ -76,9 +77,10 @@ ElementDisplayLine::CreateSubWindows()
   SignalLabel->move(x1, 0);
   SignalLabel->resize(SignalLabelWidth, lineHeight);
   SignalLabel->setFont(labelFont);
-  SignalLabel->setText(labelText + QString(" : "));
+  SignalLabel->setText(labelText);
   SignalLabel->setAlignment(Qt::AlignRight | Qt::AlignTop);
-  SignalLabel->setMargin(4);
+  // SignalLabel->setMargin(4);
+  SignalLabel->setIndent(5);
 
   pal = SignalLabel->palette();
   pal.setBrush(QPalette::Window, QBrush(QColor(backgroundColor)));
@@ -110,10 +112,19 @@ ElementDisplayLine::CreateSubWindows()
   Spacer->resize(SpacerWidth, size().height());
   Spacer->move(0, 0);
   Spacer->setAutoFillBackground(true);
-  
+
+  //!
   pal = Spacer->palette();
   pal.setBrush(QPalette::Window, QBrush(SpacerColor));
   Spacer->setPalette(pal);
+
+  pal = Track2Value->palette();
+  pal.setBrush(QPalette::Window, QBrush(ValueColor));
+  Track2Value->setPalette(pal);
+
+  pal = Track3Value->palette();
+  pal.setBrush(QPalette::Window, QBrush(ValueColor));
+  Track3Value->setPalette(pal);
 }
 
 /*****************************************************************************!

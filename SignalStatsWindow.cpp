@@ -85,7 +85,7 @@ SignalStatsWindow::CreateSubWindows()
   Track2MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
   Track2DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
   CombinedSignalsLabel = CreateDisplayLabel(x4, y, labelWidth, labelHeight);
-  y += labelHeight + 10;
+  y += labelHeight;
 
   CreateSimpleLabel("TRACK 3", x0, y, labelWidth2, labelHeight);
   Track3TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);

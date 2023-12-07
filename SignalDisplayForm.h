@@ -54,7 +54,8 @@ class SignalDisplayForm : public QWidget
   
  //! Protected Data
  protected :
-
+  QColor                        ValueColors[2];
+  
  //! Private Methods
  private :
   void                          initialize              ();
