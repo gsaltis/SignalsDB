@@ -24,8 +24,8 @@ SignalDisplayForm::SignalDisplayForm
 () : QWidget()
 {
   QPalette pal;
-  ValueColors[0] = QColor("#A9CCE3");
-  ValueColors[1] = QColor("#AED6F1");
+  ValueColors[0] = QColor("#E5E7E9");
+  ValueColors[1] = QColor("#D7DBDD");
   
   pal = palette();
   pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
