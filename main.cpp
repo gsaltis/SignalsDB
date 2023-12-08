@@ -106,6 +106,7 @@ Initialize
   MainOpenDB();
   MainConfig::equipmentInformation = new EquipmentInformation();
   MainConfig::equipmentInformation->SQLRead(MainConfig::database);
+
   MainConfig::controlInformation = new ControlInformation();
   MainConfig::controlInformation->SQLRead(MainConfig::database);
 
@@ -114,6 +115,9 @@ Initialize
 
   MainConfig::settingInformation = new SettingInformation();
   MainConfig::settingInformation->SQLRead(MainConfig::database);
+
+  MainConfig::sampleInformation = new SampleInformation();
+  MainConfig::sampleInformation->SQLRead(MainConfig::database);
 }
 
 /*****************************************************************************!

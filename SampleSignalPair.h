@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUSampleSignal.h
- * DATE         : November 20 2023
+ * FILE NAME    : SampleSignalPair.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncusamplesignal_h_
-#define _ncusamplesignal_h_
+#ifndef _samplesignalpair_h_
+#define _samplesignalpair_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -17,50 +17,38 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "NCUSignal.h"
+#include "NCUSampleSignal.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Class : NCUSampleSignal
+ * Exported Class : SampleSignalPair
  *****************************************************************************/
-class NCUSampleSignal : public NCUSignal
+class SampleSignalPair : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUSampleSignal               ();
+  SampleSignalPair           (int InID, int SID, NCUSampleSignal* InTrack2Signal, NCUSampleSignal* InTrack3Signal);
 
  //! Destructor
  public :
-  ~NCUSampleSignal              ();
+  ~SampleSignalPair          ();
 
  //! Public Methods
  public :
-  bool                                  Equal   (NCUSampleSignal* InSample);
-  
+  int                           GetID                   ();
+  int                           GetSID                  ();
+  void                          AddTrack3Signal         (NCUSampleSignal* InTrack3);
+  NCUSampleSignal*             GetTrack2               ();
+  NCUSampleSignal*             GetTrack3               ();
+  bool                          Differ                  ();
+
  //! Public Data
  public :
-  QString                               SAMPLEName;
-  QString                               Unit;
-  QString                               SIndx;
-  QString                               SChan;
-  QString                               ValType;
-  QString                               StorThreshold;
-  QString                               StorInt;
-  QString                               EvalExpRPN;
-  QString                               EvalExpFull;
-  QString                               Range;
-  QString                               DisplayAttr;
-  QString                               DisplayLvl;
-  QString                               DisplayID;
-  QString                               DispFmt;
-  QString                               DispExpRPN;
-  QString                               DispExpFull;
-  QString                               Enums;
 
  //! Protected Methods
  protected :
@@ -73,7 +61,11 @@ class NCUSampleSignal : public NCUSignal
 
  //! Private Data
  private :
-
+  NCUSampleSignal*              Track2Signal;
+  NCUSampleSignal*              Track3Signal;
+  int                           id;
+  int                           sid;
+  
  //! Public Slots
  public slots :
 
@@ -85,4 +77,4 @@ class NCUSampleSignal : public NCUSignal
 
 };
 
-#endif /* _ncusamplesignal_h_*/
+#endif /* _samplesignalpair_h_*/

@@ -22,6 +22,7 @@
 #include "ControlInformation.h"
 #include "AlarmInformation.h"
 #include "SettingInformation.h"
+#include "SampleInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -52,6 +53,7 @@ class MainConfig : public QWidget
   static ControlInformation*            controlInformation;
   static AlarmInformation*              alarmInformation;
   static SettingInformation*            settingInformation;
+  static SampleInformation*             sampleInformation;
   
  //! Protected Methods
  protected :

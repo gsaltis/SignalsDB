@@ -39,10 +39,14 @@ NCUSampleSignal::~NCUSampleSignal
  * Function : opeator==
  *****************************************************************************/
 bool
-NCUSampleSignal::operator==
+NCUSampleSignal::Equal
 (NCUSampleSignal* InSample)
 {
   if ( Unit != InSample->Unit ) {
+    return false;
+  }
+  
+  if ( SAMPLEName != InSample->SAMPLEName ) {
     return false;
   }
   

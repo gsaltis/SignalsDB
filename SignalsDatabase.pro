@@ -52,7 +52,10 @@ SOURCES                         += \
 				   NCUSampleSignal.cpp                          \
 				   NCUSettingSignal.cpp                         \
 				   NCUSignal.cpp                                \
+                                   SampleDisplayForm.cpp                        \
 				   SampleDisplayWindow.cpp                      \
+                                   SampleInformation.cpp                        \
+                                   SampleSignalPair.cpp                         \
                                    SettingDisplayForm.cpp                       \
 				   SettingDisplayWindow.cpp                     \
                                    SettingInformation.cpp                       \
@@ -92,7 +95,10 @@ HEADERS                         += \
 				   NCUSampleSignal.h                            \
 				   NCUSettingSignal.h                           \
 				   NCUSignal.h                                  \
+                                   SampleDisplayForm.h                          \
 				   SampleDisplayWindow.h                        \
+                                   SampleInformation.h                          \
+                                   SampleSignalPair.h                           \
                                    SettingDisplayForm.h                         \
 				   SettingDisplayWindow.h                       \
                                    SettingInformation.h                         \

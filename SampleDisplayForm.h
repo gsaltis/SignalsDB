@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : SampleDisplayWindow.h
- * DATE         : November 20 2023
+ * FILE NAME    : SampleDisplayForm.h
+ * DATE         : November 22 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _sampledisplaywindow_h_
-#define _sampledisplaywindow_h_
+#ifndef _sampledisplayform_h_
+#define _sampledisplayform_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,35 +13,37 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QLabel>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "SignalDisplayWindow.h"
-#include "SampleDisplayForm.h"
+#include "SignalDisplayForm.h"
+#include "NavigationWindow.h"
+#include "SampleInformation.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define SAMPLE_DISPLAY_WINDOW_X         200
-#define SAMPLE_DISPLAY_WINDOW_Y         200
-#define SAMPLE_DISPLAY_WINDOW_WIDTH     200
-#define SAMPLE_DISPLAY_WINDOW_HEIGHT    200
+#define SAMPLE_DISPLAY_FORM_X        200
+#define SAMPLE_DISPLAY_FORM_Y        200
+#define SAMPLE_DISPLAY_FORM_WIDTH    200
+#define SAMPLE_DISPLAY_FORM_HEIGHT   200
 
 /*****************************************************************************!
- * Exported Class : SampleDisplayWindow
+ * Exported Class : SampleDisplayForm
  *****************************************************************************/
-class SampleDisplayWindow : public SignalDisplayWindow
+class SampleDisplayForm : public SignalDisplayForm
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  SampleDisplayWindow           (QString InText);
+  SampleDisplayForm          ();
 
  //! Destructor
  public :
-  ~SampleDisplayWindow          ();
+  ~SampleDisplayForm         ();
 
  //! Public Methods
  public :
@@ -61,21 +63,32 @@ class SampleDisplayWindow : public SignalDisplayWindow
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
-  void                          SetSampleInformation    (void);
+  void                          CreateConnections       (void);
+  void                          SetTrackInformation     (SampleSignalPair* InPair);
 
  //! Private Data
  private :
-  SampleDisplayForm*            sampleDisplayFormWindow;
+  NavigationWindow*             navigationWindow;
+  SampleInformation*            sampleInformation;
+  QLabel*                       SampleIDLabel;
+  int                           currentEquipIndex;
+  QLabel*                       Track3Label;
+  QLabel*                       SignalIDLabel;
 
  //! Public Slots
  public slots :
-
+  void                          SlotNextElement         (void);
+  void                          SlotPreviousElement     (void);
+  void                          SlotNextDifferElement   (void);
+  void                          SlotPrevDifferElement   (void);
+  
  //! Public Signals
  signals :
+  void                          SignalSetCurrentSampleIndex (int InCurrentSampleIndex);
 
  //! Public Actions
  public :
 
 };
 
-#endif /* _sampledisplaywindow_h_*/
+#endif /* _sampledisplayform_h_*/

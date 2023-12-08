@@ -35,6 +35,9 @@ MainConfig::alarmInformation = NULL;
 SettingInformation*
 MainConfig::settingInformation = NULL;
 
+SampleInformation*
+MainConfig::sampleInformation = NULL;
+
 /*****************************************************************************!
  * Function : MainConfig
  *****************************************************************************/

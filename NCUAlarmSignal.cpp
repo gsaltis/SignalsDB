@@ -41,6 +41,10 @@ bool
 NCUAlarmSignal::Equal
 (NCUAlarmSignal* InAlarm)
 {
+  if ( AlarmName != InAlarm->AlarmName ) {
+    return false;
+  }
+  
   if ( Level != InAlarm->Level ) {
     return false;
   }

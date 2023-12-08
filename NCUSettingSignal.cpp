@@ -41,6 +41,10 @@ bool
 NCUSettingSignal::Equal
 (NCUSettingSignal* InSetting)
 {
+  if ( SETName != InSetting->SETName ) {
+    return false;
+  }
+  
   if ( Unit != InSetting->Unit ) {
     return false;
   }
