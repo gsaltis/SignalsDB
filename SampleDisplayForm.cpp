@@ -167,7 +167,6 @@ SampleDisplayForm::resizeEvent
   int                                   x4;
   int                                   w2;
   QPoint                                p2;
-  int                                   n;
   QSize					size;
   QSize                                 s2;
   int                                   h2;
@@ -177,7 +176,7 @@ SampleDisplayForm::resizeEvent
   int                                   navigationWindowY;
   int                                   navigationWindowW;
   int                                   navigationWindowH;
-  ElementDisplayLine*                   line;
+  ElementDisplayLine*                   lastLine;
   
   size = InEvent->size();
   width = size.width();
@@ -197,19 +196,18 @@ SampleDisplayForm::resizeEvent
   for ( auto i : elementLines ) {
     i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
   }
+  lastLine = NULL;
+  for ( auto i : elementLines ) {
+    i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
+    lastLine = i;
+  }
 
-  n = elementLines.size() - 1;
-  line = elementLines[n];
-  p2 = line->pos();
+  p2 = lastLine->pos();
   y2 = p2.y();
-  s2 = line->size();
+  s2 = lastLine->size();
 
-  TRACE_FUNCTION_INT(y2);
-  TRACE_FUNCTION_INT(height);
   h2 = (height - (NAVIGATION_WINDOW_HEIGHT + y2));
-  TRACE_FUNCTION_INT(h2);
-        
-  line->resize(s2.width(), h2);
+  lastLine->resize(s2.width(), h2);
   
   if ( navigationWindow ) {
     navigationWindow->move(navigationWindowX, navigationWindowY);
@@ -291,6 +289,8 @@ void
 SampleDisplayForm::SetTrackInformation
 (SampleSignalPair* InPair)
 {
+  int                                   keysSize;
+  QStringList                           keys;
   
   int                                   i;
   NCUSampleSignal*                      track2;
@@ -302,54 +302,56 @@ SampleDisplayForm::SetTrackInformation
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Clear();
+  keys = elementLines.keys();
+  keysSize = keys.size();
+  for ( i = 0 ; i < keysSize ; i++ ) {
+    elementLines[keys[i]]->Clear();
   }
 
   if ( track2 ) {
     i = 0;
-    elementLines[i++]->SetTrack2Value(track2->SAMPLEName);
-    elementLines[i++]->SetTrack2Value(track2->Unit);
-    elementLines[i++]->SetTrack2Value(track2->SIndx);
-    elementLines[i++]->SetTrack2Value(track2->SChan);
-    elementLines[i++]->SetTrack2Value(track2->ValType);
-    elementLines[i++]->SetTrack2Value(track2->StorThreshold);
-    elementLines[i++]->SetTrack2Value(track2->StorInt);
-    elementLines[i++]->SetTrack2Value(track2->EvalExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->EvalExpFull);
-    elementLines[i++]->SetTrack2Value(track2->Range);
-    elementLines[i++]->SetTrack2Value(track2->DisplayAttr);
-    elementLines[i++]->SetTrack2Value(track2->DisplayLvl);
-    elementLines[i++]->SetTrack2Value(track2->DisplayID);
-    elementLines[i++]->SetTrack2Value(track2->DispFmt);
-    elementLines[i++]->SetTrack2Value(track2->DispExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->DispExpFull);
-    elementLines[i++]->SetTrack2Value(track2->Enums);
+    elementLines["SAMPLEName"]->SetTrack2Value(track2->SAMPLEName);
+    elementLines["Unit"]->SetTrack2Value(track2->Unit);
+    elementLines["SIndx"]->SetTrack2Value(track2->SIndx);
+    elementLines["SChan"]->SetTrack2Value(track2->SChan);
+    elementLines["ValType"]->SetTrack2Value(track2->ValType);
+    elementLines["StorThreshold"]->SetTrack2Value(track2->StorThreshold);
+    elementLines["StorInt"]->SetTrack2Value(track2->StorInt);
+    elementLines["EvalExpRPN"]->SetTrack2Value(track2->EvalExpRPN);
+    elementLines["EvalExpFull"]->SetTrack2Value(track2->EvalExpFull);
+    elementLines["Range"]->SetTrack2Value(track2->Range);
+    elementLines["DisplayAttr"]->SetTrack2Value(track2->DisplayAttr);
+    elementLines["DisplayLvl"]->SetTrack2Value(track2->DisplayLvl);
+    elementLines["DisplayID"]->SetTrack2Value(track2->DisplayID);
+    elementLines["DispFmt"]->SetTrack2Value(track2->DispFmt);
+    elementLines["DispExpRPN"]->SetTrack2Value(track2->DispExpRPN);
+    elementLines["DispExpFull"]->SetTrack2Value(track2->DispExpFull);
+    elementLines["Enums"]->SetTrack2Value(track2->Enums);
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines[i++]->SetTrack3Value(track3->SAMPLEName);
-    elementLines[i++]->SetTrack3Value(track3->Unit);
-    elementLines[i++]->SetTrack3Value(track3->SIndx);
-    elementLines[i++]->SetTrack3Value(track3->SChan);
-    elementLines[i++]->SetTrack3Value(track3->ValType);
-    elementLines[i++]->SetTrack3Value(track3->StorThreshold);
-    elementLines[i++]->SetTrack3Value(track3->StorInt);
-    elementLines[i++]->SetTrack3Value(track3->EvalExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->EvalExpFull);
-    elementLines[i++]->SetTrack3Value(track3->Range);
-    elementLines[i++]->SetTrack3Value(track3->DisplayAttr);
-    elementLines[i++]->SetTrack3Value(track3->DisplayLvl);
-    elementLines[i++]->SetTrack3Value(track3->DisplayID);
-    elementLines[i++]->SetTrack3Value(track3->DispFmt);
-    elementLines[i++]->SetTrack3Value(track3->DispExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->DispExpFull);
-    elementLines[i++]->SetTrack3Value(track3->Enums);
+    elementLines["SAMPLEName"]->SetTrack3Value(track3->SAMPLEName);
+    elementLines["Unit"]->SetTrack3Value(track3->Unit);
+    elementLines["SIndx"]->SetTrack3Value(track3->SIndx);
+    elementLines["SChan"]->SetTrack3Value(track3->SChan);
+    elementLines["ValType"]->SetTrack3Value(track3->ValType);
+    elementLines["StorThreshold"]->SetTrack3Value(track3->StorThreshold);
+    elementLines["StorInt"]->SetTrack3Value(track3->StorInt);
+    elementLines["EvalExpRPN"]->SetTrack3Value(track3->EvalExpRPN);
+    elementLines["EvalExpFull"]->SetTrack3Value(track3->EvalExpFull);
+    elementLines["Range"]->SetTrack3Value(track3->Range);
+    elementLines["DisplayAttr"]->SetTrack3Value(track3->DisplayAttr);
+    elementLines["DisplayLvl"]->SetTrack3Value(track3->DisplayLvl);
+    elementLines["DisplayID"]->SetTrack3Value(track3->DisplayID);
+    elementLines["DispFmt"]->SetTrack3Value(track3->DispFmt);
+    elementLines["DispExpRPN"]->SetTrack3Value(track3->DispExpRPN);
+    elementLines["DispExpFull"]->SetTrack3Value(track3->DispExpFull);
+    elementLines["Enums"]->SetTrack3Value(track3->Enums);
   }
-
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Compare();
+  
+  for ( i = 0 ; i < keysSize ; i++ ) {
+    elementLines[keys[i]]->Compare();
   }
 }
 

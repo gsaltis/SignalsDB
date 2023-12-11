@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -96,6 +97,8 @@ void
 SignalDisplayForm::AddElementLines
 (QString InFormName, int &InY)
 {
+  int                                   displayIndex;
+  QString                               key;
   int                                   w;
   int                                   y;
   ElementDisplayLineFormat*             lineFormat;
@@ -113,19 +116,23 @@ SignalDisplayForm::AddElementLines
 
   y = InY;
   m = lineFormats.size();
+  displayIndex = 0;
   for ( n = 0 ; n < m ; n++ ) {
     lineFormat = lineFormats[n];
-    elementLine = new ElementDisplayLine(lineFormat->GetElementName(), backgroundColors[n % 2], ValueColors[n % 2],
+    elementLine = new ElementDisplayLine(lineFormat->GetElementName(), backgroundColors[displayIndex % 2], ValueColors[displayIndex % 2],
                                          lineFormat->GetDifferenceSeverity() == "Major"
                                          ? ElementDisplayLine::Major : ElementDisplayLine::Minor);
     elementLine->setParent(this);
     elementLine->move(0, y);
     elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT * lineFormat->GetLineHeightMultiplier());
-    elementLines << elementLine;
+    key = lineFormat->GetElementKey();
+    elementLines[key] = elementLine;
+    y += ELEMENT_DISPLAY_LINE_HEIGHT * lineFormat->GetLineHeightMultiplier();
     if ( lineFormat->GetLineHeightMultiplier() == 0 ) {
       elementLine->hide();
+      continue;
     }
-    y += ELEMENT_DISPLAY_LINE_HEIGHT * lineFormat->GetLineHeightMultiplier();
+    displayIndex++;
   }
   InY = y;
 }

@@ -167,7 +167,6 @@ ControlDisplayForm::resizeEvent
   int                                   x4;
   int                                   w2;
   QPoint                                p2;
-  int                                   n;
   QSize					size;
   QSize                                 s2;
   int                                   h2;
@@ -177,7 +176,7 @@ ControlDisplayForm::resizeEvent
   int                                   navigationWindowY;
   int                                   navigationWindowW;
   int                                   navigationWindowH;
-  ElementDisplayLine*                   line;
+  ElementDisplayLine*                   lastLine;
   
   size = InEvent->size();
   width = size.width();
@@ -193,23 +192,19 @@ ControlDisplayForm::resizeEvent
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
   Track3Label->move(x4, Track3Label->pos().y());
-  
+
+  lastLine = NULL;
   for ( auto i : elementLines ) {
     i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
+    lastLine = i;
   }
 
-  n = elementLines.size() - 1;
-  line = elementLines[n];
-  p2 = line->pos();
+  p2 = lastLine->pos();
   y2 = p2.y();
-  s2 = line->size();
+  s2 = lastLine->size();
 
-  TRACE_FUNCTION_INT(y2);
-  TRACE_FUNCTION_INT(height);
   h2 = (height - (NAVIGATION_WINDOW_HEIGHT + y2));
-  TRACE_FUNCTION_INT(h2);
-        
-  line->resize(s2.width(), h2);
+  lastLine->resize(s2.width(), h2);
   
   if ( navigationWindow ) {
     navigationWindow->move(navigationWindowX, navigationWindowY);
@@ -291,6 +286,8 @@ void
 ControlDisplayForm::SetTrackInformation
 (ControlSignalPair* InPair)
 {
+  int                                   keysSize;
+  QStringList                           keys;
   
   int                                   i;
   NCUControlSignal*                     track2;
@@ -302,64 +299,66 @@ ControlDisplayForm::SetTrackInformation
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Clear();
+  keys = elementLines.keys();
+  keysSize  = keys.size();
+  for ( i = 0 ; i < keysSize ; i ++) {
+    elementLines[keys[i]]->Clear();
   }
 
   if ( track2 ) {
     i = 0;
-    elementLines[i++]->SetTrack2Value(track2->CTRLName);
-    elementLines[i++]->SetTrack2Value(track2->Unit);
-    elementLines[i++]->SetTrack2Value(track2->SIndx);
-    elementLines[i++]->SetTrack2Value(track2->SChan);
-    elementLines[i++]->SetTrack2Value(track2->ValType);
-    elementLines[i++]->SetTrack2Value(track2->Defaults);
-    elementLines[i++]->SetTrack2Value(track2->Range);
-    elementLines[i++]->SetTrack2Value(track2->DisplayAttr);
-    elementLines[i++]->SetTrack2Value(track2->CtrlAttr);
-    elementLines[i++]->SetTrack2Value(track2->Threshold);
-    elementLines[i++]->SetTrack2Value(track2->CableExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->CableExpFull);
-    elementLines[i++]->SetTrack2Value(track2->Auth);
-    elementLines[i++]->SetTrack2Value(track2->DisplayID);
-    elementLines[i++]->SetTrack2Value(track2->DispFmt);
-    elementLines[i++]->SetTrack2Value(track2->ChID);
-    elementLines[i++]->SetTrack2Value(track2->CStep);
-    elementLines[i++]->SetTrack2Value(track2->CParam);
-    elementLines[i++]->SetTrack2Value(track2->CexpRPN);
-    elementLines[i++]->SetTrack2Value(track2->CexpFullDispExp);
-    elementLines[i++]->SetTrack2Value(track2->States);
-    elementLines[i++]->SetTrack2Value(track2->CAction);
+    elementLines["CTRLName"]->SetTrack2Value(track2->CTRLName);
+    elementLines["Unit"]->SetTrack2Value(track2->Unit);
+    elementLines["SIndx"]->SetTrack2Value(track2->SIndx);
+    elementLines["SChan"]->SetTrack2Value(track2->SChan);
+    elementLines["ValType"]->SetTrack2Value(track2->ValType);
+    elementLines["Defaults"]->SetTrack2Value(track2->Defaults);
+    elementLines["Range"]->SetTrack2Value(track2->Range);
+    elementLines["DisplayAttr"]->SetTrack2Value(track2->DisplayAttr);
+    elementLines["CtrlAttr"]->SetTrack2Value(track2->CtrlAttr);
+    elementLines["Threshold"]->SetTrack2Value(track2->Threshold);
+    elementLines["CableExpRPN"]->SetTrack2Value(track2->CableExpRPN);
+    elementLines["CableExpFull"]->SetTrack2Value(track2->CableExpFull);
+    elementLines["Auth"]->SetTrack2Value(track2->Auth);
+    elementLines["DisplayID"]->SetTrack2Value(track2->DisplayID);
+    elementLines["DispFmt"]->SetTrack2Value(track2->DispFmt);
+    elementLines["ChID"]->SetTrack2Value(track2->ChID);
+    elementLines["CStep"]->SetTrack2Value(track2->CStep);
+    elementLines["CParam"]->SetTrack2Value(track2->CParam);
+    elementLines["CexpRPN"]->SetTrack2Value(track2->CexpRPN);
+    elementLines["CexpFullDispExp"]->SetTrack2Value(track2->CexpFullDispExp);
+    elementLines["States"]->SetTrack2Value(track2->States);
+    elementLines["CAction"]->SetTrack2Value(track2->CAction);
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines[i++]->SetTrack3Value(track3->CTRLName);
-    elementLines[i++]->SetTrack3Value(track3->Unit);
-    elementLines[i++]->SetTrack3Value(track3->SIndx);
-    elementLines[i++]->SetTrack3Value(track3->SChan);
-    elementLines[i++]->SetTrack3Value(track3->ValType);
-    elementLines[i++]->SetTrack3Value(track3->Defaults);
-    elementLines[i++]->SetTrack3Value(track3->Range);
-    elementLines[i++]->SetTrack3Value(track3->DisplayAttr);
-    elementLines[i++]->SetTrack3Value(track3->CtrlAttr);
-    elementLines[i++]->SetTrack3Value(track3->Threshold);
-    elementLines[i++]->SetTrack3Value(track3->CableExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->CableExpFull);
-    elementLines[i++]->SetTrack3Value(track3->Auth);
-    elementLines[i++]->SetTrack3Value(track3->DisplayID);
-    elementLines[i++]->SetTrack3Value(track3->DispFmt);
-    elementLines[i++]->SetTrack3Value(track3->ChID);
-    elementLines[i++]->SetTrack3Value(track3->CStep);
-    elementLines[i++]->SetTrack3Value(track3->CParam);
-    elementLines[i++]->SetTrack3Value(track3->CexpRPN);
-    elementLines[i++]->SetTrack3Value(track3->CexpFullDispExp);
-    elementLines[i++]->SetTrack3Value(track3->States);
-    elementLines[i++]->SetTrack3Value(track3->CAction);
+    elementLines["CTRLName"]->SetTrack3Value(track3->CTRLName);
+    elementLines["Unit"]->SetTrack3Value(track3->Unit);
+    elementLines["SIndx"]->SetTrack3Value(track3->SIndx);
+    elementLines["SChan"]->SetTrack3Value(track3->SChan);
+    elementLines["ValType"]->SetTrack3Value(track3->ValType);
+    elementLines["Defaults"]->SetTrack3Value(track3->Defaults);
+    elementLines["Range"]->SetTrack3Value(track3->Range);
+    elementLines["DisplayAttr"]->SetTrack3Value(track3->DisplayAttr);
+    elementLines["CtrlAttr"]->SetTrack3Value(track3->CtrlAttr);
+    elementLines["Threshold"]->SetTrack3Value(track3->Threshold);
+    elementLines["CableExpRPN"]->SetTrack3Value(track3->CableExpRPN);
+    elementLines["CableExpFull"]->SetTrack3Value(track3->CableExpFull);
+    elementLines["Auth"]->SetTrack3Value(track3->Auth);
+    elementLines["DisplayID"]->SetTrack3Value(track3->DisplayID);
+    elementLines["DispFmt"]->SetTrack3Value(track3->DispFmt);
+    elementLines["ChID"]->SetTrack3Value(track3->ChID);
+    elementLines["CStep"]->SetTrack3Value(track3->CStep);
+    elementLines["CParam"]->SetTrack3Value(track3->CParam);
+    elementLines["CexpRPN"]->SetTrack3Value(track3->CexpRPN);
+    elementLines["CexpFullDispExp"]->SetTrack3Value(track3->CexpFullDispExp);
+    elementLines["States"]->SetTrack3Value(track3->States);
+    elementLines["CAction"]->SetTrack3Value(track3->CAction);
   }
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Compare();
+  for ( i = 0 ; i < keysSize ; i ++) {
+    elementLines[keys[i]]->Compare();
   }
 }
 

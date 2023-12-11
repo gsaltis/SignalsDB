@@ -52,7 +52,6 @@ AlarmDisplayForm::initialize()
 {
   AlarmSignalPair*                      pair;
 
-  TRACE_FUNCTION_START();
   currentEquipIndex = 0;
   alarmInformation = MainConfig::alarmInformation;
   InitializeSubWindows();  
@@ -164,11 +163,11 @@ void
 AlarmDisplayForm::resizeEvent
 (QResizeEvent* InEvent)
 {
+  ElementDisplayLine*                   lastLine;
   int                                   y2;
   int                                   x4;
   int                                   w2;
   QPoint                                p2;
-  int                                   n;
   QSize					size;
   QSize                                 s2;
   int                                   h2;
@@ -178,7 +177,6 @@ AlarmDisplayForm::resizeEvent
   int                                   navigationWindowY;
   int                                   navigationWindowW;
   int                                   navigationWindowH;
-  ElementDisplayLine*                   line;
   
   size = InEvent->size();
   width = size.width();
@@ -194,23 +192,19 @@ AlarmDisplayForm::resizeEvent
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
   Track3Label->move(x4, Track3Label->pos().y());
-  
+
+  lastLine = NULL;
   for ( auto i : elementLines ) {
     i->resize(width, i->size().height());
+    lastLine = i;
   }
 
-  n = elementLines.size() - 1;
-  line = elementLines[n];
-  p2 = line->pos();
+  p2 = lastLine->pos();
   y2 = p2.y();
-  s2 = line->size();
-
-  TRACE_FUNCTION_INT(y2);
-  TRACE_FUNCTION_INT(height);
+  s2 = lastLine->size();
   h2 = (height - (NAVIGATION_WINDOW_HEIGHT + y2));
-  TRACE_FUNCTION_INT(h2);
         
-  line->resize(s2.width(), h2);
+  lastLine->resize(s2.width(), h2);
   
   if ( navigationWindow ) {
     navigationWindow->move(navigationWindowX, navigationWindowY);
@@ -292,51 +286,67 @@ void
 AlarmDisplayForm::SetTrackInformation
 (AlarmSignalPair* InPair)
 {
-  
+  int                                   n;
+  QStringList                           keys;
   int                                   i;
   NCUAlarmSignal*                       track2;
   NCUAlarmSignal*                       track3;
 
+  TRACE_FUNCTION_START();
   AlarmIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Clear();
+  keys = elementLines.keys();
+  n = keys.size();
+  for ( i = 0 ; i < n ; i++ ) {
+    TRACE_FUNCTION_QSTRING(keys[i]);
+    elementLines[keys[i]]->Clear();
   }
 
   if ( track2 ) {
     i = 0;
-    elementLines[i++]->SetTrack2Value(track2->AlarmName);
-    elementLines[i++]->SetTrack2Value(track2->Level);
-    elementLines[i++]->SetTrack2Value(track2->ExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->EXPFull);
-    elementLines[i++]->SetTrack2Value(track2->Delay);
-    elementLines[i++]->SetTrack2Value(track2->SuppressRPN);
-    elementLines[i++]->SetTrack2Value(track2->SuppressFull);
-    elementLines[i++]->SetTrack2Value(track2->Relay);
-    elementLines[i++]->SetTrack2Value(track2->Help);
+    elementLines["AlarmName"]->SetTrack2Value(track2->AlarmName);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["Level"]->SetTrack2Value(track2->Level);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["ExpRPN"]->SetTrack2Value(track2->ExpRPN);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["ExpFull"]->SetTrack2Value(track2->EXPFull);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["Delay"]->SetTrack2Value(track2->Delay);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["SuppressRPN"]->SetTrack2Value(track2->SuppressRPN);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["SuppressFull"]->SetTrack2Value(track2->SuppressFull);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["Relay"]->SetTrack2Value(track2->Relay);
+    TRACE_FUNCTION_LOCATION();
+    elementLines["Help"]->SetTrack2Value(track2->Help);
+    TRACE_FUNCTION_LOCATION();
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines[i++]->SetTrack3Value(track3->AlarmName);
-    elementLines[i++]->SetTrack3Value(track3->Level);
-    elementLines[i++]->SetTrack3Value(track3->ExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->EXPFull);
-    elementLines[i++]->SetTrack3Value(track3->Delay);
-    elementLines[i++]->SetTrack3Value(track3->SuppressRPN);
-    elementLines[i++]->SetTrack3Value(track3->SuppressFull);
-    elementLines[i++]->SetTrack3Value(track3->Relay);
-    elementLines[i++]->SetTrack3Value(track3->Help);
+    elementLines["AlarmName"]->SetTrack3Value(track3->AlarmName);
+    elementLines["Level"]->SetTrack3Value(track3->Level);
+    elementLines["ExpRPN"]->SetTrack3Value(track3->ExpRPN);
+    elementLines["ExpFull"]->SetTrack3Value(track3->EXPFull);
+    elementLines["Delay"]->SetTrack3Value(track3->Delay);
+    elementLines["SuppressRPN"]->SetTrack3Value(track3->SuppressRPN);
+    elementLines["SuppressFull"]->SetTrack3Value(track3->SuppressFull);
+    elementLines["Relay"]->SetTrack3Value(track3->Relay);
+    elementLines["Help"]->SetTrack3Value(track3->Help);
   }
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Compare();
+  keys = elementLines.keys();
+  n = keys.size();
+  for ( i = 0 ; i < n ; i++ ) {
+    elementLines[keys[i]]->Compare();
   }
-
+  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
