@@ -77,10 +77,10 @@ class ControlDisplayForm : public SignalDisplayForm
 
  //! Public Slots
  public slots :
-  void                          SlotNextElement         (void);
-  void                          SlotPreviousElement     (void);
-  void                          SlotNextDifferElement   (void);
-  void                          SlotPrevDifferElement   (void);
+  void                          SlotNextElement         (int InMajorMinorFlags);
+  void                          SlotPreviousElement     (int InMajorMinorFlags);
+  void                          SlotFirstElement        (void);
+  void                          SlotLastElement         (void);
   
  //! Public Signals
  signals :

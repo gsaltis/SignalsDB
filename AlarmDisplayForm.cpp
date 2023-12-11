@@ -225,21 +225,25 @@ void
 AlarmDisplayForm::CreateConnections(void)
 {
   connect(navigationWindow,
-          NavigationWindow::SignalNextDifferElement,
+          NavigationWindow::SignalFirstElement,
           this,
-          AlarmDisplayForm::SlotNextDifferElement);
+          AlarmDisplayForm::SlotFirstElement);
+  
   connect(navigationWindow,
-          NavigationWindow::SignalPrevDifferElement,
+          NavigationWindow::SignalLastElement,
           this,
-          AlarmDisplayForm::SlotPrevDifferElement);
+          AlarmDisplayForm::SlotLastElement);
+  
   connect(navigationWindow,
           NavigationWindow::SignalNextElement,
           this,
           AlarmDisplayForm::SlotNextElement);
+
   connect(navigationWindow,
           NavigationWindow::SignalPreviousElement,
           this,
           AlarmDisplayForm::SlotPreviousElement);
+
   connect(this,
           AlarmDisplayForm::SignalSetCurrentAlarmIndex,
           navigationWindow,
@@ -250,7 +254,8 @@ AlarmDisplayForm::CreateConnections(void)
  * Function : SlotNextElement
  *****************************************************************************/
 void
-AlarmDisplayForm::SlotNextElement(void)
+AlarmDisplayForm::SlotNextElement
+(int )
 {
   AlarmSignalPair*                      pair;
   if ( currentEquipIndex + 1 >= alarmInformation->GetPairCount() ) {
@@ -264,54 +269,11 @@ AlarmDisplayForm::SlotNextElement(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextDifferElement
- *****************************************************************************/
-void
-AlarmDisplayForm::SlotNextDifferElement(void)
-{
-  int                                   i, n;
-  AlarmSignalPair*                      pair;
-  
-  n = alarmInformation->GetPairCount();
-
-  for ( i = currentEquipIndex + 1 ; i < n ; i++ ) {
-    pair = alarmInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
- * Function : SlotPrevDifferElement
- *****************************************************************************/
-void
-AlarmDisplayForm::SlotPrevDifferElement(void)
-{
-  int                                   i;
-  AlarmSignalPair*                      pair;
-  
-  for ( i = currentEquipIndex - 1; i >= 0 ; i-- ) {
-    pair = alarmInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
  * Function : SlotPreviousElement
  *****************************************************************************/
 void
-AlarmDisplayForm::SlotPreviousElement(void)
+AlarmDisplayForm::SlotPreviousElement
+(int )
 {
   AlarmSignalPair*                  pair;
   if ( currentEquipIndex == 0 ) {
@@ -374,5 +336,32 @@ AlarmDisplayForm::SetTrackInformation
   for ( i = 0 ; i < elementLines.size() ; i++ ) {
     elementLines[i]->Compare();
   }
+
+}
+
+/*****************************************************************************!
+ * Function : SlotFirstElement
+ *****************************************************************************/
+void
+AlarmDisplayForm::SlotFirstElement(void)
+{
+  AlarmSignalPair*                  pair;
+  currentEquipIndex = 0;
+  pair = alarmInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);  
+}
+
+/*****************************************************************************!
+ * Function : SlotLastElement
+ *****************************************************************************/
+void
+AlarmDisplayForm::SlotLastElement(void)
+{
+  AlarmSignalPair*                  pair;
+  currentEquipIndex = alarmInformation->GetPairCount() - 1;
+  pair = alarmInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);  
 
 }

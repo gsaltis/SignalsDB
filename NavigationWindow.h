@@ -14,6 +14,7 @@
 #include <QWidget>
 #include <QFrame>
 #include <QPushButton>
+#include <QCheckBox>
 #include <QAction>
 #include <QLabel>
 
@@ -24,7 +25,9 @@
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
-#define NAVIGATION_WINDOW_HEIGHT        24
+#define NAVIGATION_WINDOW_HEIGHT        32
+#define NAVIGATION_MAJOR_FLAG           1
+#define NAVIGATION_MINOR_FLAG           2
 
 /*****************************************************************************!
  * Exported Class : NavigationWindow
@@ -64,10 +67,10 @@ class NavigationWindow : public QFrame
 
  //! Private Data
  private :
-  QPushButton*                  NextDifferElementButton;
-  QPushButton*                  PrevDifferElementButton;
   QPushButton*                  NextElementButton;
   QPushButton*                  XCLButton;
+  QPushButton*                  EndButton;
+  QPushButton*                  HomeButton;
   QPushButton*                  PreviousElementButton;
   int                           buttonWidth;
   int                           buttonHeight;
@@ -76,25 +79,30 @@ class NavigationWindow : public QFrame
   
   int                           currentSignalIndex;
   int                           signalCount;
+  QCheckBox*                    MajorCheckBox;
+  QCheckBox*                    MinorCheckBox;
+  int                           MajorMinorFlags;
 
  //! Public Slots
  public slots :
   void                          SlotNextElementButtonPushed       (void);
-  void                          SlotNextDifferElementButtonPushed (void);
   void                          SlotPreviousElementButtonPushed   (void);
   void                          SlotSetSignalCount                (int InSignalCount);
   void                          SlotSetCurrentSignalIndex         (int InCurrentSignalIndex);
   void                          SlotXCLButtonPushed               (void);
-  void                          SlotPrevDifferElementButtonPushed (void);
+  void                          SlotEndButtonPushed               (void);
+  void                          SlotHomeButtonPushed              (void);
 
+  void                          SlotMajorCheckToggle    (int InChecked);
+  void                          SlotMinorCheckToggle    (int InChecked);
 
  //! Public Signals
  signals :
-  void                          SignalNextElement       (void);
-  void                          SignalPreviousElement   (void);
-  void                          SignalNextDifferElement (void);
-  void                          SignalPrevDifferElement (void);
+  void                          SignalNextElement       (int InMajorMinorFlags);
+  void                          SignalPreviousElement   (int InMajorMinorFlags);
   void                          SignalXCL               (void);
+  void                          SignalFirstElement      (void);
+  void                          SignalLastElement       (void);
 
  //! Public Actions
  public :

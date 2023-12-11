@@ -225,21 +225,25 @@ void
 SettingDisplayForm::CreateConnections(void)
 {
   connect(navigationWindow,
-          NavigationWindow::SignalNextDifferElement,
+          NavigationWindow::SignalFirstElement,
           this,
-          SettingDisplayForm::SlotNextDifferElement);
+          SettingDisplayForm::SlotFirstElement);
+  
   connect(navigationWindow,
-          NavigationWindow::SignalPrevDifferElement,
+          NavigationWindow::SignalLastElement,
           this,
-          SettingDisplayForm::SlotPrevDifferElement);
+          SettingDisplayForm::SlotLastElement);
+  
   connect(navigationWindow,
           NavigationWindow::SignalNextElement,
           this,
           SettingDisplayForm::SlotNextElement);
+
   connect(navigationWindow,
           NavigationWindow::SignalPreviousElement,
           this,
           SettingDisplayForm::SlotPreviousElement);
+
   connect(this,
           SettingDisplayForm::SignalSetCurrentSettingIndex,
           navigationWindow,
@@ -250,7 +254,8 @@ SettingDisplayForm::CreateConnections(void)
  * Function : SlotNextElement
  *****************************************************************************/
 void
-SettingDisplayForm::SlotNextElement(void)
+SettingDisplayForm::SlotNextElement
+(int)
 {
   SettingSignalPair*                  pair;
   if ( currentEquipIndex + 1 >= settingInformation->GetPairCount() ) {
@@ -264,54 +269,11 @@ SettingDisplayForm::SlotNextElement(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextDifferElement
- *****************************************************************************/
-void
-SettingDisplayForm::SlotNextDifferElement(void)
-{
-  int                                   i, n;
-  SettingSignalPair*                  pair;
-  
-  n = settingInformation->GetPairCount();
-
-  for ( i = currentEquipIndex + 1 ; i < n ; i++ ) {
-    pair = settingInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentSettingIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
- * Function : SlotPrevDifferElement
- *****************************************************************************/
-void
-SettingDisplayForm::SlotPrevDifferElement(void)
-{
-  int                                   i;
-  SettingSignalPair*                  pair;
-  
-  for ( i = currentEquipIndex - 1; i >= 0 ; i-- ) {
-    pair = settingInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentSettingIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
  * Function : SlotPreviousElement
  *****************************************************************************/
 void
-SettingDisplayForm::SlotPreviousElement(void)
+SettingDisplayForm::SlotPreviousElement
+(int)
 {
   SettingSignalPair*                  pair;
   if ( currentEquipIndex == 0 ) {
@@ -403,3 +365,32 @@ SettingDisplayForm::SetTrackInformation
     elementLines[i]->Compare();
   }
 }
+
+/*****************************************************************************!
+ * Function : SlotFirstElement
+ *****************************************************************************/
+void
+SettingDisplayForm::SlotFirstElement
+(void)
+{
+  SettingSignalPair*                  pair;
+  currentEquipIndex = 0;
+  pair = settingInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentSettingIndex(currentEquipIndex + 1);  
+}
+
+/*****************************************************************************!
+ * Function : SlotLastElement
+ *****************************************************************************/
+void
+SettingDisplayForm::SlotLastElement
+(void)
+{
+  SettingSignalPair*                  pair;
+  currentEquipIndex = settingInformation->GetPairCount() - 1;
+  pair = settingInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentSettingIndex(currentEquipIndex + 1);  
+}
+

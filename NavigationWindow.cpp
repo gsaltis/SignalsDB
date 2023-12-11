@@ -11,6 +11,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <QCheckBox>
 
 /*****************************************************************************!
  * Local Headers
@@ -48,8 +49,9 @@ void
 NavigationWindow::initialize()
 {
   TextFont = QFont("Segoe UI", 10, QFont::Normal);
-  buttonHeight = 24;
-  buttonWidth = 24;
+  buttonHeight = 32;
+  buttonWidth = 32;
+  MajorMinorFlags = 0;
   InitializeSubWindows();  
   CreateSubWindows();
   ActionNextElementButtonPushed = new QAction("NextElementButtonPushed", this);
@@ -68,42 +70,53 @@ NavigationWindow::CreateSubWindows()
   XCLButton = new QPushButton();
   XCLButton->setParent(this);
   XCLButton->move(0, 0);
-  XCLButton->resize(32,32);
+  XCLButton->resize(buttonWidth,buttonHeight);
   XCLButton->setIcon(QIcon(QPixmap(":/Images/XCL.png")));
   connect(XCLButton, SIGNAL(pressed()), this, SLOT(SlotXCLButtonPushed()));
+
+  HomeButton = new QPushButton();
+  HomeButton->setParent(this);
+  HomeButton->move(0, 0);
+  HomeButton->resize(buttonWidth,buttonHeight);
+  HomeButton->setText("H");
+  connect(HomeButton, SIGNAL(pressed()), this, SLOT(SlotHomeButtonPushed()));
+
+  EndButton = new QPushButton();
+  EndButton->setParent(this);
+  EndButton->move(0, 0);
+  EndButton->resize(buttonWidth,buttonHeight);
+  EndButton->setText("E");
+  connect(EndButton, SIGNAL(pressed()), this, SLOT(SlotEndButtonPushed()));
 
   //! Create the NextElementButton button  
   NextElementButton = new QPushButton();
   NextElementButton->setParent(this);
   NextElementButton->move(0, 0);
-  NextElementButton->resize(32,32);
+  NextElementButton->resize(buttonWidth,buttonHeight);
   NextElementButton->setIcon(QIcon(QPixmap(":/Images/Right.png")));
   connect(NextElementButton, SIGNAL(pressed()), this, SLOT(SlotNextElementButtonPushed()));
-  
-  //! Create the NextElementButton button  
-  NextDifferElementButton = new QPushButton();
-  NextDifferElementButton->setParent(this);
-  NextDifferElementButton->move(0, 0);
-  NextDifferElementButton->resize(32,32);
-  NextDifferElementButton->setIcon(QIcon(QPixmap(":/Images/DoubleRight.png")));
-  connect(NextDifferElementButton, SIGNAL(pressed()), this, SLOT(SlotNextDifferElementButtonPushed()));
-
-  //! Create the NextElementButton button  
-  PrevDifferElementButton = new QPushButton();
-  PrevDifferElementButton->setParent(this);
-  PrevDifferElementButton->move(0, 0);
-  PrevDifferElementButton->resize(32,32);
-  PrevDifferElementButton->setIcon(QIcon(QPixmap(":/Images/DoubleLeft.png")));
-  connect(PrevDifferElementButton, SIGNAL(pressed()), this, SLOT(SlotPrevDifferElementButtonPushed()));
   
   //! Create the PreviousElementButton button
   PreviousElementButton = new QPushButton();
   PreviousElementButton->setParent(this);
   PreviousElementButton->move(0, 0);
-  PreviousElementButton->resize(32,32);
+  PreviousElementButton->resize(buttonWidth,buttonHeight);
   PreviousElementButton->setIcon(QIcon(QPixmap(":/Images/Left.png")));
   connect(PreviousElementButton, SIGNAL(pressed()), this, SLOT(SlotPreviousElementButtonPushed()));
 
+  MajorCheckBox = new QCheckBox("Major", this);
+  MajorCheckBox->move(0, 0);
+  MajorCheckBox->resize(100, 32);
+  MajorCheckBox->setFont(TextFont);
+  connect(MajorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMajorCheckToggle);
+  
+  MinorCheckBox = new QCheckBox("Minor", this);
+  MinorCheckBox->move(0, 0);
+  MinorCheckBox->resize(100, 32);
+  MinorCheckBox->setFont(TextFont);
+  connect(MinorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMinorCheckToggle);
+  
+    
   IndexLabel = new QLabel(this);
   IndexLabel->move(0, 0);
   IndexLabel->resize(100, 20);
@@ -128,32 +141,44 @@ void
 NavigationWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
+  int                                   checkBoxWidth;
+  int                                   buttonPosition;
   QSize                                 s;
   int                                   nextX;
   int                                   nextY;
   int                                   nextW;
   int                                   nextH;
 
-  int                                   nextDifferX;
-  int                                   nextDifferY;
-  int                                   nextDifferW;
-  int                                   nextDifferH;
-
-  int                                   prevDifferX;
-  int                                   prevDifferY;
-  int                                   prevDifferW;
-  int                                   prevDifferH;
-
   int                                   prevX;
   int                                   prevY;
   int                                   prevW;
   int                                   prevH;
 
-  int                                   htmX;
-  int                                   htmY;
-  int                                   htmW;
-  int                                   htmH;
+  int                                   xclX;
+  int                                   xclY;
+  int                                   xclW;
+  int                                   xclH;
 
+  int                                   homeX;
+  int                                   homeY;
+  int                                   homeW;
+  int                                   homeH;
+
+  int                                   endX;
+  int                                   endY;
+  int                                   endW;
+  int                                   endH;
+
+  int                                   majorX;
+  int                                   majorY;
+  int                                   majorW;
+  int                                   majorH;
+  
+  int                                   minorX;
+  int                                   minorY;
+  int                                   minorW;
+  int                                   minorH;
+  
   int                                   indexlabelX;
   int                                   indexlabelY;
   int                                   indexlabelW;
@@ -162,37 +187,56 @@ NavigationWindow::resizeEvent
   int                                   horizontalSkip = 1;
   int                                   width;
   int                                   height;
-  
+
+  //!
   s = InEvent->size();
   width = s.width();
   height = s.height();
-  
+  checkBoxWidth = 70;
+
   //!
-  htmX = 0;
-  htmY = 0;
-  htmW = buttonWidth;
-  htmH = buttonHeight;
+  xclX = 0;
+  xclY = 0;
+  xclW = buttonWidth;
+  xclH = buttonHeight;
 
-  prevDifferY = 0;
-  prevDifferX = (buttonWidth + horizontalSkip) * 1;
-  prevDifferW = buttonWidth;
-  prevDifferH = buttonHeight;
-
-  prevX = (buttonWidth + horizontalSkip) * 2;
+  buttonPosition = 1;
+  homeX = (buttonWidth + horizontalSkip) * buttonPosition;;
+  homeY = 0;
+  homeW = buttonWidth;
+  homeH = buttonHeight;
+  buttonPosition++;
+  
+  prevX = (buttonWidth + horizontalSkip) * buttonPosition;
   prevY = 0;
   prevW = buttonWidth;
   prevH = buttonHeight;
+  buttonPosition++;
 
+  nextX = (buttonWidth + horizontalSkip) * buttonPosition;
   nextY = 0;
-  nextX = (buttonWidth + horizontalSkip) * 3;
   nextW = buttonWidth;
   nextH = buttonHeight;
+  buttonPosition++;
 
-  nextDifferY = 0;
-  nextDifferX = (buttonWidth + horizontalSkip) * 4;
-  nextDifferW = buttonWidth;
-  nextDifferH = buttonHeight;
+  endX = (buttonWidth + horizontalSkip) * buttonPosition;
+  endY = 0;
+  endW = buttonWidth;
+  endH = buttonHeight;
+  buttonPosition++;
 
+
+  majorX = endX + endW + 20;
+  majorY = 0;
+  majorW = checkBoxWidth;
+  majorH = buttonHeight;
+  
+
+  minorX = majorX + majorW + horizontalSkip;
+  minorY = 0;
+  minorW = checkBoxWidth;
+  minorH = buttonHeight;
+  
   indexlabelW = IndexLabel->size().width();
   indexlabelX = width - (indexlabelW + 5);
   indexlabelY = 0;
@@ -204,44 +248,23 @@ NavigationWindow::resizeEvent
   NextElementButton->move(nextX, nextY);
   NextElementButton->resize(nextW, nextH);
   
-  NextDifferElementButton->move(nextDifferX, nextDifferY);
-  NextDifferElementButton->resize(nextDifferW, nextDifferH);
+  XCLButton->move(xclX, xclY);
+  XCLButton->resize(xclW, xclH);
 
-  PrevDifferElementButton->move(prevDifferX, prevDifferY);
-  PrevDifferElementButton->resize(prevDifferW, prevDifferH);
+  HomeButton->move(homeX, homeY);
+  HomeButton->resize(homeW, homeH);
 
-  XCLButton->move(htmX, htmY);
-  XCLButton->resize(htmW, htmH);
+  EndButton->move(endX, endY);
+  EndButton->resize(endW, endH);
 
   IndexLabel->move(indexlabelX, indexlabelY);
   IndexLabel->resize(indexlabelW, indexlabelH);
-}
 
-/*****************************************************************************!
- * Function : SlotNextDifferElementButtonPushed
- *****************************************************************************/
-void
-NavigationWindow::SlotNextDifferElementButtonPushed(void)
-{
-  emit SignalNextDifferElement();
-}
+  MajorCheckBox->move(majorX, majorY);
+  MajorCheckBox->resize(majorW, majorH);
 
-/*****************************************************************************!
- * Function : SlotPrevDifferElementButtonPushed
- *****************************************************************************/
-void
-NavigationWindow::SlotPrevDifferElementButtonPushed(void)
-{
-  emit SignalPrevDifferElement();
-}
-
-/*****************************************************************************!
- * Function : SlotNextElementButtonPushed
- *****************************************************************************/
-void
-NavigationWindow::SlotNextElementButtonPushed(void)
-{
-  emit SignalNextElement();
+  MinorCheckBox->move(minorX, minorY);
+  MinorCheckBox->resize(minorW, minorH);
 }
 
 /*****************************************************************************!
@@ -254,12 +277,39 @@ NavigationWindow::SlotXCLButtonPushed(void)
 }
 
 /*****************************************************************************!
+ * Function : SlotHomeButtonPushed
+ *****************************************************************************/
+void
+NavigationWindow::SlotHomeButtonPushed(void)
+{
+  emit SignalFirstElement();
+}
+
+/*****************************************************************************!
+ * Function : SlotEndButtonPushed
+ *****************************************************************************/
+void
+NavigationWindow::SlotEndButtonPushed(void)
+{
+  emit SignalLastElement();
+}
+
+/*****************************************************************************!
+ * Function : SlotNextElementButtonPushed
+ *****************************************************************************/
+void
+NavigationWindow::SlotNextElementButtonPushed(void)
+{
+  emit SignalNextElement(MajorMinorFlags);
+}
+
+/*****************************************************************************!
  * Function : SlotPreviousElementButtonPushed
  *****************************************************************************/
 void
 NavigationWindow::SlotPreviousElementButtonPushed(void)
 {
-  emit SignalPreviousElement();
+  emit SignalPreviousElement(MajorMinorFlags);
 }
 
 /*****************************************************************************!
@@ -301,4 +351,30 @@ NavigationWindow::SlotSetCurrentSignalIndex
 {
   currentSignalIndex = InCurrentSignalIndex;
   IndexLabel->setText(QString("%1 of %2").arg(currentSignalIndex).arg(signalCount));
+}
+
+/*****************************************************************************!
+ * Function : SlotMajorCheckToggle
+ *****************************************************************************/
+void
+NavigationWindow::SlotMajorCheckToggle
+(int InMajorChecked )
+{
+  int                           flag;
+
+  flag = InMajorChecked ? NAVIGATION_MAJOR_FLAG : 0;
+  MajorMinorFlags = flag + (MajorMinorFlags & NAVIGATION_MINOR_FLAG);
+}
+
+/*****************************************************************************!
+ * Function : SlotMinorCheckToggle
+ *****************************************************************************/
+void
+NavigationWindow::SlotMinorCheckToggle
+(int InMinorChecked )
+{
+  int                           flag;
+
+  flag = InMinorChecked ? NAVIGATION_MINOR_FLAG : 0;
+  MajorMinorFlags = flag + (MajorMinorFlags & NAVIGATION_MAJOR_FLAG);
 }

@@ -206,21 +206,25 @@ void
 EquipmentDisplayForm::CreateConnections(void)
 {
   connect(navigationWindow,
-          NavigationWindow::SignalNextDifferElement,
+          NavigationWindow::SignalFirstElement,
           this,
-          EquipmentDisplayForm::SlotNextDifferElement);
+          EquipmentDisplayForm::SlotFirstElement);
+  
   connect(navigationWindow,
-          NavigationWindow::SignalPrevDifferElement,
+          NavigationWindow::SignalLastElement,
           this,
-          EquipmentDisplayForm::SlotPrevDifferElement);
+          EquipmentDisplayForm::SlotLastElement);
+  
   connect(navigationWindow,
           NavigationWindow::SignalNextElement,
           this,
           EquipmentDisplayForm::SlotNextElement);
+
   connect(navigationWindow,
           NavigationWindow::SignalPreviousElement,
           this,
           EquipmentDisplayForm::SlotPreviousElement);
+
   connect(this,
           EquipmentDisplayForm::SignalSetCurrentEquipmentIndex,
           navigationWindow,
@@ -231,7 +235,8 @@ EquipmentDisplayForm::CreateConnections(void)
  * Function : SlotNextElement
  *****************************************************************************/
 void
-EquipmentDisplayForm::SlotNextElement(void)
+EquipmentDisplayForm::SlotNextElement
+(int)
 {
   EquipmentSignalPair*                  pair;
   if ( currentEquipIndex + 1 >= equipmentInformation->GetPairCount() ) {
@@ -245,54 +250,11 @@ EquipmentDisplayForm::SlotNextElement(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextDifferElement
- *****************************************************************************/
-void
-EquipmentDisplayForm::SlotNextDifferElement(void)
-{
-  int                                   i, n;
-  EquipmentSignalPair*                  pair;
-  
-  n = equipmentInformation->GetPairCount();
-
-  for ( i = currentEquipIndex + 1 ; i < n ; i++ ) {
-    pair = equipmentInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
- * Function : SlotPrevDifferElement
- *****************************************************************************/
-void
-EquipmentDisplayForm::SlotPrevDifferElement(void)
-{
-  int                                   i;
-  EquipmentSignalPair*                  pair;
-  
-  for ( i = currentEquipIndex - 1; i >= 0 ; i-- ) {
-    pair = equipmentInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
  * Function : SlotPreviousElement
  *****************************************************************************/
 void
-EquipmentDisplayForm::SlotPreviousElement(void)
+EquipmentDisplayForm::SlotPreviousElement
+(int)
 {
   EquipmentSignalPair*                  pair;
   if ( currentEquipIndex == 0 ) {
@@ -351,4 +313,30 @@ EquipmentDisplayForm::SetTrackInformation
   for ( i = 0 ; i < elementLines.size() ; i++ ) {
     elementLines[i]->Compare();
   }
+}
+
+/*****************************************************************************!
+ * Function : SlotFirstElement
+ *****************************************************************************/
+void
+EquipmentDisplayForm::SlotFirstElement(void)
+{
+  EquipmentSignalPair*                  pair;
+  currentEquipIndex = 0;
+  pair = equipmentInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);  
+}
+
+/*****************************************************************************!
+ * Function : SlotLastElement
+ *****************************************************************************/
+void
+EquipmentDisplayForm::SlotLastElement(void)
+{
+  EquipmentSignalPair*                  pair;
+  currentEquipIndex = equipmentInformation->GetPairCount() - 1;
+  pair = equipmentInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentEquipmentIndex(currentEquipIndex + 1);  
 }

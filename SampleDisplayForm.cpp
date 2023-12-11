@@ -224,21 +224,25 @@ void
 SampleDisplayForm::CreateConnections(void)
 {
   connect(navigationWindow,
-          NavigationWindow::SignalNextDifferElement,
+          NavigationWindow::SignalFirstElement,
           this,
-          SampleDisplayForm::SlotNextDifferElement);
+          SampleDisplayForm::SlotFirstElement);
+  
   connect(navigationWindow,
-          NavigationWindow::SignalPrevDifferElement,
+          NavigationWindow::SignalLastElement,
           this,
-          SampleDisplayForm::SlotPrevDifferElement);
+          SampleDisplayForm::SlotLastElement);
+  
   connect(navigationWindow,
           NavigationWindow::SignalNextElement,
           this,
           SampleDisplayForm::SlotNextElement);
+
   connect(navigationWindow,
           NavigationWindow::SignalPreviousElement,
           this,
           SampleDisplayForm::SlotPreviousElement);
+
   connect(this,
           SampleDisplayForm::SignalSetCurrentSampleIndex,
           navigationWindow,
@@ -249,7 +253,8 @@ SampleDisplayForm::CreateConnections(void)
  * Function : SlotNextElement
  *****************************************************************************/
 void
-SampleDisplayForm::SlotNextElement(void)
+SampleDisplayForm::SlotNextElement
+(int)
 {
   SampleSignalPair*                     pair;
   if ( currentEquipIndex + 1 >= sampleInformation->GetPairCount() ) {
@@ -263,54 +268,11 @@ SampleDisplayForm::SlotNextElement(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextDifferElement
- *****************************************************************************/
-void
-SampleDisplayForm::SlotNextDifferElement(void)
-{
-  int                                   i, n;
-  SampleSignalPair*                     pair;
-  
-  n = sampleInformation->GetPairCount();
-
-  for ( i = currentEquipIndex + 1 ; i < n ; i++ ) {
-    pair = sampleInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
- * Function : SlotPrevDifferElement
- *****************************************************************************/
-void
-SampleDisplayForm::SlotPrevDifferElement(void)
-{
-  int                                   i;
-  SampleSignalPair*                     pair;
-  
-  for ( i = currentEquipIndex - 1; i >= 0 ; i-- ) {
-    pair = sampleInformation->GetPairByIndex(i);
-    if ( ! pair->Differ() ) {
-      continue;
-    }
-    currentEquipIndex = i;
-    emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);
-    SetTrackInformation(pair);
-    return;
-  }
-}
-
-/*****************************************************************************!
  * Function : SlotPreviousElement
  *****************************************************************************/
 void
-SampleDisplayForm::SlotPreviousElement(void)
+SampleDisplayForm::SlotPreviousElement
+(int)
 {
   SampleSignalPair*                  pair;
   if ( currentEquipIndex == 0 ) {
@@ -390,3 +352,32 @@ SampleDisplayForm::SetTrackInformation
     elementLines[i]->Compare();
   }
 }
+
+/*****************************************************************************!
+ * Function : SlotFirstElement
+ *****************************************************************************/
+void
+SampleDisplayForm::SlotFirstElement
+(void)
+{
+  SampleSignalPair*                  pair;
+  currentEquipIndex = 0;
+  pair = sampleInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);  
+}
+
+/*****************************************************************************!
+ * Function : SlotLastElement
+ *****************************************************************************/
+void
+SampleDisplayForm::SlotLastElement
+(void)
+{
+  SampleSignalPair*                  pair;
+  currentEquipIndex = sampleInformation->GetPairCount() - 1;
+  pair = sampleInformation->GetPairByIndex(currentEquipIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);  
+}
+
