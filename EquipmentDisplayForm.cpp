@@ -20,6 +20,7 @@
 #include "EquipmentDisplayForm.h"
 #include "ElementDisplayLine.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : EquipmentDisplayForm
@@ -70,31 +71,13 @@ void
 EquipmentDisplayForm::CreateSubWindows()
 {
   int                                   headingLabelHeight;
-  int                                   n;
   QLabel*                               label;
-  ElementDisplayLine*                   elementLine;
   int                                   x1, x2, x3;
   int                                   y;
   int                                   labelWidth = 210;
   int                                   labelHeight = 20;
   QFont                                 labelFont = QFont("Segoe UI", 10, QFont::Bold);
   QFont                                 valueFont = QFont("Segoe UI", 10, QFont::Normal);
-  QSize                                 s = size();
-  int                                   w = s.width();
-  QList<QString>                        labelNames;
-  QColor                                backgroundColors[] = {
-    QColor(0xEC, 0xEC, 0xEC),
-    QColor(0xEC, 0xEC, 0xEC)
-  };
-  labelNames << "Type ID"
-             << "Name"
-             << "Type Name"
-             << "Group Name"
-             << "Number of Samples"
-             << "Number of Controls"
-             << "Number of Alarms"
-             << "Number of Settings"
-             << "Related";
 
   x1 = 10;
   x2 = x1 + labelWidth + 20;
@@ -138,16 +121,7 @@ EquipmentDisplayForm::CreateSubWindows()
 
   //!
   y = 55;
-  n = 0;
-  for ( auto i : labelNames ) {
-    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2], ValueColors[n % 2]);
-    elementLine->setParent(this);
-    elementLine->move(0, y);
-    elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT);
-    y += ELEMENT_DISPLAY_LINE_HEIGHT;
-    elementLines << elementLine;
-    n++;
-  }
+  AddElementLines("Equipment", y);
 
   navigationWindow = new NavigationWindow();
   navigationWindow->move(10, y);

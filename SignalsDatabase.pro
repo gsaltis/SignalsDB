@@ -32,16 +32,18 @@ DEFINES                         += \
 SOURCES                         += \
 				   AlarmDisplayForm.cpp                         \
 				   AlarmDisplayWindow.cpp                       \
-                                   AlarmInformation.cpp                         \
+				   AlarmInformation.cpp                         \
 				   AlarmSignalPair.cpp                          \
 				   ControlDisplayForm.cpp                       \
 				   ControlDisplayWindow.cpp                     \
+				   ControlInformation.cpp                       \
 				   ControlSignalPair.cpp                        \
 				   ElementDisplayLine.cpp                       \
+				   ElementDisplayLineFormat.cpp                 \
 				   EquipmentDisplayWindow.cpp                   \
+				   EquipmentDisplayForm.cpp                     \
 				   EquipmentInformation.cpp                     \
 				   EquipmentSignalPair.cpp                      \
-				   EquipmentDisplayform.cpp                     \
 				   MainConfig.cpp                               \
 				   MainDisplayWindow.cpp                        \
 				   MainWindow.cpp                               \
@@ -52,14 +54,15 @@ SOURCES                         += \
 				   NCUSampleSignal.cpp                          \
 				   NCUSettingSignal.cpp                         \
 				   NCUSignal.cpp                                \
-                                   SampleDisplayForm.cpp                        \
+				   NavigationWindow.cpp                         \
+				   SampleDisplayForm.cpp                        \
 				   SampleDisplayWindow.cpp                      \
-                                   SampleInformation.cpp                        \
-                                   SampleSignalPair.cpp                         \
-                                   SettingDisplayForm.cpp                       \
+				   SampleInformation.cpp                        \
+				   SampleSignalPair.cpp                         \
+				   SettingDisplayForm.cpp                       \
 				   SettingDisplayWindow.cpp                     \
-                                   SettingInformation.cpp                       \
-                                   SettingSignalPair.cpp                        \
+				   SettingInformation.cpp                       \
+				   SettingSignalPair.cpp                        \
 				   SignalDisplayForm.cpp                        \
 				   SignalDisplayWindow.cpp                      \
 				   SignalStatsWindow.cpp                        \
@@ -67,8 +70,6 @@ SOURCES                         += \
 				   SignalsInformation.cpp                       \
 				   SystemConfig.cpp                             \
 				   WindowHeader.cpp                             \
-                                   ControlInformation.cpp                       \
-                                   NavigationWindow.cpp                         \
 				   main.cpp                                     \
 				   sqlite3.c                                    \
 
@@ -76,11 +77,14 @@ SOURCES                         += \
 HEADERS                         += \
 				   AlarmDisplayForm.h                           \
 				   AlarmDisplayWindow.h                         \
-                                   AlarmInformation.h                           \
+				   AlarmInformation.h                           \
 				   AlarmSignalPair.h                            \
+				   ControlDisplayForm.h                         \
 				   ControlDisplayWindow.h                       \
+				   ControlInformation.h                         \
 				   ControlSignalPair.h                          \
 				   ElementDisplayLine.h                         \
+				   ElementDisplayLineFormat.h                   \
 				   EquipmentDisplayForm.h                       \
 				   EquipmentDisplayWindow.h                     \
 				   EquipmentInformation.h                       \
@@ -95,14 +99,15 @@ HEADERS                         += \
 				   NCUSampleSignal.h                            \
 				   NCUSettingSignal.h                           \
 				   NCUSignal.h                                  \
-                                   SampleDisplayForm.h                          \
+				   NavigationWindow.h                           \
+				   SampleDisplayForm.h                          \
 				   SampleDisplayWindow.h                        \
-                                   SampleInformation.h                          \
-                                   SampleSignalPair.h                           \
-                                   SettingDisplayForm.h                         \
+				   SampleInformation.h                          \
+				   SampleSignalPair.h                           \
+				   SettingDisplayForm.h                         \
 				   SettingDisplayWindow.h                       \
-                                   SettingInformation.h                         \
-                                   SettingSignalPair.h                          \
+				   SettingInformation.h                         \
+				   SettingSignalPair.h                          \
 				   SignalDisplayForm.h                          \
 				   SignalDisplayWindow.h                        \
 				   SignalStatsWindow.h                          \
@@ -110,9 +115,6 @@ HEADERS                         += \
 				   SignalsInformation.h                         \
 				   SystemConfig.h                               \
 				   WindowHeader.h                               \
-                                   ControlDisplayForm.h                         \
-                                   ControlInformation.h                         \
-                                   NavigationWindow.h                           \
 				   sqlite3.h                                    \
 
 FORMS                           += \

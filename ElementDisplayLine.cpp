@@ -23,22 +23,23 @@
 ElementDisplayLine::ElementDisplayLine
 (QString InLabelText, QColor InBackgroundColor, QColor InValueColor) : QWidget()
 {
-  QPalette                              pal;
-
   labelText = InLabelText;
   backgroundColor = InBackgroundColor;
-  SpacerColor = InBackgroundColor;
-  SpacerWidth = 5;
-  SignalLabelWidth = 240;
   ValueColor = InValueColor;
-  
-  pal = palette();
-  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
-  setPalette(pal);
-  setAutoFillBackground(true);
+  differType = Major;
+  initialize();
+}
 
-  DifferColor = QColor(160, 0, 0);
-  NormalColor = QColor(0, 0, 0);
+/*****************************************************************************!
+ * Function : ElementDisplayLine
+ *****************************************************************************/
+ElementDisplayLine::ElementDisplayLine
+(QString InLabelText, QColor InBackgroundColor, QColor InValueColor, ElementDisplayLine::DifferLevel InDifferLevel) : QWidget()
+{
+  labelText = InLabelText;
+  backgroundColor = InBackgroundColor;
+  ValueColor = InValueColor;
+  differType = InDifferLevel;
   initialize();
 }
 
@@ -56,6 +57,21 @@ ElementDisplayLine::~ElementDisplayLine
 void
 ElementDisplayLine::initialize()
 {
+  QPalette                              pal;
+
+  SpacerColor = backgroundColor;
+  SpacerWidth = 5;
+  SignalLabelWidth = 240;
+  
+  pal = palette();
+  pal.setBrush(QPalette::Window, QBrush(QColor(255, 255, 255)));
+  setPalette(pal);
+  setAutoFillBackground(true);
+
+  DifferMajorColor = QColor(160, 0, 0);
+  DifferMinorColor = QColor(0, 0, 160);
+  NormalColor = QColor(0, 0, 0);
+  
   InitializeSubWindows();  
   CreateSubWindows();
 }
@@ -261,12 +277,12 @@ ElementDisplayLine::Compare(void)
 
   if ( Track2Value->text() != Track3Value->text() ) {
     pal = Track2Value->palette();
-    pal.setBrush(QPalette::WindowText, QBrush(DifferColor));
+    pal.setBrush(QPalette::WindowText, differType == Major ? QBrush(DifferMajorColor) : QBrush(DifferMinorColor));
     Track2Value->setPalette(pal);
     Track2Value->setFont(differFont);
     
     pal = Track3Value->palette();
-    pal.setBrush(QPalette::WindowText, QBrush(DifferColor));
+    pal.setBrush(QPalette::WindowText, differType == Major ? QBrush(DifferMajorColor) : QBrush(DifferMinorColor));
     Track3Value->setPalette(pal);
     Track3Value->setFont(differFont);
   }

@@ -17,6 +17,7 @@
  * Local Headers
  *****************************************************************************/
 #include "sqlite3.h"
+#include "MainConfig.h"
 
 /*****************************************************************************!
  * Exported Functions
@@ -35,5 +36,9 @@ MainGetMainWindowGeometry
 extern
 sqlite3*
 MainDB;
+
+extern
+MainConfig*
+MainConfiguration;
 
 #endif /* _main_h_*/

@@ -50,11 +50,12 @@ class SignalDisplayForm : public QWidget
 
  //! Protected Methods
  protected :
-  QList<ElementDisplayLine*>    elementLines;
+  void                          AddElementLines         (QString FormName, int &InY);
   
  //! Protected Data
  protected :
   QColor                        ValueColors[2];
+  QList<ElementDisplayLine*>    elementLines;
   
  //! Private Methods
  private :

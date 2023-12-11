@@ -31,10 +31,18 @@ class ElementDisplayLine : public QWidget
 {
   Q_OBJECT;
 
+public :
+ //! Enumerated Types
+  enum DifferLevel {
+    Major,
+    Minor
+  };
+  
  //! Constructors
  public :
+  ElementDisplayLine            (QString InLabelText, QColor InBackgroundColor, QColor InValueColor, DifferLevel InDifferLevel);
   ElementDisplayLine            (QString InLabelText, QColor InBackgroundColor, QColor InValueColor);
-
+  
  //! Destructor
  public :
   ~ElementDisplayLine           ();
@@ -48,7 +56,7 @@ class ElementDisplayLine : public QWidget
 
  //! Public Data
  public :
-
+  
  //! Protected Methods
  protected :
 
@@ -69,14 +77,16 @@ class ElementDisplayLine : public QWidget
   QLabel*                       SignalLabel;
   int                           SignalLabelWidth;
   QColor                        NormalColor;
-  QColor                        DifferColor;
+  QColor                        DifferMinorColor;
+  QColor                        DifferMajorColor;
   QLabel*                       Track2Value;
   QLabel*                       Track3Value;
   QLabel*                       Spacer;
   QColor                        SpacerColor;
   int                           SpacerWidth;
   QColor                        ValueColor;
-
+  DifferLevel                   differType;
+  
  //! Public Slots
  public slots :
 

@@ -56,6 +56,9 @@ MainOrginzationName = "Vertiv";
 QString
 MainApplicationName = "SignalsDB";
 
+MainConfig*
+MainConfiguration;
+
 /*****************************************************************************!
  * Function : main
  *****************************************************************************/
@@ -118,6 +121,9 @@ Initialize
 
   MainConfig::sampleInformation = new SampleInformation();
   MainConfig::sampleInformation->SQLRead(MainConfig::database);
+
+  MainConfiguration = new MainConfig();
+  MainConfiguration->ReadElementLineFormats();
 }
 
 /*****************************************************************************!

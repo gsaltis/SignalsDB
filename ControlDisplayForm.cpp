@@ -20,6 +20,7 @@
 #include "ControlDisplayForm.h"
 #include "ElementDisplayLine.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : ControlDisplayForm
@@ -70,46 +71,14 @@ void
 ControlDisplayForm::CreateSubWindows()
 {
   int                                   headingLabelHeight;
-  int                                   n;
   QLabel*                               label;
-  ElementDisplayLine*                   elementLine;
   int                                   x1, x2, x3;
   int                                   y;
   int                                   labelWidth = 210;
   int                                   labelHeight = 20;
   QFont                                 labelFont = QFont("Segoe UI", 10, QFont::Bold);
   QFont                                 valueFont = QFont("Segoe UI", 10, QFont::Normal);
-  QSize                                 s = size();
-  int                                   w = s.width();
-  QList<QString>                        labelNames;
-  QColor                                backgroundColors[] = {
-    QColor(0xEC, 0xEC, 0xEC),
-    QColor(0xEC, 0xEC, 0xEC)
-  };
-
-  labelNames << "Control Name"
-             << "Unit"
-             << "Signal Index"
-             << "Signal Channel"
-             << "Value Type"
-             << "Defaults"
-             << "Range"
-             << "Display Attribute"
-             << "Control Attribute"
-             << "Threshold"
-             << "Cable Expression RPN"
-             << "Cable Expression Full"
-             << "Auth"
-             << "Display ID"
-             << "Display Format"
-             << "Channel ID"
-             << "Channel Step"
-             << "ChannelParam"
-             << "Channel Expression RPN"
-             << "Channel Expression Full Disp Exp"
-             << "States"
-             << "CAction";
-
+  
   x1 = 10;
   x2 = x1 + labelWidth + 20;
   x3 = x2 + labelWidth + 20;
@@ -170,17 +139,8 @@ ControlDisplayForm::CreateSubWindows()
   
   //!
   y += headingLabelHeight;
-  n = 0;
-  for ( auto i : labelNames ) {
-    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2], ValueColors[n % 2]);
-    elementLine->setParent(this);
-    elementLine->move(0, y);
-    elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT);
-    y += ELEMENT_DISPLAY_LINE_HEIGHT;
-    elementLines << elementLine;
-    n++;
-  }
-
+  AddElementLines("Control", y);
+  
   navigationWindow = new NavigationWindow();
   navigationWindow->move(10, y);
   navigationWindow->resize(labelWidth + 20, NAVIGATION_WINDOW_HEIGHT);

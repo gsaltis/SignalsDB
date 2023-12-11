@@ -16,6 +16,7 @@
  * Local Headers
  *****************************************************************************/
 #include "SignalDisplayForm.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : SignalDisplayForm
@@ -87,3 +88,46 @@ SignalDisplayForm::resizeEvent
   (void)height;
   (void)width;
 }
+
+/*****************************************************************************!
+ * Function : AddElementLines
+ *****************************************************************************/
+void
+SignalDisplayForm::AddElementLines
+(QString InFormName, int &InY)
+{
+  int                                   w;
+  int                                   y;
+  ElementDisplayLineFormat*             lineFormat;
+  QList<ElementDisplayLineFormat*>      lineFormats;
+  int                                   n, m;
+  ElementDisplayLine*                   elementLine;
+  QColor                                backgroundColors[] = {
+    QColor(0xEC, 0xEC, 0xEC),
+    QColor(0xEC, 0xEC, 0xEC)
+  };
+
+  w = size().width();
+  
+  lineFormats = MainConfiguration->GetElementLineFormats(InFormName);
+
+  y = InY;
+  m = lineFormats.size();
+  for ( n = 0 ; n < m ; n++ ) {
+    lineFormat = lineFormats[n];
+    elementLine = new ElementDisplayLine(lineFormat->GetElementName(), backgroundColors[n % 2], ValueColors[n % 2],
+                                         lineFormat->GetDifferenceSeverity() == "Major"
+                                         ? ElementDisplayLine::Major : ElementDisplayLine::Minor);
+    elementLine->setParent(this);
+    elementLine->move(0, y);
+    elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT * lineFormat->GetLineHeightMultiplier());
+    elementLines << elementLine;
+    if ( lineFormat->GetLineHeightMultiplier() == 0 ) {
+      elementLine->hide();
+    }
+    y += ELEMENT_DISPLAY_LINE_HEIGHT * lineFormat->GetLineHeightMultiplier();
+  }
+  InY = y;
+}
+
+  

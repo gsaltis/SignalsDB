@@ -20,6 +20,7 @@
 #include "SettingDisplayForm.h"
 #include "ElementDisplayLine.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : SettingDisplayForm
@@ -70,48 +71,14 @@ void
 SettingDisplayForm::CreateSubWindows()
 {
   int                                   headingLabelHeight;
-  int                                   n;
   QLabel*                               label;
-  ElementDisplayLine*                   elementLine;
   int                                   x1, x2, x3;
   int                                   y;
   int                                   labelWidth = 210;
   int                                   labelHeight = 20;
   QFont                                 labelFont = QFont("Segoe UI", 10, QFont::Bold);
   QFont                                 valueFont = QFont("Segoe UI", 10, QFont::Normal);
-  QSize                                 s = size();
-  int                                   w = s.width();
-  QList<QString>                        labelNames;
-  QColor                                backgroundColors[] = {
-    QColor(0xEC, 0xEC, 0xEC),
-    QColor(0xEC, 0xEC, 0xEC)
-  };
 
-
-  labelNames << "Setting Name"
-             << "Unit"
-             << "Signal Indx"
-             << "Signal Channel"
-             << "Value Type"
-             << "Def"
-             << "Range"
-             << "Display Attribute"
-             << "Setting Attr"
-             << "Setting Expression RPN"
-             << "Setting Expression Full"
-             << "Auth"
-             << "Display ID"
-             << "Display Format"
-             << "Channel ID"
-             << "Step"
-             << "Channel Expression RPN"
-             << "Channel Expression Full"
-             << "Persist"
-             << "Display Expression RPN"
-             << "Display Expression Full"
-             << "States"
-             << "On Control";
-  
   x1 = 10;
   x2 = x1 + labelWidth + 20;
   x3 = x2 + labelWidth + 20;
@@ -172,17 +139,9 @@ SettingDisplayForm::CreateSubWindows()
   
   //!
   y += headingLabelHeight;
-  n = 0;
-  for ( auto i : labelNames ) {
-    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2], ValueColors[n % 2]);
-    elementLine->setParent(this);
-    elementLine->move(0, y);
-    elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT);
-    y += ELEMENT_DISPLAY_LINE_HEIGHT;
-    elementLines << elementLine;
-    n++;
-  }
-
+  AddElementLines("Settings", y);
+  
+  //!
   navigationWindow = new NavigationWindow();
   navigationWindow->move(10, y);
   navigationWindow->resize(labelWidth + 20, NAVIGATION_WINDOW_HEIGHT);

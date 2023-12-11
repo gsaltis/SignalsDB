@@ -8,7 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnet.h>
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -20,6 +20,7 @@
 #include "AlarmDisplayForm.h"
 #include "ElementDisplayLine.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : AlarmDisplayForm
@@ -33,7 +34,6 @@ AlarmDisplayForm::AlarmDisplayForm
   setPalette(pal);
   setAutoFillBackground(true);
   initialize();
-  
 }
 
 /*****************************************************************************!
@@ -52,6 +52,7 @@ AlarmDisplayForm::initialize()
 {
   AlarmSignalPair*                      pair;
 
+  TRACE_FUNCTION_START();
   currentEquipIndex = 0;
   alarmInformation = MainConfig::alarmInformation;
   InitializeSubWindows();  
@@ -61,6 +62,7 @@ AlarmDisplayForm::initialize()
   SetTrackInformation(pair);
   navigationWindow->SlotSetCurrentSignalIndex(1);
   navigationWindow->SlotSetSignalCount(alarmInformation->GetPairCount());
+  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
@@ -70,33 +72,14 @@ void
 AlarmDisplayForm::CreateSubWindows()
 {
   int                                   headingLabelHeight;
-  int                                   n;
   QLabel*                               label;
-  ElementDisplayLine*                   elementLine;
   int                                   x1, x2, x3;
   int                                   y;
   int                                   labelWidth = 210;
   int                                   labelHeight = 20;
   QFont                                 labelFont = QFont("Segoe UI", 10, QFont::Bold);
   QFont                                 valueFont = QFont("Segoe UI", 10, QFont::Normal);
-  QSize                                 s = size();
-  int                                   w = s.width();
-  QList<QString>                        labelNames;
-  QColor                                backgroundColors[] = {
-    QColor(0xEC, 0xEC, 0xEC),
-    QColor(0xEC, 0xEC, 0xEC)
-  };
-
-  labelNames << "Alarm Name"
-             << "Level"
-             << "Expression RPN"
-             << "Express Full"
-             << "Delay"
-             << "Suppress RPN"
-             << "Suppress Full"
-             << "Relay"
-             << "Help";
-
+  
   x1 = 10;
   x2 = x1 + labelWidth + 20;
   x3 = x2 + labelWidth + 20;
@@ -157,16 +140,7 @@ AlarmDisplayForm::CreateSubWindows()
   
   //!
   y += headingLabelHeight;
-  n = 0;
-  for ( auto i : labelNames ) {
-    elementLine = new ElementDisplayLine(i, backgroundColors[n % 2], ValueColors[n % 2]);
-    elementLine->setParent(this);
-    elementLine->move(0, y);
-    elementLine->resize(w, ELEMENT_DISPLAY_LINE_HEIGHT);
-    y += ELEMENT_DISPLAY_LINE_HEIGHT;
-    elementLines << elementLine;
-    n++;
-  }
+  AddElementLines("Alarm", y);
 
   navigationWindow = new NavigationWindow();
   navigationWindow->move(10, y);
@@ -222,7 +196,7 @@ AlarmDisplayForm::resizeEvent
   Track3Label->move(x4, Track3Label->pos().y());
   
   for ( auto i : elementLines ) {
-    i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
+    i->resize(width, i->size().height());
   }
 
   n = elementLines.size() - 1;

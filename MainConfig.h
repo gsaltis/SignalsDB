@@ -23,6 +23,7 @@
 #include "AlarmInformation.h"
 #include "SettingInformation.h"
 #include "SampleInformation.h"
+#include "ElementDisplayLineFormat.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -45,6 +46,10 @@ class MainConfig : public QWidget
 
  //! Public Methods
  public :
+  void                          ReadElementLineFormats  (void);
+  static int                    ReadElementLineFormatsCB (void* InPointer, int InColumnCounts, char** InColumnValues, char** InColumnNames);
+  void                          AddElementDisplayLineFormat (QString InSignalTypeName, ElementDisplayLineFormat* InFormat);
+  QList<ElementDisplayLineFormat*> GetElementLineFormats (QString InSignalTypeName);
 
  //! Public Data
  public :
@@ -66,7 +71,8 @@ class MainConfig : public QWidget
 
  //! Private Data
  private :
-
+  QHash<QString, QList<ElementDisplayLineFormat*>>      formats;
+  
  //! Public Slots
  public slots :
 
