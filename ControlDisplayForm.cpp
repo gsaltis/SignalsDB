@@ -53,7 +53,7 @@ ControlDisplayForm::initialize()
 {
   ControlSignalPair*                  pair;
 
-  currentEquipIndex = 0;
+  currentControlIndex = 0;
   controlInformation = MainConfig::controlInformation;
   InitializeSubWindows();  
   CreateSubWindows();
@@ -167,7 +167,6 @@ ControlDisplayForm::resizeEvent
   int                                   x4;
   int                                   w2;
   QPoint                                p2;
-  int                                   n;
   QSize					size;
   QSize                                 s2;
   int                                   h2;
@@ -177,7 +176,7 @@ ControlDisplayForm::resizeEvent
   int                                   navigationWindowY;
   int                                   navigationWindowW;
   int                                   navigationWindowH;
-  ElementDisplayLine*                   line;
+  ElementDisplayLine*                   lastLine;
   
   size = InEvent->size();
   width = size.width();
@@ -193,23 +192,19 @@ ControlDisplayForm::resizeEvent
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
   Track3Label->move(x4, Track3Label->pos().y());
-  
+
+  lastLine = NULL;
   for ( auto i : elementLines ) {
     i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
+    lastLine = i;
   }
 
-  n = elementLines.size() - 1;
-  line = elementLines[n];
-  p2 = line->pos();
+  p2 = lastLine->pos();
   y2 = p2.y();
-  s2 = line->size();
+  s2 = lastLine->size();
 
-  TRACE_FUNCTION_INT(y2);
-  TRACE_FUNCTION_INT(height);
   h2 = (height - (NAVIGATION_WINDOW_HEIGHT + y2));
-  TRACE_FUNCTION_INT(h2);
-        
-  line->resize(s2.width(), h2);
+  lastLine->resize(s2.width(), h2);
   
   if ( navigationWindow ) {
     navigationWindow->move(navigationWindowX, navigationWindowY);
@@ -250,47 +245,14 @@ ControlDisplayForm::CreateConnections(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextElement
- *****************************************************************************/
-void
-ControlDisplayForm::SlotNextElement
-(int)
-{
-  ControlSignalPair*                  pair;
-  if ( currentEquipIndex + 1 >= controlInformation->GetPairCount() ) {
-    return;
-  }
-
-  currentEquipIndex++;
-  pair = controlInformation->GetPairByIndex(currentEquipIndex);
-  SetTrackInformation(pair);
-  emit SignalSetCurrentControlIndex(currentEquipIndex + 1);
-}
-
-/*****************************************************************************!
- * Function : SlotPreviousElement
- *****************************************************************************/
-void
-ControlDisplayForm::SlotPreviousElement
-(int)
-{
-  ControlSignalPair*                  pair;
-  if ( currentEquipIndex == 0 ) {
-    return;
-  }
-  currentEquipIndex--;
-  pair = controlInformation->GetPairByIndex(currentEquipIndex);
-  SetTrackInformation(pair);  
-    emit SignalSetCurrentControlIndex(currentEquipIndex + 1);
-}
-
-/*****************************************************************************!
  * Function : SetTrackInformation
  *****************************************************************************/
 void
 ControlDisplayForm::SetTrackInformation
 (ControlSignalPair* InPair)
 {
+  int                                   keysSize;
+  QStringList                           keys;
   
   int                                   i;
   NCUControlSignal*                     track2;
@@ -302,65 +264,118 @@ ControlDisplayForm::SetTrackInformation
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Clear();
+  keys = elementLines.keys();
+  keysSize  = keys.size();
+  for ( i = 0 ; i < keysSize ; i ++) {
+    elementLines[keys[i]]->Clear();
   }
 
   if ( track2 ) {
     i = 0;
-    elementLines[i++]->SetTrack2Value(track2->CTRLName);
-    elementLines[i++]->SetTrack2Value(track2->Unit);
-    elementLines[i++]->SetTrack2Value(track2->SIndx);
-    elementLines[i++]->SetTrack2Value(track2->SChan);
-    elementLines[i++]->SetTrack2Value(track2->ValType);
-    elementLines[i++]->SetTrack2Value(track2->Defaults);
-    elementLines[i++]->SetTrack2Value(track2->Range);
-    elementLines[i++]->SetTrack2Value(track2->DisplayAttr);
-    elementLines[i++]->SetTrack2Value(track2->CtrlAttr);
-    elementLines[i++]->SetTrack2Value(track2->Threshold);
-    elementLines[i++]->SetTrack2Value(track2->CableExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->CableExpFull);
-    elementLines[i++]->SetTrack2Value(track2->Auth);
-    elementLines[i++]->SetTrack2Value(track2->DisplayID);
-    elementLines[i++]->SetTrack2Value(track2->DispFmt);
-    elementLines[i++]->SetTrack2Value(track2->ChID);
-    elementLines[i++]->SetTrack2Value(track2->CStep);
-    elementLines[i++]->SetTrack2Value(track2->CParam);
-    elementLines[i++]->SetTrack2Value(track2->CexpRPN);
-    elementLines[i++]->SetTrack2Value(track2->CexpFullDispExp);
-    elementLines[i++]->SetTrack2Value(track2->States);
-    elementLines[i++]->SetTrack2Value(track2->CAction);
+    elementLines["CTRLName"]->SetTrack2Value(track2->GetValue("CTRLName"));
+    elementLines["Unit"]->SetTrack2Value(track2->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrack2Value(track2->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrack2Value(track2->GetValue("SChan"));
+    elementLines["ValType"]->SetTrack2Value(track2->GetValue("ValType"));
+    elementLines["Defaults"]->SetTrack2Value(track2->GetValue("Defaults"));
+    elementLines["Range"]->SetTrack2Value(track2->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrack2Value(track2->GetValue("DisplayAttr"));
+    elementLines["CtrlAttr"]->SetTrack2Value(track2->GetValue("CtrlAttr"));
+    elementLines["Threshold"]->SetTrack2Value(track2->GetValue("Threshold"));
+    elementLines["CableExpRPN"]->SetTrack2Value(track2->GetValue("CableExpRPN"));
+    elementLines["CableExpFull"]->SetTrack2Value(track2->GetValue("CableExpFull"));
+    elementLines["Auth"]->SetTrack2Value(track2->GetValue("Auth"));
+    elementLines["DisplayID"]->SetTrack2Value(track2->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrack2Value(track2->GetValue("DispFmt"));
+    elementLines["ChID"]->SetTrack2Value(track2->GetValue("ChID"));
+    elementLines["CStep"]->SetTrack2Value(track2->GetValue("CStep"));
+    elementLines["CParam"]->SetTrack2Value(track2->GetValue("CParam"));
+    elementLines["CexpRPN"]->SetTrack2Value(track2->GetValue("CexpRPN"));
+    elementLines["CexpFullDispExp"]->SetTrack2Value(track2->GetValue("CexpFullDispExp"));
+    elementLines["States"]->SetTrack2Value(track2->GetValue("States"));
+    elementLines["CAction"]->SetTrack2Value(track2->GetValue("CAction"));
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines[i++]->SetTrack3Value(track3->CTRLName);
-    elementLines[i++]->SetTrack3Value(track3->Unit);
-    elementLines[i++]->SetTrack3Value(track3->SIndx);
-    elementLines[i++]->SetTrack3Value(track3->SChan);
-    elementLines[i++]->SetTrack3Value(track3->ValType);
-    elementLines[i++]->SetTrack3Value(track3->Defaults);
-    elementLines[i++]->SetTrack3Value(track3->Range);
-    elementLines[i++]->SetTrack3Value(track3->DisplayAttr);
-    elementLines[i++]->SetTrack3Value(track3->CtrlAttr);
-    elementLines[i++]->SetTrack3Value(track3->Threshold);
-    elementLines[i++]->SetTrack3Value(track3->CableExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->CableExpFull);
-    elementLines[i++]->SetTrack3Value(track3->Auth);
-    elementLines[i++]->SetTrack3Value(track3->DisplayID);
-    elementLines[i++]->SetTrack3Value(track3->DispFmt);
-    elementLines[i++]->SetTrack3Value(track3->ChID);
-    elementLines[i++]->SetTrack3Value(track3->CStep);
-    elementLines[i++]->SetTrack3Value(track3->CParam);
-    elementLines[i++]->SetTrack3Value(track3->CexpRPN);
-    elementLines[i++]->SetTrack3Value(track3->CexpFullDispExp);
-    elementLines[i++]->SetTrack3Value(track3->States);
-    elementLines[i++]->SetTrack3Value(track3->CAction);
+    elementLines["CTRLName"]->SetTrack3Value(track3->GetValue("CTRLName"));
+    elementLines["Unit"]->SetTrack3Value(track3->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrack3Value(track3->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrack3Value(track3->GetValue("SChan"));
+    elementLines["ValType"]->SetTrack3Value(track3->GetValue("ValType"));
+    elementLines["Defaults"]->SetTrack3Value(track3->GetValue("Defaults"));
+    elementLines["Range"]->SetTrack3Value(track3->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrack3Value(track3->GetValue("DisplayAttr"));
+    elementLines["CtrlAttr"]->SetTrack3Value(track3->GetValue("CtrlAttr"));
+    elementLines["Threshold"]->SetTrack3Value(track3->GetValue("Threshold"));
+    elementLines["CableExpRPN"]->SetTrack3Value(track3->GetValue("CableExpRPN"));
+    elementLines["CableExpFull"]->SetTrack3Value(track3->GetValue("CableExpFull"));
+    elementLines["Auth"]->SetTrack3Value(track3->GetValue("Auth"));
+    elementLines["DisplayID"]->SetTrack3Value(track3->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrack3Value(track3->GetValue("DispFmt"));
+    elementLines["ChID"]->SetTrack3Value(track3->GetValue("ChID"));
+    elementLines["CStep"]->SetTrack3Value(track3->GetValue("CStep"));
+    elementLines["CParam"]->SetTrack3Value(track3->GetValue("CParam"));
+    elementLines["CexpRPN"]->SetTrack3Value(track3->GetValue("CexpRPN"));
+    elementLines["CexpFullDispExp"]->SetTrack3Value(track3->GetValue("CexpFullDispExp"));
+    elementLines["States"]->SetTrack3Value(track3->GetValue("States"));
+    elementLines["CAction"]->SetTrack3Value(track3->GetValue("CAction"));
   }
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Compare();
+  for ( i = 0 ; i < keysSize ; i ++) {
+    elementLines[keys[i]]->Compare();
   }
+}
+
+/*****************************************************************************!
+ * Function : SlotNextElement
+ *****************************************************************************/
+void
+ControlDisplayForm::SlotNextElement
+(int InMajorMinorFlags)
+{
+  ControlSignalPair*                    pair;
+  if ( currentControlIndex + 1 >= controlInformation->GetPairCount() ) {
+    return;
+  }
+
+  if ( InMajorMinorFlags == 0 ) {
+    currentControlIndex++;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToNextMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToNextMinorSignal();
+  } else {
+    SkipToNextAnySignal();
+  }
+  pair = controlInformation->GetPairByIndex(currentControlIndex);
+  SetTrackInformation(pair);
+  emit SignalSetCurrentControlIndex(currentControlIndex + 1);
+}
+
+/*****************************************************************************!
+ * Function : SlotPreviousElement
+ *****************************************************************************/
+void
+ControlDisplayForm::SlotPreviousElement
+(int InMajorMinorFlags)
+{
+  ControlSignalPair*                  pair;
+  if ( currentControlIndex == 0 ) {
+    return;
+  }
+  if ( InMajorMinorFlags == 0 ) {
+    currentControlIndex--;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToPrevMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToPrevMinorSignal();
+  } else {
+    SkipToPrevAnySignal();
+  }
+  pair = controlInformation->GetPairByIndex(currentControlIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentControlIndex(currentControlIndex + 1);
 }
 
 /*****************************************************************************!
@@ -370,10 +385,10 @@ void
 ControlDisplayForm::SlotFirstElement(void)
 {
   ControlSignalPair*                  pair;
-  currentEquipIndex = 0;
-  pair = controlInformation->GetPairByIndex(currentEquipIndex);
+  currentControlIndex = 0;
+  pair = controlInformation->GetPairByIndex(currentControlIndex);
   SetTrackInformation(pair);  
-  emit SignalSetCurrentControlIndex(currentEquipIndex + 1);  
+  emit SignalSetCurrentControlIndex(currentControlIndex + 1);  
 }
 
 /*****************************************************************************!
@@ -383,8 +398,207 @@ void
 ControlDisplayForm::SlotLastElement(void)
 {
   ControlSignalPair*                  pair;
-  currentEquipIndex = controlInformation->GetPairCount() - 1;
-  pair = controlInformation->GetPairByIndex(currentEquipIndex);
+  currentControlIndex = controlInformation->GetPairCount() - 1;
+  pair = controlInformation->GetPairByIndex(currentControlIndex);
   SetTrackInformation(pair);  
-  emit SignalSetCurrentControlIndex(currentEquipIndex + 1);  
+  emit SignalSetCurrentControlIndex(currentControlIndex + 1);  
 }
+
+/*****************************************************************************!
+ * Function : PairContainsMajorAlarm
+ *****************************************************************************/
+bool
+ControlDisplayForm::PairContainsMajorAlarm
+(ControlSignalPair* InPair)
+{
+  return PairContainsAlarm(InPair, ElementDisplayLine::Major);
+}
+
+/*****************************************************************************!
+ * Function : PairContainsMinorAlarm
+ *****************************************************************************/
+bool
+ControlDisplayForm::PairContainsMinorAlarm
+(ControlSignalPair* InPair)
+{
+  return PairContainsAlarm(InPair, ElementDisplayLine::Minor);
+}
+
+/*****************************************************************************!
+ * Function : PairContainsAlarm
+ *****************************************************************************/
+bool
+ControlDisplayForm::PairContainsAlarm
+(ControlSignalPair* InPair, ElementDisplayLine::DifferLevel InDifferType)
+{
+  ElementDisplayLine*                   displayLine;
+  ElementDisplayLine::DifferLevel       differType;
+
+  for ( auto tag : NCUControlSignal::Tags ) {
+    if ( ! InPair->Differ(tag) ) {
+     continue;
+    }
+    displayLine = elementLines[tag];
+    if ( ! displayLine->isVisible() ) {
+      continue;
+    }
+    differType = displayLine->GetDifferType();
+    if ( differType == InDifferType ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*****************************************************************************!
+ * Function : PairContainsAnyAlarm
+ *****************************************************************************/
+bool
+ControlDisplayForm::PairContainsAnyAlarm
+(ControlSignalPair* InPair)
+{
+  ElementDisplayLine*                   displayLine;
+  ElementDisplayLine::DifferLevel       differType;
+
+  for ( auto tag : NCUControlSignal::Tags ) {
+    if ( ! InPair->Differ(tag) ) {
+     continue;
+    }
+    displayLine = elementLines[tag];
+    if ( ! displayLine->isVisible() ) {
+      continue;
+    }
+    differType = displayLine->GetDifferType();
+    if ( differType == ElementDisplayLine::Minor || differType == ElementDisplayLine::Major ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMajorSignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToPrevMajorSignal(void)
+{
+  int                                   n;
+  ControlSignalPair*                      pair;
+
+  currentControlIndex--;
+  for ( n = currentControlIndex ; n > 0 ; n-- ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( PairContainsMajorAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMinorSignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToPrevMinorSignal(void)
+{
+  int                                   n;
+  ControlSignalPair*                      pair;
+
+  currentControlIndex--;
+  for ( n = currentControlIndex ; n > 0 ; n-- ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( PairContainsMinorAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevAnySignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToPrevAnySignal(void)
+{
+  int                                   n;
+  ControlSignalPair*                      pair;
+
+  currentControlIndex--;
+  for ( n = currentControlIndex ; n > 0 ; n-- ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( PairContainsAnyAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMajorSignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToNextMajorSignal(void)
+{
+  int                                   n;
+  int                                   m;
+  ControlSignalPair*                      pair;
+
+  currentControlIndex++;
+  m = controlInformation->GetPairCount();
+  for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( PairContainsMajorAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMinorSignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToNextMinorSignal(void)
+{
+  int                                   n;
+  int                                   m;
+  ControlSignalPair*                      pair;
+
+  currentControlIndex++;
+  m = controlInformation->GetPairCount();
+  for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( PairContainsMinorAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextAnySignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToNextAnySignal(void)
+{
+  int                                   n;
+  int                                   m;
+  ControlSignalPair*                      pair;
+
+  currentControlIndex++;
+  m = controlInformation->GetPairCount();
+  for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( PairContainsAnyAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+

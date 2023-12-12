@@ -46,7 +46,8 @@ class AlarmSignalPair : public QWidget
   NCUAlarmSignal*               GetTrack2               ();
   NCUAlarmSignal*               GetTrack3               ();
   bool                          Differ                  ();
-
+  bool                          Differ                  (QString InTag);
+  
  //! Public Data
  public :
 

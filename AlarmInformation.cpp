@@ -139,16 +139,16 @@ AlarmInformation::SQLRead
         
         //!
         i = 3;
-        alarm->AlarmName = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->Level = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->ExpRPN = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->EXPFull = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->Delay = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->SetValue("AlarmName", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("Level", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("ExpRPN", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("EXPFull", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("Delay", QString((char*)sqlite3_column_text(statement, i++)));
 
-        alarm->SuppressRPN = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->SuppressFull = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->Relay = QString((char*)sqlite3_column_text(statement, i++));
-        alarm->Help = QString((char*)sqlite3_column_text(statement, i++));
+        alarm->SetValue("SuppressRPN", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("SuppressFull", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("Relay", QString((char*)sqlite3_column_text(statement, i++)));
+        alarm->SetValue("Help", QString((char*)sqlite3_column_text(statement, i++)));
         alarms << alarm;
         break;
       }

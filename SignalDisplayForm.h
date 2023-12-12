@@ -54,8 +54,8 @@ class SignalDisplayForm : public QWidget
   
  //! Protected Data
  protected :
-  QColor                        ValueColors[2];
-  QList<ElementDisplayLine*>    elementLines;
+  QColor                                ValueColors[2];
+  QHash<QString, ElementDisplayLine*>    elementLines;
   
  //! Private Methods
  private :

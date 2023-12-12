@@ -144,23 +144,23 @@ SampleInformation::SQLRead
 
         //!
         i = 3;
-        sample->SAMPLEName      = QString((char*)sqlite3_column_text(statement, i++));
-        sample->Unit            = QString((char*)sqlite3_column_text(statement, i++));
-        sample->SIndx           = QString((char*)sqlite3_column_text(statement, i++));
-        sample->SChan           = QString((char*)sqlite3_column_text(statement, i++));
-        sample->ValType         = QString((char*)sqlite3_column_text(statement, i++));
-        sample->StorThreshold   = QString((char*)sqlite3_column_text(statement, i++));
-        sample->StorInt         = QString((char*)sqlite3_column_text(statement, i++));
-        sample->EvalExpRPN      = QString((char*)sqlite3_column_text(statement, i++));
-        sample->EvalExpFull     = QString((char*)sqlite3_column_text(statement, i++));
-        sample->Range           = QString((char*)sqlite3_column_text(statement, i++));
-        sample->DisplayAttr     = QString((char*)sqlite3_column_text(statement, i++));
-        sample->DisplayLvl      = QString((char*)sqlite3_column_text(statement, i++));
-        sample->DisplayID       = QString((char*)sqlite3_column_text(statement, i++));
-        sample->DispFmt         = QString((char*)sqlite3_column_text(statement, i++));
-        sample->DispExpRPN      = QString((char*)sqlite3_column_text(statement, i++));
-        sample->DispExpFull     = QString((char*)sqlite3_column_text(statement, i++));
-        sample->Enums           = QString((char*)sqlite3_column_text(statement, i++));
+        sample->SetValue("SAMPLEName", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("Unit", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("SIndx", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("SChan", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("ValType", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("StorThreshold", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("StorInt", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("EvalExpRPN", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("EvalExpFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("Range", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayAttr", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayLvl", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayID", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DispFmt", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DispExpRPN", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DispExpFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("Enums", 		QString((char*)sqlite3_column_text(statement, i++)));
         samples << sample;
         break;
       }

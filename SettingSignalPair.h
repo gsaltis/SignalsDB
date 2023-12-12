@@ -46,6 +46,7 @@ class SettingSignalPair : public QWidget
   NCUSettingSignal*             GetTrack2               ();
   NCUSettingSignal*             GetTrack3               ();
   bool                          Differ                  ();
+  bool                          Differ                  (QString InTag);
 
  //! Public Data
  public :

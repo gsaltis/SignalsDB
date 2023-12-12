@@ -44,29 +44,7 @@ class NCUSettingSignal : public NCUSignal
   
  //! Public Data
  public :
-  QString                               SETName;
-  QString                               Unit;
-  QString                               SIndx;
-  QString                               SChan;
-  QString                               ValType;
-  QString                               Def;
-  QString                               Range;
-  QString                               DisplayAttr;
-  QString                               SetAttr;
-  QString                               SetExpRPN;
-  QString                               SetExpFull;
-  QString                               Auth;
-  QString                               DisplayID;
-  QString                               DispFmt;
-  QString                               ChID;
-  QString                               Step;
-  QString                               CExpRPN;
-  QString                               CExpFull;
-  QString                               Persist;
-  QString                               DispExpRPN;
-  QString                               DispExpFull;
-  QString                               States;
-  QString                               OnCtrl;
+  static QStringList            Tags;
 
  //! Protected Methods
  protected :

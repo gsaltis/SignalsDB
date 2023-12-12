@@ -74,10 +74,10 @@ SignalStatsWindow::CreateSubWindows()
   x4 = x3 + labelWidth + 10;;
   
 
-  CreateSimpleLabel("Total",     x1, y, labelWidth, labelHeight);
-  CreateSimpleLabel("Missing",   x2, y, labelWidth, labelHeight);
-  CreateSimpleLabel("Differing", x3, y, labelWidth, labelHeight);
-  CreateSimpleLabel("Combined",  x4, y, labelWidth, labelHeight);
+  CreateSimpleLabel("TOTAL",     x1, y, labelWidth, labelHeight);
+  CreateSimpleLabel("MISSING",   x2, y, labelWidth, labelHeight);
+  CreateSimpleLabel("DIFFERING", x3, y, labelWidth, labelHeight);
+  CreateSimpleLabel("COMBINED",  x4, y, labelWidth, labelHeight);
   y += labelHeight;
 
   CreateSimpleLabel("TRACK 2", x0, y, labelWidth2, labelHeight);

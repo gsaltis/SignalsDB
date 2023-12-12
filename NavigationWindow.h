@@ -82,6 +82,7 @@ class NavigationWindow : public QFrame
   QCheckBox*                    MajorCheckBox;
   QCheckBox*                    MinorCheckBox;
   int                           MajorMinorFlags;
+  QFont                         CheckBoxFont;
 
  //! Public Slots
  public slots :

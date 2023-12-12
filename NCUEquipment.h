@@ -46,13 +46,7 @@ class NCUEquipment : public NCUSignal
 
  //! Public Data
  public :
-  QString                               TypeName;
-  QString                               GroupName;
-  QString                               NumofSamples;
-  QString                               NumofCtrl;
-  QString                               NumofSet;
-  QString                               NumofAlarm;
-  QString                               Related;
+  static QStringList            Tags;
   
  //! Protected Methods
  protected :

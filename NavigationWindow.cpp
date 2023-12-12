@@ -49,6 +49,8 @@ void
 NavigationWindow::initialize()
 {
   TextFont = QFont("Segoe UI", 10, QFont::Normal);
+  CheckBoxFont = QFont("Segoe UI", 8, QFont::Normal);
+  
   buttonHeight = 32;
   buttonWidth = 32;
   MajorMinorFlags = 0;
@@ -107,13 +109,15 @@ NavigationWindow::CreateSubWindows()
   MajorCheckBox = new QCheckBox("Major", this);
   MajorCheckBox->move(0, 0);
   MajorCheckBox->resize(100, 32);
-  MajorCheckBox->setFont(TextFont);
+  MajorCheckBox->setFont(CheckBoxFont);
+  MajorCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(MajorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMajorCheckToggle);
   
   MinorCheckBox = new QCheckBox("Minor", this);
   MinorCheckBox->move(0, 0);
-  MinorCheckBox->resize(100, 32);
-  MinorCheckBox->setFont(TextFont);
+  MinorCheckBox->resize(110, 32);
+  MinorCheckBox->setFont(CheckBoxFont);
+  MinorCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(MinorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMinorCheckToggle);
   
     
@@ -142,6 +146,8 @@ NavigationWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
   int                                   checkBoxWidth;
+  int                                   checkBoxHeight;
+  
   int                                   buttonPosition;
   QSize                                 s;
   int                                   nextX;
@@ -193,7 +199,8 @@ NavigationWindow::resizeEvent
   width = s.width();
   height = s.height();
   checkBoxWidth = 70;
-
+  checkBoxHeight = 13;
+  
   //!
   xclX = 0;
   xclY = 0;
@@ -227,15 +234,14 @@ NavigationWindow::resizeEvent
 
 
   majorX = endX + endW + 20;
-  majorY = 0;
+  majorY = 2;
   majorW = checkBoxWidth;
-  majorH = buttonHeight;
+  majorH = checkBoxHeight;
   
-
-  minorX = majorX + majorW + horizontalSkip;
-  minorY = 0;
+  minorX = majorX;
+  minorY = majorH + 3;;
   minorW = checkBoxWidth;
-  minorH = buttonHeight;
+  minorH = checkBoxHeight;
   
   indexlabelW = IndexLabel->size().width();
   indexlabelX = width - (indexlabelW + 5);

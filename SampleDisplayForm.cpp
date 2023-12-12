@@ -53,7 +53,7 @@ SampleDisplayForm::initialize()
 {
   SampleSignalPair*                  pair;
 
-  currentEquipIndex = 0;
+  currentSampleIndex = 0;
   sampleInformation = MainConfig::sampleInformation;
   InitializeSubWindows();  
   CreateSubWindows();
@@ -167,7 +167,6 @@ SampleDisplayForm::resizeEvent
   int                                   x4;
   int                                   w2;
   QPoint                                p2;
-  int                                   n;
   QSize					size;
   QSize                                 s2;
   int                                   h2;
@@ -177,7 +176,7 @@ SampleDisplayForm::resizeEvent
   int                                   navigationWindowY;
   int                                   navigationWindowW;
   int                                   navigationWindowH;
-  ElementDisplayLine*                   line;
+  ElementDisplayLine*                   lastLine;
   
   size = InEvent->size();
   width = size.width();
@@ -197,19 +196,18 @@ SampleDisplayForm::resizeEvent
   for ( auto i : elementLines ) {
     i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
   }
+  lastLine = NULL;
+  for ( auto i : elementLines ) {
+    i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
+    lastLine = i;
+  }
 
-  n = elementLines.size() - 1;
-  line = elementLines[n];
-  p2 = line->pos();
+  p2 = lastLine->pos();
   y2 = p2.y();
-  s2 = line->size();
+  s2 = lastLine->size();
 
-  TRACE_FUNCTION_INT(y2);
-  TRACE_FUNCTION_INT(height);
   h2 = (height - (NAVIGATION_WINDOW_HEIGHT + y2));
-  TRACE_FUNCTION_INT(h2);
-        
-  line->resize(s2.width(), h2);
+  lastLine->resize(s2.width(), h2);
   
   if ( navigationWindow ) {
     navigationWindow->move(navigationWindowX, navigationWindowY);
@@ -254,17 +252,25 @@ SampleDisplayForm::CreateConnections(void)
  *****************************************************************************/
 void
 SampleDisplayForm::SlotNextElement
-(int)
+(int InMajorMinorFlags)
 {
-  SampleSignalPair*                     pair;
-  if ( currentEquipIndex + 1 >= sampleInformation->GetPairCount() ) {
+  SampleSignalPair*                    pair;
+  if ( currentSampleIndex + 1 >= sampleInformation->GetPairCount() ) {
     return;
   }
 
-  currentEquipIndex++;
-  pair = sampleInformation->GetPairByIndex(currentEquipIndex);
+  if ( InMajorMinorFlags == 0 ) {
+    currentSampleIndex++;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToNextMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToNextMinorSignal();
+  } else {
+    SkipToNextAnySignal();
+  }
+  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
   SetTrackInformation(pair);
-  emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);
+  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);
 }
 
 /*****************************************************************************!
@@ -272,16 +278,24 @@ SampleDisplayForm::SlotNextElement
  *****************************************************************************/
 void
 SampleDisplayForm::SlotPreviousElement
-(int)
+(int InMajorMinorFlags)
 {
   SampleSignalPair*                  pair;
-  if ( currentEquipIndex == 0 ) {
+  if ( currentSampleIndex == 0 ) {
     return;
   }
-  currentEquipIndex--;
-  pair = sampleInformation->GetPairByIndex(currentEquipIndex);
+  if ( InMajorMinorFlags == 0 ) {
+    currentSampleIndex--;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToPrevMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToPrevMinorSignal();
+  } else {
+    SkipToPrevAnySignal();
+  }
+  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
   SetTrackInformation(pair);  
-    emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);
+  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);
 }
 
 /*****************************************************************************!
@@ -291,6 +305,8 @@ void
 SampleDisplayForm::SetTrackInformation
 (SampleSignalPair* InPair)
 {
+  int                                   keysSize;
+  QStringList                           keys;
   
   int                                   i;
   NCUSampleSignal*                      track2;
@@ -302,54 +318,56 @@ SampleDisplayForm::SetTrackInformation
   track2 = InPair->GetTrack2();
   track3 = InPair->GetTrack3();
 
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Clear();
+  keys = elementLines.keys();
+  keysSize = keys.size();
+  for ( i = 0 ; i < keysSize ; i++ ) {
+    elementLines[keys[i]]->Clear();
   }
 
   if ( track2 ) {
     i = 0;
-    elementLines[i++]->SetTrack2Value(track2->SAMPLEName);
-    elementLines[i++]->SetTrack2Value(track2->Unit);
-    elementLines[i++]->SetTrack2Value(track2->SIndx);
-    elementLines[i++]->SetTrack2Value(track2->SChan);
-    elementLines[i++]->SetTrack2Value(track2->ValType);
-    elementLines[i++]->SetTrack2Value(track2->StorThreshold);
-    elementLines[i++]->SetTrack2Value(track2->StorInt);
-    elementLines[i++]->SetTrack2Value(track2->EvalExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->EvalExpFull);
-    elementLines[i++]->SetTrack2Value(track2->Range);
-    elementLines[i++]->SetTrack2Value(track2->DisplayAttr);
-    elementLines[i++]->SetTrack2Value(track2->DisplayLvl);
-    elementLines[i++]->SetTrack2Value(track2->DisplayID);
-    elementLines[i++]->SetTrack2Value(track2->DispFmt);
-    elementLines[i++]->SetTrack2Value(track2->DispExpRPN);
-    elementLines[i++]->SetTrack2Value(track2->DispExpFull);
-    elementLines[i++]->SetTrack2Value(track2->Enums);
+    elementLines["SAMPLEName"]->SetTrack2Value(track2->GetValue("SAMPLEName"));
+    elementLines["Unit"]->SetTrack2Value(track2->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrack2Value(track2->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrack2Value(track2->GetValue("SChan"));
+    elementLines["ValType"]->SetTrack2Value(track2->GetValue("ValType"));
+    elementLines["StorThreshold"]->SetTrack2Value(track2->GetValue("StorThreshold"));
+    elementLines["StorInt"]->SetTrack2Value(track2->GetValue("StorInt"));
+    elementLines["EvalExpRPN"]->SetTrack2Value(track2->GetValue("EvalExpRPN"));
+    elementLines["EvalExpFull"]->SetTrack2Value(track2->GetValue("EvalExpFull"));
+    elementLines["Range"]->SetTrack2Value(track2->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrack2Value(track2->GetValue("DisplayAttr"));
+    elementLines["DisplayLvl"]->SetTrack2Value(track2->GetValue("DisplayLvl"));
+    elementLines["DisplayID"]->SetTrack2Value(track2->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrack2Value(track2->GetValue("DispFmt"));
+    elementLines["DispExpRPN"]->SetTrack2Value(track2->GetValue("DispExpRPN"));
+    elementLines["DispExpFull"]->SetTrack2Value(track2->GetValue("DispExpFull"));
+    elementLines["Enums"]->SetTrack2Value(track2->GetValue("Enums"));
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines[i++]->SetTrack3Value(track3->SAMPLEName);
-    elementLines[i++]->SetTrack3Value(track3->Unit);
-    elementLines[i++]->SetTrack3Value(track3->SIndx);
-    elementLines[i++]->SetTrack3Value(track3->SChan);
-    elementLines[i++]->SetTrack3Value(track3->ValType);
-    elementLines[i++]->SetTrack3Value(track3->StorThreshold);
-    elementLines[i++]->SetTrack3Value(track3->StorInt);
-    elementLines[i++]->SetTrack3Value(track3->EvalExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->EvalExpFull);
-    elementLines[i++]->SetTrack3Value(track3->Range);
-    elementLines[i++]->SetTrack3Value(track3->DisplayAttr);
-    elementLines[i++]->SetTrack3Value(track3->DisplayLvl);
-    elementLines[i++]->SetTrack3Value(track3->DisplayID);
-    elementLines[i++]->SetTrack3Value(track3->DispFmt);
-    elementLines[i++]->SetTrack3Value(track3->DispExpRPN);
-    elementLines[i++]->SetTrack3Value(track3->DispExpFull);
-    elementLines[i++]->SetTrack3Value(track3->Enums);
+    elementLines["SAMPLEName"]->SetTrack3Value(track3->GetValue("SAMPLEName"));
+    elementLines["Unit"]->SetTrack3Value(track3->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrack3Value(track3->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrack3Value(track3->GetValue("SChan"));
+    elementLines["ValType"]->SetTrack3Value(track3->GetValue("ValType"));
+    elementLines["StorThreshold"]->SetTrack3Value(track3->GetValue("StorThreshold"));
+    elementLines["StorInt"]->SetTrack3Value(track3->GetValue("StorInt"));
+    elementLines["EvalExpRPN"]->SetTrack3Value(track3->GetValue("EvalExpRPN"));
+    elementLines["EvalExpFull"]->SetTrack3Value(track3->GetValue("EvalExpFull"));
+    elementLines["Range"]->SetTrack3Value(track3->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrack3Value(track3->GetValue("DisplayAttr"));
+    elementLines["DisplayLvl"]->SetTrack3Value(track3->GetValue("DisplayLvl"));
+    elementLines["DisplayID"]->SetTrack3Value(track3->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrack3Value(track3->GetValue("DispFmt"));
+    elementLines["DispExpRPN"]->SetTrack3Value(track3->GetValue("DispExpRPN"));
+    elementLines["DispExpFull"]->SetTrack3Value(track3->GetValue("DispExpFull"));
+    elementLines["Enums"]->SetTrack3Value(track3->GetValue("Enums"));
   }
-
-  for ( i = 0 ; i < elementLines.size() ; i++ ) {
-    elementLines[i]->Compare();
+  
+  for ( i = 0 ; i < keysSize ; i++ ) {
+    elementLines[keys[i]]->Compare();
   }
 }
 
@@ -361,10 +379,10 @@ SampleDisplayForm::SlotFirstElement
 (void)
 {
   SampleSignalPair*                  pair;
-  currentEquipIndex = 0;
-  pair = sampleInformation->GetPairByIndex(currentEquipIndex);
+  currentSampleIndex = 0;
+  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
   SetTrackInformation(pair);  
-  emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);  
+  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);  
 }
 
 /*****************************************************************************!
@@ -375,9 +393,207 @@ SampleDisplayForm::SlotLastElement
 (void)
 {
   SampleSignalPair*                  pair;
-  currentEquipIndex = sampleInformation->GetPairCount() - 1;
-  pair = sampleInformation->GetPairByIndex(currentEquipIndex);
+  currentSampleIndex = sampleInformation->GetPairCount() - 1;
+  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
   SetTrackInformation(pair);  
-  emit SignalSetCurrentSampleIndex(currentEquipIndex + 1);  
+  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);  
+}
+
+/*****************************************************************************!
+ * Function : PairContainsMajorAlarm
+ *****************************************************************************/
+bool
+SampleDisplayForm::PairContainsMajorAlarm
+(SampleSignalPair* InPair)
+{
+  return PairContainsAlarm(InPair, ElementDisplayLine::Major);
+}
+
+/*****************************************************************************!
+ * Function : PairContainsMinorAlarm
+ *****************************************************************************/
+bool
+SampleDisplayForm::PairContainsMinorAlarm
+(SampleSignalPair* InPair)
+{
+  return PairContainsAlarm(InPair, ElementDisplayLine::Minor);
+}
+
+/*****************************************************************************!
+ * Function : PairContainsAlarm
+ *****************************************************************************/
+bool
+SampleDisplayForm::PairContainsAlarm
+(SampleSignalPair* InPair, ElementDisplayLine::DifferLevel InDifferType)
+{
+  ElementDisplayLine*                   displayLine;
+  ElementDisplayLine::DifferLevel       differType;
+
+  for ( auto tag : NCUSampleSignal::Tags ) {
+    if ( ! InPair->Differ(tag) ) {
+     continue;
+    }
+    displayLine = elementLines[tag];
+    if ( ! displayLine->isVisible() ) {
+      continue;
+    }
+    differType = displayLine->GetDifferType();
+    if ( differType == InDifferType ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*****************************************************************************!
+ * Function : PairContainsAnyAlarm
+ *****************************************************************************/
+bool
+SampleDisplayForm::PairContainsAnyAlarm
+(SampleSignalPair* InPair)
+{
+  ElementDisplayLine*                   displayLine;
+  ElementDisplayLine::DifferLevel       differType;
+
+  for ( auto tag : NCUSampleSignal::Tags ) {
+    if ( ! InPair->Differ(tag) ) {
+     continue;
+    }
+    displayLine = elementLines[tag];
+    if ( ! displayLine->isVisible() ) {
+      continue;
+    }
+    differType = displayLine->GetDifferType();
+    if ( differType == ElementDisplayLine::Minor || differType == ElementDisplayLine::Major ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMajorSignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToPrevMajorSignal(void)
+{
+  int                                   n;
+  SampleSignalPair*                      pair;
+
+  currentSampleIndex--;
+  for ( n = currentSampleIndex ; n > 0 ; n-- ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( PairContainsMajorAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMinorSignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToPrevMinorSignal(void)
+{
+  int                                   n;
+  SampleSignalPair*                      pair;
+
+  currentSampleIndex--;
+  for ( n = currentSampleIndex ; n > 0 ; n-- ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( PairContainsMinorAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevAnySignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToPrevAnySignal(void)
+{
+  int                                   n;
+  SampleSignalPair*                      pair;
+
+  currentSampleIndex--;
+  for ( n = currentSampleIndex ; n > 0 ; n-- ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( PairContainsAnyAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMajorSignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToNextMajorSignal(void)
+{
+  int                                   n;
+  int                                   m;
+  SampleSignalPair*                      pair;
+
+  currentSampleIndex++;
+  m = sampleInformation->GetPairCount();
+  for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( PairContainsMajorAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMinorSignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToNextMinorSignal(void)
+{
+  int                                   n;
+  int                                   m;
+  SampleSignalPair*                      pair;
+
+  currentSampleIndex++;
+  m = sampleInformation->GetPairCount();
+  for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( PairContainsMinorAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextAnySignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToNextAnySignal(void)
+{
+  int                                   n;
+  int                                   m;
+  SampleSignalPair*                      pair;
+
+  currentSampleIndex++;
+  m = sampleInformation->GetPairCount();
+  for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( PairContainsAnyAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
 }
 
