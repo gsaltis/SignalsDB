@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "ControlInformation.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : ControlInformation
@@ -394,3 +395,45 @@ ControlInformation::GetPairCount
 {
   return controlPairs.size();
 }
+
+/*****************************************************************************!
+ * Function : GetTrackDifferCount
+ *****************************************************************************/
+void
+ControlInformation::GetTrackDifferCount
+(int &InSignalMajorCount, int &InMajorCount, int &InSignalMinorCount, int &InMinorCount)
+{
+  int                                   pairMinor;
+  int                                   pairMajor;
+  ControlSignalPair*                    ep;
+  int                                   i;
+  int                                   n;
+  QList<ElementDisplayLineFormat*>      formats;
+  int                                   signalMajor;
+  int                                   signalMinor;
+
+  signalMajor = 0;
+  signalMinor = 0;
+  InMajorCount = 0;
+  InMinorCount = 0;
+  formats = MainConfiguration->GetElementLineFormats("Control");
+
+  n = controlPairs.size();
+  for (i = 0; i < n; i++) {
+    ep = controlPairs[i];
+    pairMajor = 0;
+    pairMinor = 0;
+    ep->GetDifferCounts(pairMajor, pairMinor, formats);
+    if ( pairMajor > 0 ) {
+      signalMajor++;
+    }
+    if ( pairMinor > 0 ) {
+      signalMinor++;
+    }
+    InMajorCount += pairMajor;
+    InMinorCount += pairMinor;
+  }
+  InSignalMajorCount = signalMajor;
+  InSignalMinorCount = signalMinor;
+}
+

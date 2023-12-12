@@ -18,6 +18,7 @@
  * Local Headers
  *****************************************************************************/
 #include "NCUAlarmSignal.h"
+#include"ElementDisplayLineFormat.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -47,7 +48,7 @@ class AlarmSignalPair : public QWidget
   NCUAlarmSignal*               GetTrack3               ();
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
-  
+  void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
  //! Public Data
  public :
 

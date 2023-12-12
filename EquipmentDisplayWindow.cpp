@@ -108,7 +108,7 @@ EquipmentDisplayWindow::SetEquipmentInformation
   
   statsWindow->SetTrackCounts(track2Count, track3Count);
   statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
-  statsWindow->SetTrackDifferCount(trackDiffer);
+  statsWindow->SetTrackDifferCount(trackDiffer, trackDiffer);
   statsWindow->SetCombinedSignalCount(combinedSignals);
 }
 

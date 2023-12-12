@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "AlarmInformation.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : AlarmInformation
@@ -333,23 +334,42 @@ AlarmInformation::GetTrack3MissingCount(void)
 /*****************************************************************************!
  * Function : GetTrackDifferCount
  *****************************************************************************/
-int
-AlarmInformation::GetTrackDifferCount(void)
+void
+AlarmInformation::GetTrackDifferCount
+(int &InSignalMajorCount, int &InMajorCount, int &InSignalMinorCount, int &InMinorCount)
 {
-  AlarmSignalPair*                  ep;
+  int                                   pairMinor;
+  int                                   pairMajor;
+  AlarmSignalPair*                      ep;
   int                                   i;
   int                                   n;
-  int                                   count;
+  QList<ElementDisplayLineFormat*>      formats;
+  int                                   signalMajor;
+  int                                   signalMinor;
 
-  count = 0;
+  signalMajor = 0;
+  signalMinor = 0;
+  InMajorCount = 0;
+  InMinorCount = 0;
+  formats = MainConfiguration->GetElementLineFormats("Alarm");
+
   n = alarmPairs.size();
   for (i = 0; i < n; i++) {
     ep = alarmPairs[i];
-    if ( ep->Differ() ) {
-      count++;
+    pairMajor = 0;
+    pairMinor = 0;
+    ep->GetDifferCounts(pairMajor, pairMinor, formats);
+    if ( pairMajor > 0 ) {
+      signalMajor++;
     }
+    if ( pairMinor > 0 ) {
+      signalMinor++;
+    }
+    InMajorCount += pairMajor;
+    InMinorCount += pairMinor;
   }
-  return count;
+  InSignalMajorCount = signalMajor;
+  InSignalMinorCount = signalMinor;
 }
 
 /*****************************************************************************!

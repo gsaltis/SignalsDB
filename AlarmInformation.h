@@ -51,7 +51,8 @@ class AlarmInformation : public SignalsInformation
   int                           GetTrack3Count          (void);
   int                           GetTrack2MissingCount   (void);
   int                           GetTrack3MissingCount   (void);
-  int                           GetTrackDifferCount     (void);
+  void                          GetTrackDifferCount     (int &InSignalMajorCount, int &InMajorCount,
+                                                         int &InSignalMinorCount, int &InMinorCount);
   int                           GetCountByTrack         (int InTrack);
   AlarmSignalPair*              GetPairByIndex          (int InIndex);
   int                           GetPairCount            (void);

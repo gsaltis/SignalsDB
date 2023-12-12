@@ -54,14 +54,14 @@ void
 SignalStatsWindow::CreateSubWindows()
 {
   int                                   labelWidth2;
-  int                                   x0, x1, x2, x3, x4;
+  int                                   x0, x1, x2, x3, x4, x5;
   int                                   y;
   int                                   labelWidth;
   int                                   labelHeight;
   
   y = WINDOW_HEADER_HEIGHT;
 
-  labelWidth = 80;
+  labelWidth = 100;
   labelWidth2 = 175;
   
   labelHeight = 20;
@@ -72,27 +72,28 @@ SignalStatsWindow::CreateSubWindows()
   x2 = x1 + labelWidth + 10;
   x3 = x2 + labelWidth + 10;;
   x4 = x3 + labelWidth + 10;;
+  x5 = x4 + labelWidth + 10;;
   
 
   CreateSimpleLabel("TOTAL",     x1, y, labelWidth, labelHeight);
   CreateSimpleLabel("MISSING",   x2, y, labelWidth, labelHeight);
-  CreateSimpleLabel("DIFFERING", x3, y, labelWidth, labelHeight);
-  CreateSimpleLabel("COMBINED",  x4, y, labelWidth, labelHeight);
+  CreateSimpleLabel("MAJOR DIFFER", x3, y, labelWidth, labelHeight);
+  CreateSimpleLabel("MINOR DIFFER", x4, y, labelWidth, labelHeight);
+  CreateSimpleLabel("COMBINED",  x5, y, labelWidth, labelHeight);
   y += labelHeight;
 
   CreateSimpleLabel("TRACK 2", x0, y, labelWidth2, labelHeight);
   Track2TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
   Track2MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
-  Track2DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
-  CombinedSignalsLabel = CreateDisplayLabel(x4, y, labelWidth, labelHeight);
+  TrackMajorDifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
+  TrackMinorDifferLabel = CreateDisplayLabel(x4, y, labelWidth, labelHeight);
+  CombinedSignalsLabel = CreateDisplayLabel(x5, y, labelWidth, labelHeight);
   y += labelHeight;
 
   CreateSimpleLabel("TRACK 3", x0, y, labelWidth2, labelHeight);
   Track3TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
   Track3MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
   
-  // Track3DifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
-
   header = new WindowHeader(text, this);
 }
 
@@ -297,9 +298,21 @@ SignalStatsWindow::SetMissingTrackCounts
  *****************************************************************************/
 void
 SignalStatsWindow::SetTrackDifferCount
-(int InDifferCount)
+(int InMajorCount, int InMinorCount)
 {
-  Track2DifferLabel->setText(QString("%1").arg(InDifferCount));
+  TrackMajorDifferLabel->setText(QString("%1").arg(InMajorCount));
+  TrackMinorDifferLabel->setText(QString("%1").arg(InMinorCount));
+}
+
+/*****************************************************************************!
+ * Function : SetTrackDifferCount
+ *****************************************************************************/
+void
+SignalStatsWindow::SetTrackDifferCount
+(int InTotalMajor, int InMajorCount, int InTotalMinor, int InMinorCount)
+{
+  TrackMajorDifferLabel->setText(QString("%1/%2").arg(InTotalMajor).arg(InMajorCount));
+  TrackMinorDifferLabel->setText(QString("%1/%2").arg(InTotalMinor).arg(InMinorCount));
 }
 
 /*****************************************************************************!

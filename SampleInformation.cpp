@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "SampleInformation.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : SampleInformation
@@ -386,3 +387,45 @@ SampleInformation::GetPairCount
 {
   return samplePairs.size();
 }
+
+/*****************************************************************************!
+ * Function : GetTrackDifferCount
+ *****************************************************************************/
+void
+SampleInformation::GetTrackDifferCount
+(int &InSignalMajorCount, int &InMajorCount, int &InSignalMinorCount, int &InMinorCount)
+{
+  int                                   pairMinor;
+  int                                   pairMajor;
+  SampleSignalPair*                    ep;
+  int                                   i;
+  int                                   n;
+  QList<ElementDisplayLineFormat*>      formats;
+  int                                   signalMajor;
+  int                                   signalMinor;
+
+  signalMajor = 0;
+  signalMinor = 0;
+  InMajorCount = 0;
+  InMinorCount = 0;
+  formats = MainConfiguration->GetElementLineFormats("Samples");
+
+  n = samplePairs.size();
+  for (i = 0; i < n; i++) {
+    ep = samplePairs[i];
+    pairMajor = 0;
+    pairMinor = 0;
+    ep->GetDifferCounts(pairMajor, pairMinor, formats);
+    if ( pairMajor > 0 ) {
+      signalMajor++;
+    }
+    if ( pairMinor > 0 ) {
+      signalMinor++;
+    }
+    InMajorCount += pairMajor;
+    InMinorCount += pairMinor;
+  }
+  InSignalMajorCount = signalMajor;
+  InSignalMinorCount = signalMinor;
+}
+

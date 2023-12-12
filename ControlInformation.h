@@ -55,7 +55,8 @@ class ControlInformation : public SignalsInformation
   int                           GetCountByTrack         (int InTrack);
   ControlSignalPair*            GetPairByIndex          (int InIndex);
   int                           GetPairCount            (void);
-  
+  void                          GetTrackDifferCount     (int &InSignalMajorCount, int &InMajorCount,
+                                                         int &InSignalMinorCount, int &InMinorCount);
  //! Public Data
  public :
 

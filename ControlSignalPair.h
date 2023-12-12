@@ -18,6 +18,7 @@
  * Local Headers
  *****************************************************************************/
 #include "NCUControlSignal.h"
+#include "ElementDisplayLineFormat.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -47,6 +48,7 @@ class ControlSignalPair : public QWidget
   NCUControlSignal*             GetTrack3               ();
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
+  void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
 
  //! Public Data
  public :

@@ -55,6 +55,8 @@ class SampleInformation : public SignalsInformation
   int                           GetCountByTrack         (int InTrack);
   SampleSignalPair*             GetPairByIndex          (int InIndex);
   int                           GetPairCount            (void);
+  void                          GetTrackDifferCount     (int &InSignalMajorCount, int &InMajorCount,
+                                                         int &InSignalMinorCount, int &InMinorCount);
   
  //! Public Data
  public :

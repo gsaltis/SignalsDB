@@ -108,3 +108,37 @@ SettingSignalPair::Differ
   }
   return Track2Signal->GetValue(InTag) != Track3Signal->GetValue(InTag);
 }
+
+/*****************************************************************************!
+ * Function : GetDifferCounts
+ *****************************************************************************/
+void
+SettingSignalPair::GetDifferCounts
+(int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats)
+{
+  QString                               differsev;
+  QString                               tag;
+  
+  InMinor = 0;
+  InMajor = 0;
+
+  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+    return;
+  }
+
+  for ( auto format : InFormats ) {
+    tag = format->GetElementKey();
+    if ( Track2Signal->GetValue(tag) == Track3Signal->GetValue(tag) ) {
+      continue;
+    }
+    differsev = format->GetDifferenceSeverity();
+    if ( format->GetDifferenceSeverity() == "Major" ) {
+      InMajor++;
+      continue;
+    }
+    if ( format->GetDifferenceSeverity() == "Minor" ) {
+      InMinor++;
+    }
+  }
+}
+

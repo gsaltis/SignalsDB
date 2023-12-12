@@ -108,8 +108,11 @@ SampleDisplayWindow::resizeEvent
 void
 SampleDisplayWindow::SetSampleInformation(void)
 {
+  int                                   totalMinorDiffer;
+  int                                   totalMajorDiffer;
+  int                                   trackMinorDiffer;
+  int                                   trackMajorDiffer;
   int                                   combinedSignals;
-  int                                   trackDiffer;
   int                                   track2Missing;
   int                                   track3Missing;
   int                                   track3Count;
@@ -124,11 +127,14 @@ SampleDisplayWindow::SetSampleInformation(void)
   track2Missing = sampleInfo->GetTrack2MissingCount();
   track3Missing = sampleInfo->GetTrack3MissingCount();
 
-  trackDiffer = sampleInfo->GetTrackDifferCount();
+  sampleInfo->GetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
+                                  totalMinorDiffer, trackMinorDiffer);
+  
   combinedSignals = sampleInfo->GetPairCount();
   
   statsWindow->SetTrackCounts(track2Count, track3Count);
   statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
-  statsWindow->SetTrackDifferCount(trackDiffer);
+  statsWindow->SetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
+                                   totalMinorDiffer, trackMinorDiffer);
   statsWindow->SetCombinedSignalCount(combinedSignals);  
 }

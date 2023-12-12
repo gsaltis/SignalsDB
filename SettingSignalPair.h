@@ -18,6 +18,7 @@
  * Local Headers
  *****************************************************************************/
 #include "NCUSettingSignal.h"
+#include "ElementDisplayLineFormat.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -47,6 +48,9 @@ class SettingSignalPair : public QWidget
   NCUSettingSignal*             GetTrack3               ();
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
+  void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
+  void                          GetTrackDifferCount     (int &InSignalMajorCount, int &InMajorCount,
+                                                         int &InSignalMinorCount, int &InMinorCount);
 
  //! Public Data
  public :

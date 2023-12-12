@@ -8,7 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnet.h>
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -17,6 +17,8 @@
  * Local Headers
  *****************************************************************************/
 #include "AlarmSignalPair.h"
+#include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : AlarmSignalPair
@@ -94,6 +96,39 @@ AlarmSignalPair::Differ()
     return false;
   }
   return ! Track2Signal->Equal(Track3Signal);
+}
+
+/*****************************************************************************!
+ * Function : GetDifferCounts
+ *****************************************************************************/
+void
+AlarmSignalPair::GetDifferCounts
+(int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats)
+{
+  QString                               differsev;
+  QString                               tag;
+  
+  InMinor = 0;
+  InMajor = 0;
+
+  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+    return;
+  }
+
+  for ( auto format : InFormats ) {
+    tag = format->GetElementKey();
+    if ( Track2Signal->GetValue(tag) == Track3Signal->GetValue(tag) ) {
+      continue;
+    }
+    differsev = format->GetDifferenceSeverity();
+    if ( format->GetDifferenceSeverity() == "Major" ) {
+      InMajor++;
+      continue;
+    }
+    if ( format->GetDifferenceSeverity() == "Minor" ) {
+      InMinor++;
+    }
+  }
 }
 
 /*****************************************************************************!
