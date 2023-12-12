@@ -18,12 +18,37 @@
 #include "NCUSampleSignal.h"
 
 /*****************************************************************************!
+ * Static Data
+ *****************************************************************************/
+QStringList
+NCUSampleSignal::Tags = QStringList()
+  << "SAMPLEName"
+  << "Unit"
+  << "SIndx"
+  << "SChan"
+  << "ValType"
+  << "StorThreshold"
+  << "StorInt"
+  << "EvalExpRPN"
+  << "EvalExpFull"
+  << "Range"
+  << "DisplayAttr"
+  << "DisplayLvl"
+  << "DisplayID"
+  << "DispFmt"
+  << "DispExpRPN"
+  << "DispExpFull"
+  << "Enums";
+  
+/*****************************************************************************!
  * Function : NCUSampleSignal
  *****************************************************************************/
 NCUSampleSignal::NCUSampleSignal
 () : NCUSignal()
 {
-  IDName = "SID";
+  for ( auto tag : Tags ) {
+    Values[tag] = QString();
+  }
 }
 
 /*****************************************************************************!
@@ -42,72 +67,10 @@ bool
 NCUSampleSignal::Equal
 (NCUSampleSignal* InSample)
 {
-  if ( Unit != InSample->Unit ) {
-    return false;
-  }
-  
-  if ( SAMPLEName != InSample->SAMPLEName ) {
-    return false;
-  }
-  
-  if ( SIndx != InSample->SIndx ) {
-    return false;
-  }
-  
-  if ( SChan != InSample->SChan ) {
-    return false;
-  }
-  
-  if ( ValType != InSample->ValType ) {
-    return false;
-  }
-  
-  if ( StorThreshold != InSample->StorThreshold ) {
-    return false;
-  }
-  
-  if ( StorInt != InSample->StorInt ) {
-    return false;
-  }
-  
-  if ( EvalExpRPN != InSample->EvalExpRPN ) {
-    return false;
-  }
-  
-  if ( EvalExpFull != InSample->EvalExpFull ) {
-    return false;
-  }
-  
-  if ( Range != InSample->Range ) {
-    return false;
-  }
-  
-  if ( DisplayAttr != InSample->DisplayAttr ) {
-    return false;
-  }
-  
-  if ( DisplayLvl != InSample->DisplayLvl ) {
-    return false;
-  }
-  
-  if ( DisplayID != InSample->DisplayID ) {
-    return false;
-  }
-  
-  if ( DispFmt != InSample->DispFmt ) {
-    return false;
-  }
-  
-  if ( DispExpRPN != InSample->DispExpRPN ) {
-    return false;
-  }
-  
-  if ( DispExpFull != InSample->DispExpFull ) {
-    return false;
-  }
-  
-  if ( Enums != InSample->Enums ) {
-    return false;
+  for ( auto tag : Tags ) {
+    if ( Values[tag] != InSample->GetValue(tag) ) {
+      return false;
+    }
   }
   
   return true;

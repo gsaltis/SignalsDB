@@ -288,26 +288,26 @@ EquipmentDisplayForm::SetTrackInformation
 
   if ( track2 ) {
     elementLines["Type"]->SetTrack2Value(QString("%1").arg(track2->Type));
-    elementLines["Name"]->SetTrack2Value(track2->Name);
-    elementLines["TypeName"]->SetTrack2Value(track2->TypeName);
-    elementLines["GroupName"]->SetTrack2Value(track2->GroupName);
-    elementLines["NumofSamples"]->SetTrack2Value(track2->NumofSamples);
-    elementLines["NumofCtrl"]->SetTrack2Value(track2->NumofCtrl);
-    elementLines["NumofAlarm"]->SetTrack2Value(track2->NumofAlarm);
-    elementLines["NumofSet"]->SetTrack2Value(track2->NumofSet);
-    elementLines["Related"]->SetTrack2Value(track2->Related);
+    elementLines["Name"]->SetTrack2Value(track2->GetValue("Name"));
+    elementLines["TypeName"]->SetTrack2Value(track2->GetValue("TypeName"));
+    elementLines["GroupName"]->SetTrack2Value(track2->GetValue("GroupName"));
+    elementLines["NumofSamples"]->SetTrack2Value(track2->GetValue("NumofSamples"));
+    elementLines["NumofCtrl"]->SetTrack2Value(track2->GetValue("NumofCtrl"));
+    elementLines["NumofAlarm"]->SetTrack2Value(track2->GetValue("NumofAlarm"));
+    elementLines["NumofSet"]->SetTrack2Value(track2->GetValue("NumofSet"));
+    elementLines["Related"]->SetTrack2Value(track2->GetValue("Related"));
   }
 
   if ( track3 ) {
     elementLines["Type"]->SetTrack3Value(QString("%1").arg(track3->Type));
-    elementLines["Name"]->SetTrack3Value(track3->Name);
-    elementLines["TypeName"]->SetTrack3Value(track3->TypeName);
-    elementLines["GroupName"]->SetTrack3Value(track3->GroupName);
-    elementLines["NumofSamples"]->SetTrack3Value(track3->NumofSamples);
-    elementLines["NumofCtrl"]->SetTrack3Value(track3->NumofCtrl);
-    elementLines["NumofAlarm"]->SetTrack3Value(track3->NumofAlarm);
-    elementLines["NumofSet"]->SetTrack3Value(track3->NumofSet);
-    elementLines["Related"]->SetTrack3Value(track3->Related);
+    elementLines["Name"]->SetTrack3Value(track3->GetValue("Name"));
+    elementLines["TypeName"]->SetTrack3Value(track3->GetValue("TypeName"));
+    elementLines["GroupName"]->SetTrack3Value(track3->GetValue("GroupName"));
+    elementLines["NumofSamples"]->SetTrack3Value(track3->GetValue("NumofSamples"));
+    elementLines["NumofCtrl"]->SetTrack3Value(track3->GetValue("NumofCtrl"));
+    elementLines["NumofAlarm"]->SetTrack3Value(track3->GetValue("NumofAlarm"));
+    elementLines["NumofSet"]->SetTrack3Value(track3->GetValue("NumofSet"));
+    elementLines["Related"]->SetTrack3Value(track3->GetValue("Related"));
   }
 
   for ( i = 0 ; i < keysSize ; i++ ) {

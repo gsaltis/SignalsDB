@@ -53,6 +53,7 @@ public :
   void                          SetTrack3Value          (QString InValue);
   void                          Clear                   (void);
   void                          Compare                 (void);
+  DifferLevel                   GetDifferType           (void);
 
  //! Public Data
  public :

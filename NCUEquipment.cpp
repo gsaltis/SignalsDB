@@ -20,12 +20,27 @@
 #include "NCUEquipment.h"
 
 /*****************************************************************************!
+ * Static Data
+ *****************************************************************************/
+QStringList
+NCUEquipment::Tags = QStringList()
+  << "TypeName"
+  << "GroupName"
+  << "NumofSamples"
+  << "NumofCtrl"
+  << "NumofSet"
+  << "NumofAlarm"
+  << "Related";
+
+/*****************************************************************************!
  * Function : NCUEquipment
  *****************************************************************************/
 NCUEquipment::NCUEquipment
 () : NCUSignal()
 {
-  IDName = "Type";
+  for ( auto tag : Tags ) {
+    Values[tag] = QString();
+  }
 }
 
 /*****************************************************************************!
@@ -43,34 +58,11 @@ bool
 NCUEquipment::Equal
 (NCUEquipment* InEquipment)
 {
-  if ( TypeName != InEquipment->TypeName ) {
-    return false;
+  for ( auto tag : Tags ) {
+    if ( Values[tag] != InEquipment->GetValue(tag) ) {
+      return false;
+    }
   }
-  
-  if ( GroupName != InEquipment->GroupName ) {
-    return false;
-  }
-  
-  if ( NumofSamples != InEquipment->NumofSamples ) {
-    return false;
-  }
-  
-  if ( NumofCtrl != InEquipment->NumofCtrl ) {
-    return false;
-  }
-  
-  if ( NumofSet != InEquipment->NumofSet ) {
-    return false;
-  }
-  
-  if ( NumofAlarm != InEquipment->NumofAlarm ) {
-    return false;
-  }
-  
-  if ( Related != InEquipment->Related ) {
-    return false;
-  }
-
   return true;
 }
 
@@ -80,15 +72,4 @@ NCUEquipment::Equal
 void
 NCUEquipment::Dump(void)
 {
-  TRACE_FUNCTION_INT(Track);
-  TRACE_FUNCTION_INT(ID);
-  TRACE_FUNCTION_INT(Type);
-  TRACE_FUNCTION_QSTRING(Name);
-  TRACE_FUNCTION_QSTRING(TypeName);
-  TRACE_FUNCTION_QSTRING(GroupName);
-  TRACE_FUNCTION_QSTRING(NumofSamples);
-  TRACE_FUNCTION_QSTRING(NumofCtrl);
-  TRACE_FUNCTION_QSTRING(NumofSet);
-  TRACE_FUNCTION_QSTRING(NumofAlarm);
-  TRACE_FUNCTION_QSTRING(Related);
 }

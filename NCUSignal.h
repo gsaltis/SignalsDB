@@ -50,6 +50,8 @@ class NCUSignal : public QWidget
   void                          SetName                 (QString InName);
   QString                       GetIDName               (void);
   void                          SetIDName               (QString InIDName);
+  void                          SetValue                (QString InTag, QString InValue);
+  QString                       GetValue                (QString InTag);
 
  //! Public Data
  public :
@@ -58,10 +60,11 @@ class NCUSignal : public QWidget
   int                           Type;
   QString                       Name;
   QString                       IDName; 
-
+  QHash<QString, QString>       Values;
+  
  //! Protected Methods
  protected :
-
+  
  //! Protected Data
  protected :
 

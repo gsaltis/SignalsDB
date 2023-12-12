@@ -127,3 +127,24 @@ NCUSignal::SetIDName
 {
   IDName = InIDName;  
 }
+
+/*****************************************************************************!
+ * Function : GetValue
+ *****************************************************************************/
+QString
+NCUSignal::GetValue
+(QString InTag)
+{
+  return Values[InTag];
+}
+
+/*****************************************************************************!
+ * Function : SetValue
+ *****************************************************************************/
+void
+NCUSignal::SetValue
+(QString InTag, QString InValue)
+{
+  Values[InTag] = InValue;
+}
+

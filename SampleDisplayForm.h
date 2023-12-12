@@ -66,12 +66,25 @@ class SampleDisplayForm : public SignalDisplayForm
   void                          CreateConnections       (void);
   void                          SetTrackInformation     (SampleSignalPair* InPair);
 
+  void                          SkipToNextMajorSignal   (void);
+  void                          SkipToNextMinorSignal   (void);
+  void                          SkipToNextAnySignal     (void);
+
+  void                          SkipToPrevMajorSignal   (void);
+  void                          SkipToPrevMinorSignal   (void);
+  void                          SkipToPrevAnySignal     (void);
+
+  bool                          PairContainsMajorAlarm  (SampleSignalPair* InPair);
+  bool                          PairContainsMinorAlarm  (SampleSignalPair* InPair);
+  bool                          PairContainsAnyAlarm    (SampleSignalPair* InPair);
+  bool                          PairContainsAlarm       (SampleSignalPair* InPair, ElementDisplayLine::DifferLevel InDifferType);
+  
  //! Private Data
  private :
   NavigationWindow*             navigationWindow;
   SampleInformation*            sampleInformation;
   QLabel*                       SampleIDLabel;
-  int                           currentEquipIndex;
+  int                           currentSampleIndex;
   QLabel*                       Track3Label;
   QLabel*                       SignalIDLabel;
 

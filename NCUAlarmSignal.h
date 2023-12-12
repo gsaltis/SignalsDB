@@ -40,21 +40,13 @@ class NCUAlarmSignal : public NCUSignal
 
  //! Public Methods
  public :
-  bool                                  Equal                   (NCUAlarmSignal* InAlarm);
+  bool                          Equal                   (NCUAlarmSignal* InAlarm);
   
  //! Public Data
  public :
-  QString                               AlarmName;
-  QString                               Level;
-  QString                               ExpRPN;
-  QString                               EXPFull;
-  QString                               Delay;
-  QString                               SuppressRPN;
-  QString                               SuppressFull;
-  QString                               Relay;
-  QString                               Help;
+  static QStringList            Tags;
 
- //! Protected Methods
+  //! Protected Methods
  protected :
 
  //! Protected Data

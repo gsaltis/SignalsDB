@@ -52,7 +52,7 @@ AlarmDisplayForm::initialize()
 {
   AlarmSignalPair*                      pair;
 
-  currentEquipIndex = 0;
+  currentAlarmIndex = 0;
   alarmInformation = MainConfig::alarmInformation;
   InitializeSubWindows();  
   CreateSubWindows();
@@ -61,7 +61,6 @@ AlarmDisplayForm::initialize()
   SetTrackInformation(pair);
   navigationWindow->SlotSetCurrentSignalIndex(1);
   navigationWindow->SlotSetSignalCount(alarmInformation->GetPairCount());
-  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
@@ -249,17 +248,25 @@ AlarmDisplayForm::CreateConnections(void)
  *****************************************************************************/
 void
 AlarmDisplayForm::SlotNextElement
-(int )
+(int InMajorMinorFlags )
 {
   AlarmSignalPair*                      pair;
-  if ( currentEquipIndex + 1 >= alarmInformation->GetPairCount() ) {
+  if ( currentAlarmIndex + 1 >= alarmInformation->GetPairCount() ) {
     return;
   }
 
-  currentEquipIndex++;
-  pair = alarmInformation->GetPairByIndex(currentEquipIndex);
+  if ( InMajorMinorFlags == 0 ) {
+    currentAlarmIndex++;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToNextMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToNextMinorSignal();
+  } else {
+    SkipToNextAnySignal();
+  }
+  pair = alarmInformation->GetPairByIndex(currentAlarmIndex);
   SetTrackInformation(pair);
-  emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);
+  emit SignalSetCurrentAlarmIndex(currentAlarmIndex + 1);
 }
 
 /*****************************************************************************!
@@ -267,16 +274,24 @@ AlarmDisplayForm::SlotNextElement
  *****************************************************************************/
 void
 AlarmDisplayForm::SlotPreviousElement
-(int )
+(int InMajorMinorFlags)
 {
   AlarmSignalPair*                  pair;
-  if ( currentEquipIndex == 0 ) {
+  if ( currentAlarmIndex == 0 ) {
     return;
   }
-  currentEquipIndex--;
-  pair = alarmInformation->GetPairByIndex(currentEquipIndex);
+  if ( InMajorMinorFlags == 0 ) {
+    currentAlarmIndex--;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToPrevMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToPrevMinorSignal();
+  } else {
+    SkipToPrevAnySignal();
+  }
+  pair = alarmInformation->GetPairByIndex(currentAlarmIndex);
   SetTrackInformation(pair);  
-    emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);
+  emit SignalSetCurrentAlarmIndex(currentAlarmIndex + 1);
 }
 
 /*****************************************************************************!
@@ -292,7 +307,6 @@ AlarmDisplayForm::SetTrackInformation
   NCUAlarmSignal*                       track2;
   NCUAlarmSignal*                       track3;
 
-  TRACE_FUNCTION_START();
   AlarmIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
@@ -302,43 +316,33 @@ AlarmDisplayForm::SetTrackInformation
   keys = elementLines.keys();
   n = keys.size();
   for ( i = 0 ; i < n ; i++ ) {
-    TRACE_FUNCTION_QSTRING(keys[i]);
     elementLines[keys[i]]->Clear();
   }
 
   if ( track2 ) {
     i = 0;
-    elementLines["AlarmName"]->SetTrack2Value(track2->AlarmName);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["Level"]->SetTrack2Value(track2->Level);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["ExpRPN"]->SetTrack2Value(track2->ExpRPN);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["ExpFull"]->SetTrack2Value(track2->EXPFull);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["Delay"]->SetTrack2Value(track2->Delay);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["SuppressRPN"]->SetTrack2Value(track2->SuppressRPN);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["SuppressFull"]->SetTrack2Value(track2->SuppressFull);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["Relay"]->SetTrack2Value(track2->Relay);
-    TRACE_FUNCTION_LOCATION();
-    elementLines["Help"]->SetTrack2Value(track2->Help);
-    TRACE_FUNCTION_LOCATION();
+    elementLines["AlarmName"]->SetTrack2Value(track2->GetValue("AlarmName"));
+    elementLines["Level"]->SetTrack2Value(track2->GetValue("Level"));
+    elementLines["ExpRPN"]->SetTrack2Value(track2->GetValue("ExpRPN"));
+    elementLines["ExpFull"]->SetTrack2Value(track2->GetValue("EXPFull"));
+    elementLines["Delay"]->SetTrack2Value(track2->GetValue("Delay"));
+    elementLines["SuppressRPN"]->SetTrack2Value(track2->GetValue("SuppressRPN"));
+    elementLines["SuppressFull"]->SetTrack2Value(track2->GetValue("SuppressFull"));
+    elementLines["Relay"]->SetTrack2Value(track2->GetValue("Relay"));
+    elementLines["Help"]->SetTrack2Value(track2->GetValue("Help"));
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines["AlarmName"]->SetTrack3Value(track3->AlarmName);
-    elementLines["Level"]->SetTrack3Value(track3->Level);
-    elementLines["ExpRPN"]->SetTrack3Value(track3->ExpRPN);
-    elementLines["ExpFull"]->SetTrack3Value(track3->EXPFull);
-    elementLines["Delay"]->SetTrack3Value(track3->Delay);
-    elementLines["SuppressRPN"]->SetTrack3Value(track3->SuppressRPN);
-    elementLines["SuppressFull"]->SetTrack3Value(track3->SuppressFull);
-    elementLines["Relay"]->SetTrack3Value(track3->Relay);
-    elementLines["Help"]->SetTrack3Value(track3->Help);
+    elementLines["AlarmName"]->SetTrack3Value(track3->GetValue("AlarmName"));
+    elementLines["Level"]->SetTrack3Value(track3->GetValue("Level"));
+    elementLines["ExpRPN"]->SetTrack3Value(track3->GetValue("ExpRPN"));
+    elementLines["ExpFull"]->SetTrack3Value(track3->GetValue("EXPFull"));
+    elementLines["Delay"]->SetTrack3Value(track3->GetValue("Delay"));
+    elementLines["SuppressRPN"]->SetTrack3Value(track3->GetValue("SuppressRPN"));
+    elementLines["SuppressFull"]->SetTrack3Value(track3->GetValue("SuppressFull"));
+    elementLines["Relay"]->SetTrack3Value(track3->GetValue("Relay"));
+    elementLines["Help"]->SetTrack3Value(track3->GetValue("Help"));
   }
 
   keys = elementLines.keys();
@@ -346,7 +350,6 @@ AlarmDisplayForm::SetTrackInformation
   for ( i = 0 ; i < n ; i++ ) {
     elementLines[keys[i]]->Compare();
   }
-  TRACE_FUNCTION_END();
 }
 
 /*****************************************************************************!
@@ -356,10 +359,10 @@ void
 AlarmDisplayForm::SlotFirstElement(void)
 {
   AlarmSignalPair*                  pair;
-  currentEquipIndex = 0;
-  pair = alarmInformation->GetPairByIndex(currentEquipIndex);
+  currentAlarmIndex = 0;
+  pair = alarmInformation->GetPairByIndex(currentAlarmIndex);
   SetTrackInformation(pair);  
-  emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);  
+  emit SignalSetCurrentAlarmIndex(currentAlarmIndex + 1);  
 }
 
 /*****************************************************************************!
@@ -369,9 +372,208 @@ void
 AlarmDisplayForm::SlotLastElement(void)
 {
   AlarmSignalPair*                  pair;
-  currentEquipIndex = alarmInformation->GetPairCount() - 1;
-  pair = alarmInformation->GetPairByIndex(currentEquipIndex);
+  currentAlarmIndex = alarmInformation->GetPairCount() - 1;
+  pair = alarmInformation->GetPairByIndex(currentAlarmIndex);
   SetTrackInformation(pair);  
-  emit SignalSetCurrentAlarmIndex(currentEquipIndex + 1);  
+  emit SignalSetCurrentAlarmIndex(currentAlarmIndex + 1);  
 
 }
+
+/*****************************************************************************!
+ * Function : PairContainsMajorAlarm
+ *****************************************************************************/
+bool
+AlarmDisplayForm::PairContainsMajorAlarm
+(AlarmSignalPair* InPair)
+{
+  return PairContainsAlarm(InPair, ElementDisplayLine::Major);
+}
+
+/*****************************************************************************!
+ * Function : PairContainsMinorAlarm
+ *****************************************************************************/
+bool
+AlarmDisplayForm::PairContainsMinorAlarm
+(AlarmSignalPair* InPair)
+{
+  return PairContainsAlarm(InPair, ElementDisplayLine::Minor);
+}
+
+/*****************************************************************************!
+ * Function : PairContainsAlarm
+ *****************************************************************************/
+bool
+AlarmDisplayForm::PairContainsAlarm
+(AlarmSignalPair* InPair, ElementDisplayLine::DifferLevel InDifferType)
+{
+  ElementDisplayLine*                   displayLine;
+  ElementDisplayLine::DifferLevel       differType;
+
+  for ( auto tag : NCUAlarmSignal::Tags ) {
+    if ( ! InPair->Differ(tag) ) {
+     continue;
+    }
+    displayLine = elementLines[tag];
+    if ( ! displayLine->isVisible() ) {
+      continue;
+    }
+    differType = displayLine->GetDifferType();
+    if ( differType == InDifferType ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*****************************************************************************!
+ * Function : PairContainsAnyAlarm
+ *****************************************************************************/
+bool
+AlarmDisplayForm::PairContainsAnyAlarm
+(AlarmSignalPair* InPair)
+{
+  ElementDisplayLine*                   displayLine;
+  ElementDisplayLine::DifferLevel       differType;
+
+  for ( auto tag : NCUAlarmSignal::Tags ) {
+    if ( ! InPair->Differ(tag) ) {
+     continue;
+    }
+    displayLine = elementLines[tag];
+    if ( ! displayLine->isVisible() ) {
+      continue;
+    }
+    differType = displayLine->GetDifferType();
+    if ( differType == ElementDisplayLine::Minor || differType == ElementDisplayLine::Major ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMajorSignal
+ *****************************************************************************/
+void
+AlarmDisplayForm::SkipToPrevMajorSignal(void)
+{
+  int                                   n;
+  AlarmSignalPair*                      pair;
+
+  currentAlarmIndex--;
+  for ( n = currentAlarmIndex ; n > 0 ; n-- ) {
+    pair = alarmInformation->GetPairByIndex(n);
+    if ( PairContainsMajorAlarm(pair) ) {
+      currentAlarmIndex = n;
+      return;
+    }
+  }
+  currentAlarmIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMinorSignal
+ *****************************************************************************/
+void
+AlarmDisplayForm::SkipToPrevMinorSignal(void)
+{
+  int                                   n;
+  AlarmSignalPair*                      pair;
+
+  currentAlarmIndex--;
+  for ( n = currentAlarmIndex ; n > 0 ; n-- ) {
+    pair = alarmInformation->GetPairByIndex(n);
+    if ( PairContainsMinorAlarm(pair) ) {
+      currentAlarmIndex = n;
+      return;
+    }
+  }
+  currentAlarmIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevAnySignal
+ *****************************************************************************/
+void
+AlarmDisplayForm::SkipToPrevAnySignal(void)
+{
+  int                                   n;
+  AlarmSignalPair*                      pair;
+
+  currentAlarmIndex--;
+  for ( n = currentAlarmIndex ; n > 0 ; n-- ) {
+    pair = alarmInformation->GetPairByIndex(n);
+    if ( PairContainsAnyAlarm(pair) ) {
+      currentAlarmIndex = n;
+      return;
+    }
+  }
+  currentAlarmIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMajorSignal
+ *****************************************************************************/
+void
+AlarmDisplayForm::SkipToNextMajorSignal(void)
+{
+  int                                   n;
+  int                                   m;
+  AlarmSignalPair*                      pair;
+
+  currentAlarmIndex++;
+  m = alarmInformation->GetPairCount();
+  for ( n = currentAlarmIndex ; n + 1 < m ; n++ ) {
+    pair = alarmInformation->GetPairByIndex(n);
+    if ( PairContainsMajorAlarm(pair) ) {
+      currentAlarmIndex = n;
+      return;
+    }
+  }
+  currentAlarmIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMinorSignal
+ *****************************************************************************/
+void
+AlarmDisplayForm::SkipToNextMinorSignal(void)
+{
+  int                                   n;
+  int                                   m;
+  AlarmSignalPair*                      pair;
+
+  currentAlarmIndex++;
+  m = alarmInformation->GetPairCount();
+  for ( n = currentAlarmIndex ; n + 1 < m ; n++ ) {
+    pair = alarmInformation->GetPairByIndex(n);
+    if ( PairContainsMinorAlarm(pair) ) {
+      currentAlarmIndex = n;
+      return;
+    }
+  }
+  currentAlarmIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextAnySignal
+ *****************************************************************************/
+void
+AlarmDisplayForm::SkipToNextAnySignal(void)
+{
+  int                                   n;
+  int                                   m;
+  AlarmSignalPair*                      pair;
+
+  currentAlarmIndex++;
+  m = alarmInformation->GetPairCount();
+  for ( n = currentAlarmIndex ; n + 1 < m ; n++ ) {
+    pair = alarmInformation->GetPairByIndex(n);
+    if ( PairContainsAnyAlarm(pair) ) {
+      currentAlarmIndex = n;
+      return;
+    }
+  }
+  currentAlarmIndex = n;
+}
+

@@ -2,10 +2,10 @@ DELETE FROM ElementDisplay;
 INSERT INTO ElementDisplay VALUES ("Alarm", 1, "AlarmName",    "Alarm Name",                                            "Major", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 2, "Level",        "Level",                                                 "Minor", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 3, "ExpRPN",       "Expression RPN",                                        "Major", 2);
-INSERT INTO ElementDisplay VALUES ("Alarm", 4, "ExpFull",      "Expression Full",                                       "Major", 0);
+INSERT INTO ElementDisplay VALUES ("Alarm", 4, "ExpFull",      "Expression Full",                                       "Major", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 5, "Delay",        "Delay",                                                 "Minor", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 6, "SuppressRPN",  "Suppress RPN",                                          "Major", 2);
-INSERT INTO ElementDisplay VALUES ("Alarm", 7, "SuppressFull", "Suppress Full",                                         "Minor", 0);
+INSERT INTO ElementDisplay VALUES ("Alarm", 7, "SuppressFull", "Suppress Full",                                         "Minor", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 8, "Relay",        "Relay",                                                 "Minor", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 9, "Help",         "Help",                                                  "Minor", 1);
 

@@ -18,12 +18,43 @@
 #include "NCUSettingSignal.h"
 
 /*****************************************************************************!
+ * Static Data
+ *****************************************************************************/
+QStringList
+NCUSettingSignal::Tags = QStringList()
+  << "SETName"
+  << "Unit"
+  << "SIndx"
+  << "SChan"
+  << "ValType"
+  << "Def"
+  << "Range"
+  << "DisplayAttr"
+  << "SetAttr"
+  << "SetExpRPN"
+  << "SetExpFull"
+  << "Auth"
+  << "DisplayID"
+  << "DispFmt"
+  << "ChID"
+  << "Step"
+  << "CExpRPN"
+  << "CExpFull"
+  << "Persist"
+  << "DispExpRPN"
+  << "DispExpFull"
+  << "States"
+  << "OnCtrl";
+
+/*****************************************************************************!
  * Function : NCUSettingSignal
  *****************************************************************************/
 NCUSettingSignal::NCUSettingSignal
 () : NCUSignal()
 {
-  IDName = "SID";
+  for ( auto tag : Tags ) {
+    Values[tag] = QString();
+  }
 }
 
 /*****************************************************************************!
@@ -41,97 +72,10 @@ bool
 NCUSettingSignal::Equal
 (NCUSettingSignal* InSetting)
 {
-  if ( SETName != InSetting->SETName ) {
-    return false;
+  for ( auto tag : Tags ) {
+    if ( Values[tag] != InSetting->GetValue(tag) ) {
+      return false;
+    }
   }
-  
-  if ( Unit != InSetting->Unit ) {
-    return false;
-  }
-  
-  if ( SIndx != InSetting->SIndx ) {
-    return false;
-  }
-  
-  if ( SChan != InSetting->SChan ) {
-    return false;
-  }
-  
-  if ( ValType != InSetting->ValType ) {
-    return false;
-  }
-  
-  if ( Def != InSetting->Def ) {
-    return false;
-  }
-  
-  if ( Range != InSetting->Range ) {
-    return false;
-  }
-  
-  if ( DisplayAttr != InSetting->DisplayAttr ) {
-    return false;
-  }
-  
-  if ( SetAttr != InSetting->SetAttr ) {
-    return false;
-  }
-  
-  if ( SetExpRPN != InSetting->SetExpRPN ) {
-    return false;
-  }
-  
-  if ( SetExpFull != InSetting->SetExpFull ) {
-    return false;
-  }
-  
-  if ( Auth != InSetting->Auth ) {
-    return false;
-  }
-  
-  if ( DisplayID != InSetting->DisplayID ) {
-    return false;
-  }
-  
-  if ( DispFmt != InSetting->DispFmt ) {
-    return false;
-  }
-  
-  if ( ChID != InSetting->ChID ) {
-    return false;
-  }
-  
-  if ( Step != InSetting->Step ) {
-    return false;
-  }
-  
-  if ( CExpRPN != InSetting->CExpRPN ) {
-    return false;
-  }
-  
-  if ( CExpFull != InSetting->CExpFull ) {
-    return false;
-  }
-  
-  if ( Persist != InSetting->Persist ) {
-    return false;
-  }
-  
-  if ( DispExpRPN != InSetting->DispExpRPN ) {
-    return false;
-  }
-  
-  if ( DispExpFull != InSetting->DispExpFull ) {
-    return false;
-  }
-  
-  if ( States != InSetting->States ) {
-    return false;
-  }
-  
-  if ( OnCtrl != InSetting->OnCtrl ) {
-    return false;
-  }
-  
   return true;
 }

@@ -44,23 +44,7 @@ class NCUSampleSignal : public NCUSignal
   
  //! Public Data
  public :
-  QString                               SAMPLEName;
-  QString                               Unit;
-  QString                               SIndx;
-  QString                               SChan;
-  QString                               ValType;
-  QString                               StorThreshold;
-  QString                               StorInt;
-  QString                               EvalExpRPN;
-  QString                               EvalExpFull;
-  QString                               Range;
-  QString                               DisplayAttr;
-  QString                               DisplayLvl;
-  QString                               DisplayID;
-  QString                               DispFmt;
-  QString                               DispExpRPN;
-  QString                               DispExpFull;
-  QString                               Enums;
+  static QStringList            Tags;
 
  //! Protected Methods
  protected :

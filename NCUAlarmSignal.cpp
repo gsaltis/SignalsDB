@@ -18,12 +18,27 @@
 #include "NCUAlarmSignal.h"
 
 /*****************************************************************************!
+ * Static Data
+ *****************************************************************************/
+QStringList NCUAlarmSignal::Tags = 
+  QStringList() << "AlarmName"
+  << "Level"
+  << "ExpRPN"
+  << "ExpFulll"
+  << "SuppressRPN"
+  << "SuppressFull"
+  << "Relay"
+  << "Help";
+
+/*****************************************************************************!
  * Function : NCUAlarmSignal
  *****************************************************************************/
 NCUAlarmSignal::NCUAlarmSignal
 () : NCUSignal()
 {
-  IDName = "SID";
+  for ( auto tag : Tags ) {
+    Values[tag] = QString();
+  }
 }
 
 /*****************************************************************************!
@@ -41,41 +56,11 @@ bool
 NCUAlarmSignal::Equal
 (NCUAlarmSignal* InAlarm)
 {
-  if ( AlarmName != InAlarm->AlarmName ) {
-    return false;
+  for ( auto tag : Tags ) {
+    if ( Values[tag] != InAlarm->GetValue(tag) ) {
+      return false;
+    }
   }
-  
-  if ( Level != InAlarm->Level ) {
-    return false;
-  }
-  
-  if ( ExpRPN != InAlarm->ExpRPN ) {
-    return false;
-  }
-  
-  if ( EXPFull != InAlarm->EXPFull ) {
-    return false;
-  }
-  
-  if ( Delay != InAlarm->Delay ) {
-    return false;
-  }
-  
-  if ( SuppressRPN != InAlarm->SuppressRPN ) {
-    return false;
-  }
-  
-  if ( SuppressFull != InAlarm->SuppressFull ) {
-    return false;
-  }
-  
-  if ( Relay != InAlarm->Relay ) {
-    return false;
-  }
-  
-  if ( Help != InAlarm->Help ) {
-    return false;
-  }
-  
   return true;
 }
+

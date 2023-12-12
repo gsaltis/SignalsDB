@@ -66,12 +66,25 @@ class ControlDisplayForm : public SignalDisplayForm
   void                          CreateConnections       (void);
   void                          SetTrackInformation     (ControlSignalPair* InPair);
 
+  void                          SkipToNextMajorSignal   (void);
+  void                          SkipToNextMinorSignal   (void);
+  void                          SkipToNextAnySignal     (void);
+
+  void                          SkipToPrevMajorSignal   (void);
+  void                          SkipToPrevMinorSignal   (void);
+  void                          SkipToPrevAnySignal     (void);
+
+  bool                          PairContainsMajorAlarm  (ControlSignalPair* InPair);
+  bool                          PairContainsMinorAlarm  (ControlSignalPair* InPair);
+  bool                          PairContainsAnyAlarm    (ControlSignalPair* InPair);
+  bool                          PairContainsAlarm       (ControlSignalPair* InPair, ElementDisplayLine::DifferLevel InDifferType);
+  
  //! Private Data
  private :
   NavigationWindow*             navigationWindow;
   ControlInformation*           controlInformation;
   QLabel*                       ControlIDLabel;
-  int                           currentEquipIndex;
+  int                           currentControlIndex;
   QLabel*                       Track3Label;
   QLabel*                       SignalIDLabel;
 

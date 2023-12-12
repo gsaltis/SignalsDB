@@ -77,6 +77,7 @@ EquipmentInformation::SQLRead
   sqlite3_stmt*                         statement;
   QString                               sqlStatement;
   QString                               s;
+  int                                   i;
   
   sqlStatement = QString("SELECT "
                          "Track,"                            // 0
@@ -131,17 +132,17 @@ EquipmentInformation::SQLRead
         
         s = QString((char*)sqlite3_column_text(statement, 2));
         equip->SetType(s.toInt());
-        
-        equip->Name             = ((char*)sqlite3_column_text(statement, 3));
-        equip->TypeName         = (char*)sqlite3_column_text(statement, 4);
-        equip->GroupName	= (char*)sqlite3_column_text(statement, 5);
-        equip->NumofSamples	= (char*)sqlite3_column_text(statement, 6);
-        equip->NumofCtrl	= (char*)sqlite3_column_text(statement, 7);
-        equip->NumofSet	        = (char*)sqlite3_column_text(statement, 8);
-        equip->NumofAlarm	= (char*)sqlite3_column_text(statement, 9);
-        equip->Related          = (char*)sqlite3_column_text(statement, 10);
-        equipment << equip;
 
+        i = 3;
+        equip->SetValue("Name", 	(char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("TypeName", 	(char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("GroupName", 	(char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("NumofSamples", (char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("NumofCtrl",	(char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("NumofSet", 	(char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("NumofAlarm", 	(char*)sqlite3_column_text(statement, i++));
+        equip->SetValue("Related",	(char*)sqlite3_column_text(statement, i++));
+        equipment << equip;
         break;
       }
       

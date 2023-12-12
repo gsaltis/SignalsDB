@@ -46,6 +46,7 @@ class ControlSignalPair : public QWidget
   NCUControlSignal*             GetTrack2               ();
   NCUControlSignal*             GetTrack3               ();
   bool                          Differ                  ();
+  bool                          Differ                  (QString InTag);
 
  //! Public Data
  public :

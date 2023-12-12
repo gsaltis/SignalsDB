@@ -40,32 +40,11 @@ class NCUControlSignal : public NCUSignal
 
  //! Public Methods
  public :
-  bool                                  Equal                   (NCUControlSignal* InControlSignal);
+  bool                          Equal                   (NCUControlSignal* InAlarm);
 
  //! Public Data
  public :
-  QString                               CTRLName;
-  QString                               Unit;
-  QString                               SIndx;
-  QString                               SChan;
-  QString                               ValType;
-  QString                               Defaults;
-  QString                               Range;
-  QString                               DisplayAttr;
-  QString                               CtrlAttr;
-  QString                               Threshold;
-  QString                               CableExpRPN;
-  QString                               CableExpFull;
-  QString                               Auth;
-  QString                               DisplayID;
-  QString                               DispFmt;
-  QString                               ChID;
-  QString                               CStep;
-  QString                               CParam;
-  QString                               CexpRPN;
-  QString                               CexpFullDispExp;
-  QString                               States;
-  QString                               CAction;
+  static QStringList            Tags;
 
  //! Protected Methods
  protected :
@@ -75,7 +54,6 @@ class NCUControlSignal : public NCUSignal
 
  //! Private Methods
  private :
-  bool                                  operator==(NCUControlSignal* InControl);
   
  //! Private Data
  private :

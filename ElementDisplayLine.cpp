@@ -287,3 +287,12 @@ ElementDisplayLine::Compare(void)
     Track3Value->setFont(differFont);
   }
 }
+
+/*****************************************************************************!
+ * Function : GetDifferType
+ *****************************************************************************/
+ElementDisplayLine::DifferLevel
+ElementDisplayLine::GetDifferType(void)
+{
+  return differType;
+}

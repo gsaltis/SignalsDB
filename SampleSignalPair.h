@@ -1,4 +1,4 @@
-/*****************************************************************************
+ /*****************************************************************************
  * FILE NAME    : SampleSignalPair.h
  * DATE         : November 22 2023
  * PROJECT      : 
@@ -43,9 +43,10 @@ class SampleSignalPair : public QWidget
   int                           GetID                   ();
   int                           GetSID                  ();
   void                          AddTrack3Signal         (NCUSampleSignal* InTrack3);
-  NCUSampleSignal*             GetTrack2               ();
-  NCUSampleSignal*             GetTrack3               ();
+  NCUSampleSignal*              GetTrack2               ();
+  NCUSampleSignal*              GetTrack3               ();
   bool                          Differ                  ();
+  bool                          Differ                  (QString InTag);
 
  //! Public Data
  public :

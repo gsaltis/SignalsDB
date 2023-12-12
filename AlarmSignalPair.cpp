@@ -95,3 +95,16 @@ AlarmSignalPair::Differ()
   }
   return ! Track2Signal->Equal(Track3Signal);
 }
+
+/*****************************************************************************!
+ * Function : Differ
+ *****************************************************************************/
+bool
+AlarmSignalPair::Differ
+(QString InTag)
+{
+  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+    return false;
+  }
+  return Track2Signal->GetValue(InTag) != Track3Signal->GetValue(InTag);
+}
