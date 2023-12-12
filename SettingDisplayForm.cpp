@@ -247,57 +247,6 @@ SettingDisplayForm::CreateConnections(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextElement
- *****************************************************************************/
-void
-SettingDisplayForm::SlotNextElement
-(int InMajorMinorFlags)
-{
-  SettingSignalPair*                    pair;
-  if ( currentSettingIndex + 1 >= settingInformation->GetPairCount() ) {
-    return;
-  }
-
-  if ( InMajorMinorFlags == 0 ) {
-    currentSettingIndex++;
-  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
-    SkipToNextMajorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
-    SkipToNextMinorSignal();
-  } else {
-    SkipToNextAnySignal();
-  }
-  pair = settingInformation->GetPairByIndex(currentSettingIndex);
-  SetTrackInformation(pair);
-  emit SignalSetCurrentSettingIndex(currentSettingIndex + 1);
-}
-
-/*****************************************************************************!
- * Function : SlotPreviousElement
- *****************************************************************************/
-void
-SettingDisplayForm::SlotPreviousElement
-(int InMajorMinorFlags)
-{
-  SettingSignalPair*                  pair;
-  if ( currentSettingIndex == 0 ) {
-    return;
-  }
-  if ( InMajorMinorFlags == 0 ) {
-    currentSettingIndex--;
-  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
-    SkipToPrevMajorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
-    SkipToPrevMinorSignal();
-  } else {
-    SkipToPrevAnySignal();
-  }
-  pair = settingInformation->GetPairByIndex(currentSettingIndex);
-  SetTrackInformation(pair);  
-  emit SignalSetCurrentSettingIndex(currentSettingIndex + 1);
-}
-
-/*****************************************************************************!
  * Function : SetTrackInformation
  *****************************************************************************/
 void
@@ -380,6 +329,61 @@ SettingDisplayForm::SetTrackInformation
   for ( i = 0 ; i < keysSize ; i++ ) {
     elementLines[keys[i]]->Compare();
   }
+}
+
+/*****************************************************************************!
+ * Function : SlotNextElement
+ *****************************************************************************/
+void
+SettingDisplayForm::SlotNextElement
+(int InMajorMinorFlags)
+{
+  SettingSignalPair*                    pair;
+  if ( currentSettingIndex + 1 >= settingInformation->GetPairCount() ) {
+    return;
+  }
+
+  if ( InMajorMinorFlags == 0 ) {
+    currentSettingIndex++;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToNextMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToNextMinorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
+    SkipToNextMissingSignal();
+  } else {
+    SkipToNextAnySignal();
+  }
+  pair = settingInformation->GetPairByIndex(currentSettingIndex);
+  SetTrackInformation(pair);
+  emit SignalSetCurrentSettingIndex(currentSettingIndex + 1);
+}
+
+/*****************************************************************************!
+ * Function : SlotPreviousElement
+ *****************************************************************************/
+void
+SettingDisplayForm::SlotPreviousElement
+(int InMajorMinorFlags)
+{
+  SettingSignalPair*                  pair;
+  if ( currentSettingIndex == 0 ) {
+    return;
+  }
+  if ( InMajorMinorFlags == 0 ) {
+    currentSettingIndex--;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToPrevMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToPrevMinorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
+    SkipToPrevMissingSignal();
+  } else {
+    SkipToPrevAnySignal();
+  }
+  pair = settingInformation->GetPairByIndex(currentSettingIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentSettingIndex(currentSettingIndex + 1);
 }
 
 /*****************************************************************************!
@@ -486,7 +490,8 @@ SettingDisplayForm::PairContainsAnyAlarm
  * Function : SkipToPrevMajorSignal
  *****************************************************************************/
 void
-SettingDisplayForm::SkipToPrevMajorSignal(void)
+SettingDisplayForm::SkipToPrevMajorSignal
+()
 {
   int                                   n;
   SettingSignalPair*                      pair;
@@ -506,7 +511,8 @@ SettingDisplayForm::SkipToPrevMajorSignal(void)
  * Function : SkipToPrevMinorSignal
  *****************************************************************************/
 void
-SettingDisplayForm::SkipToPrevMinorSignal(void)
+SettingDisplayForm::SkipToPrevMinorSignal
+()
 {
   int                                   n;
   SettingSignalPair*                      pair;
@@ -526,7 +532,8 @@ SettingDisplayForm::SkipToPrevMinorSignal(void)
  * Function : SkipToPrevAnySignal
  *****************************************************************************/
 void
-SettingDisplayForm::SkipToPrevAnySignal(void)
+SettingDisplayForm::SkipToPrevAnySignal
+()
 {
   int                                   n;
   SettingSignalPair*                      pair;
@@ -546,7 +553,8 @@ SettingDisplayForm::SkipToPrevAnySignal(void)
  * Function : SkipToNextMajorSignal
  *****************************************************************************/
 void
-SettingDisplayForm::SkipToNextMajorSignal(void)
+SettingDisplayForm::SkipToNextMajorSignal
+()
 {
   int                                   n;
   int                                   m;
@@ -568,7 +576,8 @@ SettingDisplayForm::SkipToNextMajorSignal(void)
  * Function : SkipToNextMinorSignal
  *****************************************************************************/
 void
-SettingDisplayForm::SkipToNextMinorSignal(void)
+SettingDisplayForm::SkipToNextMinorSignal
+()
 {
   int                                   n;
   int                                   m;
@@ -590,7 +599,8 @@ SettingDisplayForm::SkipToNextMinorSignal(void)
  * Function : SkipToNextAnySignal
  *****************************************************************************/
 void
-SettingDisplayForm::SkipToNextAnySignal(void)
+SettingDisplayForm::SkipToNextAnySignal
+()
 {
   int                                   n;
   int                                   m;
@@ -601,6 +611,50 @@ SettingDisplayForm::SkipToNextAnySignal(void)
   for ( n = currentSettingIndex ; n + 1 < m ; n++ ) {
     pair = settingInformation->GetPairByIndex(n);
     if ( PairContainsAnyAlarm(pair) ) {
+      currentSettingIndex = n;
+      return;
+    }
+  }
+  currentSettingIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMissingSignal
+ *****************************************************************************/
+void
+SettingDisplayForm::SkipToNextMissingSignal
+()
+{
+  int                                   n;
+  int                                   m;
+  SettingSignalPair*                    pair;
+
+  currentSettingIndex++;
+  m = settingInformation->GetPairCount();
+  for ( n = currentSettingIndex ; n + 1 < m ; n++ ) {
+    pair = settingInformation->GetPairByIndex(n);
+    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+      currentSettingIndex = n;
+      return;
+    }
+  }
+  currentSettingIndex = n;  
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMissingSignal
+ *****************************************************************************/
+void
+SettingDisplayForm::SkipToPrevMissingSignal
+()
+{
+  int                                   n;
+  SettingSignalPair*                    pair;
+
+  currentSettingIndex--;
+  for ( n = currentSettingIndex ; n > 0 ; n-- ) {
+    pair = settingInformation->GetPairByIndex(n);
+    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentSettingIndex = n;
       return;
     }

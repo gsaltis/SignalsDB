@@ -28,6 +28,7 @@
 #define NAVIGATION_WINDOW_HEIGHT        32
 #define NAVIGATION_MAJOR_FLAG           1
 #define NAVIGATION_MINOR_FLAG           2
+#define NAVIGATION_MISSING_FLAG         4
 
 /*****************************************************************************!
  * Exported Class : NavigationWindow
@@ -81,21 +82,23 @@ class NavigationWindow : public QFrame
   int                           signalCount;
   QCheckBox*                    MajorCheckBox;
   QCheckBox*                    MinorCheckBox;
+  QCheckBox*                    MissingCheckBox;
   int                           MajorMinorFlags;
   QFont                         CheckBoxFont;
 
  //! Public Slots
  public slots :
-  void                          SlotNextElementButtonPushed       (void);
-  void                          SlotPreviousElementButtonPushed   (void);
-  void                          SlotSetSignalCount                (int InSignalCount);
-  void                          SlotSetCurrentSignalIndex         (int InCurrentSignalIndex);
-  void                          SlotXCLButtonPushed               (void);
-  void                          SlotEndButtonPushed               (void);
-  void                          SlotHomeButtonPushed              (void);
+  void                          SlotNextElementButtonPushed     (void);
+  void                          SlotPreviousElementButtonPushed (void);
+  void                          SlotSetSignalCount              (int InSignalCount);
+  void                          SlotSetCurrentSignalIndex       (int InCurrentSignalIndex);
+  void                          SlotXCLButtonPushed             (void);
+  void                          SlotEndButtonPushed             (void);
+  void                          SlotHomeButtonPushed            (void);
 
-  void                          SlotMajorCheckToggle    (int InChecked);
-  void                          SlotMinorCheckToggle    (int InChecked);
+  void                          SlotMajorCheckToggle            (int InChecked);
+  void                          SlotMinorCheckToggle            (int InChecked);
+  void                          SlotMissingCheckToggle          (int InChecked);
 
  //! Public Signals
  signals :

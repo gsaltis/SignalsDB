@@ -69,10 +69,12 @@ class AlarmDisplayForm : public SignalDisplayForm
   void                          SkipToNextMajorSignal   (void);
   void                          SkipToNextMinorSignal   (void);
   void                          SkipToNextAnySignal     (void);
+  void                          SkipToNextMissingSignal ();
 
-  void                          SkipToPrevMajorSignal   (void);
-  void                          SkipToPrevMinorSignal   (void);
-  void                          SkipToPrevAnySignal     (void);
+  void                          SkipToPrevMajorSignal   ();
+  void                          SkipToPrevMinorSignal   ();
+  void                          SkipToPrevAnySignal     ();
+  void                          SkipToPrevMissingSignal ();
 
   bool                          PairContainsMajorAlarm  (AlarmSignalPair* InPair);
   bool                          PairContainsMinorAlarm  (AlarmSignalPair* InPair);

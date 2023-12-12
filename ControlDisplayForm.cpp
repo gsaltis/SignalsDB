@@ -345,6 +345,8 @@ ControlDisplayForm::SlotNextElement
     SkipToNextMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToNextMinorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
+    SkipToNextMissingSignal();
   } else {
     SkipToNextAnySignal();
   }
@@ -370,6 +372,8 @@ ControlDisplayForm::SlotPreviousElement
     SkipToPrevMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToPrevMinorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
+    SkipToPrevMissingSignal();
   } else {
     SkipToPrevAnySignal();
   }
@@ -480,7 +484,8 @@ ControlDisplayForm::PairContainsAnyAlarm
  * Function : SkipToPrevMajorSignal
  *****************************************************************************/
 void
-ControlDisplayForm::SkipToPrevMajorSignal(void)
+ControlDisplayForm::SkipToPrevMajorSignal
+()
 {
   int                                   n;
   ControlSignalPair*                      pair;
@@ -500,7 +505,8 @@ ControlDisplayForm::SkipToPrevMajorSignal(void)
  * Function : SkipToPrevMinorSignal
  *****************************************************************************/
 void
-ControlDisplayForm::SkipToPrevMinorSignal(void)
+ControlDisplayForm::SkipToPrevMinorSignal
+()
 {
   int                                   n;
   ControlSignalPair*                      pair;
@@ -520,7 +526,8 @@ ControlDisplayForm::SkipToPrevMinorSignal(void)
  * Function : SkipToPrevAnySignal
  *****************************************************************************/
 void
-ControlDisplayForm::SkipToPrevAnySignal(void)
+ControlDisplayForm::SkipToPrevAnySignal
+()
 {
   int                                   n;
   ControlSignalPair*                      pair;
@@ -540,7 +547,8 @@ ControlDisplayForm::SkipToPrevAnySignal(void)
  * Function : SkipToNextMajorSignal
  *****************************************************************************/
 void
-ControlDisplayForm::SkipToNextMajorSignal(void)
+ControlDisplayForm::SkipToNextMajorSignal
+()
 {
   int                                   n;
   int                                   m;
@@ -562,7 +570,8 @@ ControlDisplayForm::SkipToNextMajorSignal(void)
  * Function : SkipToNextMinorSignal
  *****************************************************************************/
 void
-ControlDisplayForm::SkipToNextMinorSignal(void)
+ControlDisplayForm::SkipToNextMinorSignal
+()
 {
   int                                   n;
   int                                   m;
@@ -584,7 +593,8 @@ ControlDisplayForm::SkipToNextMinorSignal(void)
  * Function : SkipToNextAnySignal
  *****************************************************************************/
 void
-ControlDisplayForm::SkipToNextAnySignal(void)
+ControlDisplayForm::SkipToNextAnySignal
+()
 {
   int                                   n;
   int                                   m;
@@ -595,6 +605,50 @@ ControlDisplayForm::SkipToNextAnySignal(void)
   for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
     pair = controlInformation->GetPairByIndex(n);
     if ( PairContainsAnyAlarm(pair) ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMissingSignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToNextMissingSignal
+()
+{
+  int                                   n;
+  int                                   m;
+  ControlSignalPair*                    pair;
+
+  currentControlIndex++;
+  m = controlInformation->GetPairCount();
+  for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+      currentControlIndex = n;
+      return;
+    }
+  }
+  currentControlIndex = n;  
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMissingSignal
+ *****************************************************************************/
+void
+ControlDisplayForm::SkipToPrevMissingSignal
+()
+{
+  int                                   n;
+  ControlSignalPair*                    pair;
+
+  currentControlIndex--;
+  for ( n = currentControlIndex ; n > 0 ; n-- ) {
+    pair = controlInformation->GetPairByIndex(n);
+    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentControlIndex = n;
       return;
     }

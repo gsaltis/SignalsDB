@@ -66,13 +66,15 @@ class SampleDisplayForm : public SignalDisplayForm
   void                          CreateConnections       (void);
   void                          SetTrackInformation     (SampleSignalPair* InPair);
 
-  void                          SkipToNextMajorSignal   (void);
-  void                          SkipToNextMinorSignal   (void);
-  void                          SkipToNextAnySignal     (void);
+  void                          SkipToNextMajorSignal   ();
+  void                          SkipToNextMinorSignal   ();
+  void                          SkipToNextAnySignal     ();
+  void                          SkipToNextMissingSignal ();
 
-  void                          SkipToPrevMajorSignal   (void);
-  void                          SkipToPrevMinorSignal   (void);
-  void                          SkipToPrevAnySignal     (void);
+  void                          SkipToPrevMajorSignal   ();
+  void                          SkipToPrevMinorSignal   ();
+  void                          SkipToPrevAnySignal     ();
+  void                          SkipToPrevMissingSignal ();
 
   bool                          PairContainsMajorAlarm  (SampleSignalPair* InPair);
   bool                          PairContainsMinorAlarm  (SampleSignalPair* InPair);

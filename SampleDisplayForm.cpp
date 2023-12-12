@@ -248,57 +248,6 @@ SampleDisplayForm::CreateConnections(void)
 }
 
 /*****************************************************************************!
- * Function : SlotNextElement
- *****************************************************************************/
-void
-SampleDisplayForm::SlotNextElement
-(int InMajorMinorFlags)
-{
-  SampleSignalPair*                    pair;
-  if ( currentSampleIndex + 1 >= sampleInformation->GetPairCount() ) {
-    return;
-  }
-
-  if ( InMajorMinorFlags == 0 ) {
-    currentSampleIndex++;
-  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
-    SkipToNextMajorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
-    SkipToNextMinorSignal();
-  } else {
-    SkipToNextAnySignal();
-  }
-  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
-  SetTrackInformation(pair);
-  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);
-}
-
-/*****************************************************************************!
- * Function : SlotPreviousElement
- *****************************************************************************/
-void
-SampleDisplayForm::SlotPreviousElement
-(int InMajorMinorFlags)
-{
-  SampleSignalPair*                  pair;
-  if ( currentSampleIndex == 0 ) {
-    return;
-  }
-  if ( InMajorMinorFlags == 0 ) {
-    currentSampleIndex--;
-  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
-    SkipToPrevMajorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
-    SkipToPrevMinorSignal();
-  } else {
-    SkipToPrevAnySignal();
-  }
-  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
-  SetTrackInformation(pair);  
-  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);
-}
-
-/*****************************************************************************!
  * Function : SetTrackInformation
  *****************************************************************************/
 void
@@ -400,6 +349,61 @@ SampleDisplayForm::SlotLastElement
 }
 
 /*****************************************************************************!
+ * Function : SlotNextElement
+ *****************************************************************************/
+void
+SampleDisplayForm::SlotNextElement
+(int InMajorMinorFlags)
+{
+  SampleSignalPair*                    pair;
+  if ( currentSampleIndex + 1 >= sampleInformation->GetPairCount() ) {
+    return;
+  }
+
+  if ( InMajorMinorFlags == 0 ) {
+    currentSampleIndex++;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToNextMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToNextMinorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
+    SkipToNextMissingSignal();
+  } else {
+    SkipToNextAnySignal();
+  }
+  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
+  SetTrackInformation(pair);
+  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);
+}
+
+/*****************************************************************************!
+ * Function : SlotPreviousElement
+ *****************************************************************************/
+void
+SampleDisplayForm::SlotPreviousElement
+(int InMajorMinorFlags)
+{
+  SampleSignalPair*                  pair;
+  if ( currentSampleIndex == 0 ) {
+    return;
+  }
+  if ( InMajorMinorFlags == 0 ) {
+    currentSampleIndex--;
+  } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
+    SkipToPrevMajorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
+    SkipToPrevMinorSignal();
+  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
+    SkipToPrevMissingSignal();
+  } else {
+    SkipToPrevAnySignal();
+  }
+  pair = sampleInformation->GetPairByIndex(currentSampleIndex);
+  SetTrackInformation(pair);  
+  emit SignalSetCurrentSampleIndex(currentSampleIndex + 1);
+}
+
+/*****************************************************************************!
  * Function : PairContainsMajorAlarm
  *****************************************************************************/
 bool
@@ -475,7 +479,8 @@ SampleDisplayForm::PairContainsAnyAlarm
  * Function : SkipToPrevMajorSignal
  *****************************************************************************/
 void
-SampleDisplayForm::SkipToPrevMajorSignal(void)
+SampleDisplayForm::SkipToPrevMajorSignal
+()
 {
   int                                   n;
   SampleSignalPair*                      pair;
@@ -495,7 +500,8 @@ SampleDisplayForm::SkipToPrevMajorSignal(void)
  * Function : SkipToPrevMinorSignal
  *****************************************************************************/
 void
-SampleDisplayForm::SkipToPrevMinorSignal(void)
+SampleDisplayForm::SkipToPrevMinorSignal
+()
 {
   int                                   n;
   SampleSignalPair*                      pair;
@@ -515,7 +521,8 @@ SampleDisplayForm::SkipToPrevMinorSignal(void)
  * Function : SkipToPrevAnySignal
  *****************************************************************************/
 void
-SampleDisplayForm::SkipToPrevAnySignal(void)
+SampleDisplayForm::SkipToPrevAnySignal
+()
 {
   int                                   n;
   SampleSignalPair*                      pair;
@@ -535,7 +542,8 @@ SampleDisplayForm::SkipToPrevAnySignal(void)
  * Function : SkipToNextMajorSignal
  *****************************************************************************/
 void
-SampleDisplayForm::SkipToNextMajorSignal(void)
+SampleDisplayForm::SkipToNextMajorSignal
+()
 {
   int                                   n;
   int                                   m;
@@ -557,7 +565,8 @@ SampleDisplayForm::SkipToNextMajorSignal(void)
  * Function : SkipToNextMinorSignal
  *****************************************************************************/
 void
-SampleDisplayForm::SkipToNextMinorSignal(void)
+SampleDisplayForm::SkipToNextMinorSignal
+()
 {
   int                                   n;
   int                                   m;
@@ -579,7 +588,8 @@ SampleDisplayForm::SkipToNextMinorSignal(void)
  * Function : SkipToNextAnySignal
  *****************************************************************************/
 void
-SampleDisplayForm::SkipToNextAnySignal(void)
+SampleDisplayForm::SkipToNextAnySignal
+()
 {
   int                                   n;
   int                                   m;
@@ -590,6 +600,50 @@ SampleDisplayForm::SkipToNextAnySignal(void)
   for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
     pair = sampleInformation->GetPairByIndex(n);
     if ( PairContainsAnyAlarm(pair) ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;
+}
+
+/*****************************************************************************!
+ * Function : SkipToNextMissingSignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToNextMissingSignal
+()
+{
+  int                                   n;
+  int                                   m;
+  SampleSignalPair*                     pair;
+
+  currentSampleIndex++;
+  m = sampleInformation->GetPairCount();
+  for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+      currentSampleIndex = n;
+      return;
+    }
+  }
+  currentSampleIndex = n;  
+}
+
+/*****************************************************************************!
+ * Function : SkipToPrevMissingSignal
+ *****************************************************************************/
+void
+SampleDisplayForm::SkipToPrevMissingSignal
+()
+{
+  int                                   n;
+  SampleSignalPair*                     pair;
+
+  currentSampleIndex--;
+  for ( n = currentSampleIndex ; n > 0 ; n-- ) {
+    pair = sampleInformation->GetPairByIndex(n);
+    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentSampleIndex = n;
       return;
     }

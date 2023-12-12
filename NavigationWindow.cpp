@@ -120,7 +120,13 @@ NavigationWindow::CreateSubWindows()
   MinorCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(MinorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMinorCheckToggle);
   
-    
+  MissingCheckBox = new QCheckBox("Missing", this);
+  MissingCheckBox->move(0, 0);
+  MissingCheckBox->resize(100, 32);
+  MissingCheckBox->setFont(CheckBoxFont);
+  MissingCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
+  connect(MissingCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMissingCheckToggle);
+  
   IndexLabel = new QLabel(this);
   IndexLabel->move(0, 0);
   IndexLabel->resize(100, 20);
@@ -185,6 +191,11 @@ NavigationWindow::resizeEvent
   int                                   minorW;
   int                                   minorH;
   
+  int                                   missingX;
+  int                                   missingY;
+  int                                   missingW;
+  int                                   missingH;
+  
   int                                   indexlabelX;
   int                                   indexlabelY;
   int                                   indexlabelW;
@@ -242,6 +253,11 @@ NavigationWindow::resizeEvent
   minorY = majorH + 3;;
   minorW = checkBoxWidth;
   minorH = checkBoxHeight;
+
+  missingX = majorX + checkBoxWidth + 20;
+  missingY = 2;
+  missingW = checkBoxWidth;
+  missingH = checkBoxHeight;
   
   indexlabelW = IndexLabel->size().width();
   indexlabelX = width - (indexlabelW + 5);
@@ -271,6 +287,9 @@ NavigationWindow::resizeEvent
 
   MinorCheckBox->move(minorX, minorY);
   MinorCheckBox->resize(minorW, minorH);
+
+  MissingCheckBox->move(missingX, missingY);
+  MissingCheckBox->resize(missingW, missingH);
 }
 
 /*****************************************************************************!
@@ -364,12 +383,15 @@ NavigationWindow::SlotSetCurrentSignalIndex
  *****************************************************************************/
 void
 NavigationWindow::SlotMajorCheckToggle
-(int InMajorChecked )
+(int InChecked )
 {
   int                           flag;
 
-  flag = InMajorChecked ? NAVIGATION_MAJOR_FLAG : 0;
+  flag = InChecked ? NAVIGATION_MAJOR_FLAG : 0;
   MajorMinorFlags = flag + (MajorMinorFlags & NAVIGATION_MINOR_FLAG);
+  if ( InChecked ) {
+    MissingCheckBox->setChecked(false);
+  }
 }
 
 /*****************************************************************************!
@@ -377,10 +399,28 @@ NavigationWindow::SlotMajorCheckToggle
  *****************************************************************************/
 void
 NavigationWindow::SlotMinorCheckToggle
-(int InMinorChecked )
+(int InChecked )
 {
   int                           flag;
 
-  flag = InMinorChecked ? NAVIGATION_MINOR_FLAG : 0;
+  flag = InChecked ? NAVIGATION_MINOR_FLAG : 0;
   MajorMinorFlags = flag + (MajorMinorFlags & NAVIGATION_MAJOR_FLAG);
+  if ( InChecked ) {
+    MissingCheckBox->setChecked(false);
+  }
+}
+
+/*****************************************************************************!
+ * Function : SlotMissingCheckToggle
+ *****************************************************************************/
+void
+NavigationWindow::SlotMissingCheckToggle
+(int InChecked )
+{
+  if ( InChecked ) {
+    MajorCheckBox->setChecked(false);
+    MinorCheckBox->setChecked(false);
+  }
+
+  MajorMinorFlags = NAVIGATION_MISSING_FLAG;
 }
