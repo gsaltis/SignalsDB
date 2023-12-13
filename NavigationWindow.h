@@ -28,7 +28,8 @@
 #define NAVIGATION_WINDOW_HEIGHT        32
 #define NAVIGATION_MAJOR_FLAG           1
 #define NAVIGATION_MINOR_FLAG           2
-#define NAVIGATION_MISSING_FLAG         4
+#define NAVIGATION_ONLY3_FLAG           4
+#define NAVIGATION_ONLY2_FLAG           8
 
 /*****************************************************************************!
  * Exported Class : NavigationWindow
@@ -49,6 +50,7 @@ class NavigationWindow : public QFrame
  public :
   int                           GetButtonHeight         (void);
   void                          SetButtonHeight         (int InButtonHeight);
+  void                          HideCheckBoxes          (void);
 
  //! Public Data
  public :
@@ -82,7 +84,8 @@ class NavigationWindow : public QFrame
   int                           signalCount;
   QCheckBox*                    MajorCheckBox;
   QCheckBox*                    MinorCheckBox;
-  QCheckBox*                    MissingCheckBox;
+  QCheckBox*                    Only3CheckBox;
+  QCheckBox*                    Only2CheckBox;
   int                           MajorMinorFlags;
   QFont                         CheckBoxFont;
 
@@ -98,7 +101,8 @@ class NavigationWindow : public QFrame
 
   void                          SlotMajorCheckToggle            (int InChecked);
   void                          SlotMinorCheckToggle            (int InChecked);
-  void                          SlotMissingCheckToggle          (int InChecked);
+  void                          SlotOnly3CheckToggle           (int InChecked);
+  void                          SlotOnly2CheckToggle            (int InChecked);
 
  //! Public Signals
  signals :

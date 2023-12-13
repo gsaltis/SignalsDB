@@ -366,8 +366,8 @@ SampleDisplayForm::SlotNextElement
     SkipToNextMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToNextMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToNextMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToNextMissingSignal(InMajorMinorFlags);
   } else {
     SkipToNextAnySignal();
   }
@@ -393,8 +393,8 @@ SampleDisplayForm::SlotPreviousElement
     SkipToPrevMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToPrevMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToPrevMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToPrevMissingSignal(InMajorMinorFlags);
   } else {
     SkipToPrevAnySignal();
   }
@@ -612,7 +612,7 @@ SampleDisplayForm::SkipToNextAnySignal
  *****************************************************************************/
 void
 SampleDisplayForm::SkipToNextMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   int                                   m;
@@ -622,6 +622,20 @@ SampleDisplayForm::SkipToNextMissingSignal
   m = sampleInformation->GetPairCount();
   for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
     pair = sampleInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentSampleIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentSampleIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentSampleIndex = n;
       return;
@@ -635,7 +649,7 @@ SampleDisplayForm::SkipToNextMissingSignal
  *****************************************************************************/
 void
 SampleDisplayForm::SkipToPrevMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   SampleSignalPair*                     pair;
@@ -643,6 +657,20 @@ SampleDisplayForm::SkipToPrevMissingSignal
   currentSampleIndex--;
   for ( n = currentSampleIndex ; n > 0 ; n-- ) {
     pair = sampleInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentSampleIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentSampleIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentSampleIndex = n;
       return;

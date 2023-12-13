@@ -93,9 +93,9 @@ MainDisplayWindow::CreateSubWindows()
 
   windows << alarmDisplayWindow;
   windows << controlDisplayWindow;
-  windows << equipmentDisplayWindow;
   windows << sampleDisplayWindow;
   windows << settingDisplayWindow;
+  windows << equipmentDisplayWindow;
 
   alarmDisplayWindow->hide();
   controlDisplayWindow->hide();
@@ -105,9 +105,9 @@ MainDisplayWindow::CreateSubWindows()
   
   tabBar->addTab("Alarm");
   tabBar->addTab("Control");
-  tabBar->addTab("Equipment");
   tabBar->addTab("Sample");
   tabBar->addTab("Setting");
+  tabBar->addTab("Equipment");
 }
 
 /*****************************************************************************!

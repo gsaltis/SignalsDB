@@ -345,8 +345,8 @@ ControlDisplayForm::SlotNextElement
     SkipToNextMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToNextMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToNextMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToNextMissingSignal(InMajorMinorFlags);
   } else {
     SkipToNextAnySignal();
   }
@@ -372,8 +372,8 @@ ControlDisplayForm::SlotPreviousElement
     SkipToPrevMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToPrevMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToPrevMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToPrevMissingSignal(InMajorMinorFlags);
   } else {
     SkipToPrevAnySignal();
   }
@@ -617,7 +617,7 @@ ControlDisplayForm::SkipToNextAnySignal
  *****************************************************************************/
 void
 ControlDisplayForm::SkipToNextMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   int                                   m;
@@ -627,6 +627,20 @@ ControlDisplayForm::SkipToNextMissingSignal
   m = controlInformation->GetPairCount();
   for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
     pair = controlInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentControlIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentControlIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentControlIndex = n;
       return;
@@ -640,7 +654,7 @@ ControlDisplayForm::SkipToNextMissingSignal
  *****************************************************************************/
 void
 ControlDisplayForm::SkipToPrevMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   ControlSignalPair*                    pair;
@@ -648,6 +662,20 @@ ControlDisplayForm::SkipToPrevMissingSignal
   currentControlIndex--;
   for ( n = currentControlIndex ; n > 0 ; n-- ) {
     pair = controlInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentControlIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentControlIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentControlIndex = n;
       return;

@@ -127,6 +127,7 @@ EquipmentDisplayForm::CreateSubWindows()
   navigationWindow->move(10, y);
   navigationWindow->resize(labelWidth + 20, NAVIGATION_WINDOW_HEIGHT);
   navigationWindow->setParent(this);
+  navigationWindow->HideCheckBoxes();
 }
 
 /*****************************************************************************!

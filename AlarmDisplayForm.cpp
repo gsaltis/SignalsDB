@@ -346,8 +346,8 @@ AlarmDisplayForm::SlotNextElement
     SkipToNextMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToNextMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToNextMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToNextMissingSignal(InMajorMinorFlags);
   } else {
     SkipToNextAnySignal();
   }
@@ -373,8 +373,8 @@ AlarmDisplayForm::SlotPreviousElement
     SkipToPrevMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToPrevMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToPrevMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToPrevMissingSignal(InMajorMinorFlags);
   } else {
     SkipToPrevAnySignal();
   }
@@ -589,7 +589,7 @@ AlarmDisplayForm::SkipToNextAnySignal
  *****************************************************************************/
 void
 AlarmDisplayForm::SkipToNextMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   int                                   m;
@@ -599,6 +599,20 @@ AlarmDisplayForm::SkipToNextMissingSignal
   m = alarmInformation->GetPairCount();
   for ( n = currentAlarmIndex ; n + 1 < m ; n++ ) {
     pair = alarmInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentAlarmIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentAlarmIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentAlarmIndex = n;
       return;
@@ -612,7 +626,7 @@ AlarmDisplayForm::SkipToNextMissingSignal
  *****************************************************************************/
 void
 AlarmDisplayForm::SkipToPrevMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   AlarmSignalPair*                      pair;
@@ -620,6 +634,20 @@ AlarmDisplayForm::SkipToPrevMissingSignal
   currentAlarmIndex--;
   for ( n = currentAlarmIndex ; n > 0 ; n-- ) {
     pair = alarmInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentAlarmIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentAlarmIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentAlarmIndex = n;
       return;

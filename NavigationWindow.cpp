@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -106,26 +107,33 @@ NavigationWindow::CreateSubWindows()
   PreviousElementButton->setIcon(QIcon(QPixmap(":/Images/Left.png")));
   connect(PreviousElementButton, SIGNAL(pressed()), this, SLOT(SlotPreviousElementButtonPushed()));
 
-  MajorCheckBox = new QCheckBox("Major", this);
+  MajorCheckBox = new QCheckBox("Major Difference", this);
   MajorCheckBox->move(0, 0);
   MajorCheckBox->resize(100, 32);
   MajorCheckBox->setFont(CheckBoxFont);
   MajorCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(MajorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMajorCheckToggle);
   
-  MinorCheckBox = new QCheckBox("Minor", this);
+  MinorCheckBox = new QCheckBox("Minor Difference", this);
   MinorCheckBox->move(0, 0);
   MinorCheckBox->resize(110, 32);
   MinorCheckBox->setFont(CheckBoxFont);
   MinorCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(MinorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMinorCheckToggle);
   
-  MissingCheckBox = new QCheckBox("Missing", this);
-  MissingCheckBox->move(0, 0);
-  MissingCheckBox->resize(100, 32);
-  MissingCheckBox->setFont(CheckBoxFont);
-  MissingCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
-  connect(MissingCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMissingCheckToggle);
+  Only2CheckBox = new QCheckBox("Only in Track 2", this);
+  Only2CheckBox->move(0, 0);
+  Only2CheckBox->resize(100, 32);
+  Only2CheckBox->setFont(CheckBoxFont);
+  Only2CheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
+  connect(Only2CheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotOnly2CheckToggle);
+  
+  Only3CheckBox = new QCheckBox("Only in Track 3", this);
+  Only3CheckBox->move(0, 0);
+  Only3CheckBox->resize(100, 32);
+  Only3CheckBox->setFont(CheckBoxFont);
+  Only3CheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
+  connect(Only3CheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotOnly3CheckToggle);
   
   IndexLabel = new QLabel(this);
   IndexLabel->move(0, 0);
@@ -152,6 +160,7 @@ NavigationWindow::resizeEvent
 (QResizeEvent* InEvent)
 {
   int                                   checkBoxWidth;
+  int                                   checkBoxMissingWidth;
   int                                   checkBoxHeight;
   
   int                                   buttonPosition;
@@ -191,10 +200,15 @@ NavigationWindow::resizeEvent
   int                                   minorW;
   int                                   minorH;
   
-  int                                   missingX;
-  int                                   missingY;
-  int                                   missingW;
-  int                                   missingH;
+  int                                   only3X;
+  int                                   only3Y;
+  int                                   only3W;
+  int                                   only3H;
+  
+  int                                   only2X;
+  int                                   only2Y;
+  int                                   only2W;
+  int                                   only2H;
   
   int                                   indexlabelX;
   int                                   indexlabelY;
@@ -209,7 +223,8 @@ NavigationWindow::resizeEvent
   s = InEvent->size();
   width = s.width();
   height = s.height();
-  checkBoxWidth = 70;
+  checkBoxWidth = 140;
+  checkBoxMissingWidth = 120;
   checkBoxHeight = 13;
   
   //!
@@ -254,10 +269,15 @@ NavigationWindow::resizeEvent
   minorW = checkBoxWidth;
   minorH = checkBoxHeight;
 
-  missingX = majorX + checkBoxWidth + 20;
-  missingY = 2;
-  missingW = checkBoxWidth;
-  missingH = checkBoxHeight;
+  only3X = majorX + checkBoxWidth + 20;
+  only3Y = majorH + 3;
+  only3W = checkBoxMissingWidth;
+  only3H = checkBoxHeight;
+  
+  only2X = majorX + checkBoxWidth + 20;
+  only2Y = 2;
+  only2W = checkBoxMissingWidth;
+  only2H = checkBoxHeight;
   
   indexlabelW = IndexLabel->size().width();
   indexlabelX = width - (indexlabelW + 5);
@@ -288,8 +308,11 @@ NavigationWindow::resizeEvent
   MinorCheckBox->move(minorX, minorY);
   MinorCheckBox->resize(minorW, minorH);
 
-  MissingCheckBox->move(missingX, missingY);
-  MissingCheckBox->resize(missingW, missingH);
+  Only3CheckBox->move(only3X, only3Y);
+  Only3CheckBox->resize(only3W, only3H);
+
+  Only2CheckBox->move(only2X, only2Y);
+  Only2CheckBox->resize(only2W, only2H);
 }
 
 /*****************************************************************************!
@@ -390,7 +413,8 @@ NavigationWindow::SlotMajorCheckToggle
   flag = InChecked ? NAVIGATION_MAJOR_FLAG : 0;
   MajorMinorFlags = flag + (MajorMinorFlags & NAVIGATION_MINOR_FLAG);
   if ( InChecked ) {
-    MissingCheckBox->setChecked(false);
+    Only3CheckBox->setChecked(false);
+    Only2CheckBox->setChecked(false);
   }
 }
 
@@ -406,21 +430,65 @@ NavigationWindow::SlotMinorCheckToggle
   flag = InChecked ? NAVIGATION_MINOR_FLAG : 0;
   MajorMinorFlags = flag + (MajorMinorFlags & NAVIGATION_MAJOR_FLAG);
   if ( InChecked ) {
-    MissingCheckBox->setChecked(false);
+    Only3CheckBox->setChecked(false);
+    Only2CheckBox->setChecked(false);
   }
 }
 
 /*****************************************************************************!
- * Function : SlotMissingCheckToggle
+ * Function : SlotOnly3CheckToggle
  *****************************************************************************/
 void
-NavigationWindow::SlotMissingCheckToggle
+NavigationWindow::SlotOnly3CheckToggle
 (int InChecked )
 {
+  int                                   flags;
+  
   if ( InChecked ) {
     MajorCheckBox->setChecked(false);
     MinorCheckBox->setChecked(false);
   }
 
-  MajorMinorFlags = NAVIGATION_MISSING_FLAG;
+  flags = 0;
+  if ( InChecked ) {
+    flags = NAVIGATION_ONLY3_FLAG;
+  }
+  
+  MajorMinorFlags &= NAVIGATION_ONLY2_FLAG;
+  MajorMinorFlags |= flags;
+  TRACE_FUNCTION_INT(MajorMinorFlags);
+}
+
+/*****************************************************************************!
+ * Function : SlotOnly2CheckToggle
+ *****************************************************************************/
+void
+NavigationWindow::SlotOnly2CheckToggle
+(int InChecked )
+{
+  int                                   flags;
+  if ( InChecked ) {
+    MajorCheckBox->setChecked(false);
+    MinorCheckBox->setChecked(false);
+  }
+  flags = 0;
+  if ( InChecked ) {
+    flags = NAVIGATION_ONLY2_FLAG;
+  }
+  
+  MajorMinorFlags &= NAVIGATION_ONLY3_FLAG;
+  MajorMinorFlags |= flags;
+  TRACE_FUNCTION_INT(MajorMinorFlags);
+}
+
+/*****************************************************************************!
+ * Function : HideCheckBoxes
+ *****************************************************************************/
+void
+NavigationWindow::HideCheckBoxes(void)
+{
+  MajorCheckBox->hide();
+  MinorCheckBox->hide();
+  Only3CheckBox->hide();
+  Only2CheckBox->hide();
 }

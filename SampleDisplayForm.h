@@ -69,12 +69,12 @@ class SampleDisplayForm : public SignalDisplayForm
   void                          SkipToNextMajorSignal   ();
   void                          SkipToNextMinorSignal   ();
   void                          SkipToNextAnySignal     ();
-  void                          SkipToNextMissingSignal ();
+  void                          SkipToNextMissingSignal (int InMissingTracks);
 
   void                          SkipToPrevMajorSignal   ();
   void                          SkipToPrevMinorSignal   ();
   void                          SkipToPrevAnySignal     ();
-  void                          SkipToPrevMissingSignal ();
+  void                          SkipToPrevMissingSignal (int InMissingTracks);
 
   bool                          PairContainsMajorAlarm  (SampleSignalPair* InPair);
   bool                          PairContainsMinorAlarm  (SampleSignalPair* InPair);

@@ -343,14 +343,15 @@ SettingDisplayForm::SlotNextElement
     return;
   }
 
+  TRACE_FUNCTION_INT(InMajorMinorFlags);
   if ( InMajorMinorFlags == 0 ) {
     currentSettingIndex++;
   } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
     SkipToNextMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToNextMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToNextMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToNextMissingSignal(InMajorMinorFlags);
   } else {
     SkipToNextAnySignal();
   }
@@ -376,8 +377,8 @@ SettingDisplayForm::SlotPreviousElement
     SkipToPrevMajorSignal();
   } else if ( InMajorMinorFlags == NAVIGATION_MINOR_FLAG ) {
     SkipToPrevMinorSignal();
-  } else if ( InMajorMinorFlags == NAVIGATION_MISSING_FLAG ) {
-    SkipToPrevMissingSignal();
+  } else if ( (InMajorMinorFlags & NAVIGATION_ONLY3_FLAG) || (InMajorMinorFlags & NAVIGATION_ONLY2_FLAG) ) {
+    SkipToPrevMissingSignal(InMajorMinorFlags);
   } else {
     SkipToPrevAnySignal();
   }
@@ -623,7 +624,7 @@ SettingDisplayForm::SkipToNextAnySignal
  *****************************************************************************/
 void
 SettingDisplayForm::SkipToNextMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   int                                   m;
@@ -633,6 +634,20 @@ SettingDisplayForm::SkipToNextMissingSignal
   m = settingInformation->GetPairCount();
   for ( n = currentSettingIndex ; n + 1 < m ; n++ ) {
     pair = settingInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentSettingIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentSettingIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentSettingIndex = n;
       return;
@@ -646,7 +661,7 @@ SettingDisplayForm::SkipToNextMissingSignal
  *****************************************************************************/
 void
 SettingDisplayForm::SkipToPrevMissingSignal
-()
+(int InMissingTracks)
 {
   int                                   n;
   SettingSignalPair*                    pair;
@@ -654,6 +669,20 @@ SettingDisplayForm::SkipToPrevMissingSignal
   currentSettingIndex--;
   for ( n = currentSettingIndex ; n > 0 ; n-- ) {
     pair = settingInformation->GetPairByIndex(n);
+    if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
+      if ( pair->GetTrack2() == NULL ) {
+        currentSettingIndex = n;
+        return;
+      }
+      continue;
+    }
+    if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
+      if ( pair->GetTrack3() == NULL ) {
+        currentSettingIndex = n;
+        return;
+      }
+      continue;
+    }
     if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
       currentSettingIndex = n;
       return;
