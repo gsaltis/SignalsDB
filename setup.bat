@@ -8,3 +8,8 @@ doskey mq=qmake
 doskey si=release\SignalsDB $*
 doskey sid=debug\SignalsDB $*
 title Signals Database
+git status | head -1 | gawk "{print $3;}"> .branch.txt
+set /p P=<.branch.txt
+prompt SignalsDB [%p%] : 
+del .branch.txt
+

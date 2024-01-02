@@ -69,6 +69,7 @@ int
 main
 (int argc, char** argv)
 {
+  QString                               filename;
   int                                   initialTab;
   QApplication 				application(argc, argv);
   MainWindow* 				w;
@@ -103,7 +104,11 @@ main
   commandLineParser.process(application);
   TRACE_COMMAND_CLEAR();
   initialTab = commandLineParser.value(InitWindowOption).toInt();
-  MainDBFilename = commandLineParser.value(ConfigFilenameOption);
+  
+  filename = commandLineParser.value(ConfigFilenameOption);
+  if ( !filename.isEmpty() ) {
+    MainDBFilename = filename;
+  }
   MainCreateSummary = commandLineParser.isSet(ConfigSummaryOption);
   
   Initialize();
@@ -154,6 +159,8 @@ MainOpenDB
 ()
 {
   int                                   n;
+
+  TRACE_FUNCTION_QSTRING(MainDBFilename);
   n = sqlite3_open(MainDBFilename.toStdString().c_str(), &MainDB);
   if ( n != SQLITE_OK ) {
     QMessageBox box = QMessageBox(QMessageBox::Critical,
