@@ -59,6 +59,9 @@ MainApplicationName = "SignalsDB";
 MainConfig*
 MainConfiguration;
 
+bool
+MainCreateSummary = false;
+
 /*****************************************************************************!
  * Function : main
  *****************************************************************************/
@@ -73,7 +76,6 @@ main
   QSize                                 size;
   QCommandLineParser                    commandLineParser;
   
-  Initialize();
   application.setApplicationName("SignalsDatabase");
   application.setApplicationVersion("0.0.0");
   application.setOrganizationName("Greg Saltis");
@@ -86,10 +88,25 @@ main
   QCommandLineOption                    InitWindowOption(QStringList() << "s" << "signal",
                                                          QString("Select initial signal window"),
                                                          QString("index"));
+
+  QCommandLineOption                    ConfigFilenameOption(QStringList() << "f" << "file",
+                                                             QString("Specify the config database filename"),
+                                                             QString("filename"));
+
+  QCommandLineOption                    ConfigSummaryOption(QStringList() << "S" << "summary",
+                                                            QString("Create a summary file"));
+  
   commandLineParser.addOption(InitWindowOption);
+  commandLineParser.addOption(ConfigFilenameOption);
+  commandLineParser.addOption(ConfigSummaryOption);
+  
   commandLineParser.process(application);
   TRACE_COMMAND_CLEAR();
   initialTab = commandLineParser.value(InitWindowOption).toInt();
+  MainDBFilename = commandLineParser.value(ConfigFilenameOption);
+  MainCreateSummary = commandLineParser.isSet(ConfigSummaryOption);
+  
+  Initialize();
   w = new MainWindow(initialTab);
   MainGetMainWindowGeometry(position, size);
   w->resize(size);
@@ -122,6 +139,9 @@ Initialize
   MainConfig::sampleInformation = new SampleInformation();
   MainConfig::sampleInformation->SQLRead(MainConfig::database);
 
+  if ( MainCreateSummary ) {
+    MainConfig::CreateSummaryFile();
+  }
   MainConfiguration = new MainConfig();
   MainConfiguration->ReadElementLineFormats();
 }

@@ -142,3 +142,49 @@ SampleSignalPair::GetDifferCounts
   }
 }
 
+/*****************************************************************************!
+ * Function : AddXCLFullRows
+ *****************************************************************************/
+int
+SampleSignalPair::AddXCLFullRows
+(xlnt::worksheet* InWorksheet, int InStartingRow)
+{
+  int                                   row;
+  InWorksheet->cell(1, InStartingRow).value(GetID());
+  InWorksheet->cell(2, InStartingRow).value(GetSID());
+  row = InStartingRow;
+  if ( Track2Signal ) {
+    Track2Signal->AddXCLRow(InWorksheet, row, 3);
+    row++;
+  }
+  if ( Track3Signal ) {
+    Track3Signal->AddXCLRow(InWorksheet, row, 3);
+    row++;
+  }
+  return row;
+}
+
+/*****************************************************************************!
+ * Function : AddXCLMajorDifferRows
+ *****************************************************************************/
+int
+SampleSignalPair::AddXCLMajorDifferRows
+(xlnt::worksheet* InWorksheet, int InStartingRow)
+{
+  int                                   row;
+  InWorksheet->cell(1, InStartingRow).value(GetID());
+  InWorksheet->cell(2, InStartingRow).value(GetSID());
+  row = InStartingRow;
+  if ( ! Differ() ) {
+    return row;
+  }
+  if ( Track2Signal == NULL || Track3Signal == NULL ) {
+    return row;
+  }
+  Track2Signal->AddXCLRow(InWorksheet, row, 3);
+  row++;
+
+  Track3Signal->AddXCLRow(InWorksheet, row, 3, true);
+  row++;
+  return row;
+}

@@ -5,3 +5,7 @@ Makefile*
 *~
 .~*
 *.csv
+*.xlsx
+SpreadSheetTest/*
+Doc/ExcelCreateDialog.odp
+ConfigNew.db

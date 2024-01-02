@@ -429,3 +429,161 @@ SampleInformation::GetTrackDifferCount
   InSignalMinorCount = signalMinor;
 }
 
+/*****************************************************************************!
+ * Function : AddAllWorksheet
+ *****************************************************************************/
+void
+SampleInformation::AddAllWorksheet
+(xlnt::workbook* InWorkbook)
+{
+  int                                   row;
+  xlnt::worksheet                       ws;
+
+  ws = InWorkbook->create_sheet();
+  ws.title("Samples All");
+
+  AddXCLHeaders(&ws);
+  row = 2;
+  for ( auto pair : samplePairs ) {
+    row = pair->AddXCLFullRows(&ws, row);
+  }
+}
+
+/*****************************************************************************!
+ * Function : AddMajorDifferWorksheet
+ *****************************************************************************/
+void
+SampleInformation::AddMajorDifferWorksheet
+(xlnt::workbook* InWorkbook)
+{
+  int                                   row;
+  xlnt::worksheet                       ws;
+  xlnt::font                            font;
+
+  ws = InWorkbook->create_sheet();
+  ws.title("Samples Major Differs");
+
+  AddXCLHeaders(&ws);
+  
+ 
+  row = 2;
+  for ( auto pair : samplePairs ) {
+    row = pair->AddXCLMajorDifferRows(&ws, row);
+  }
+}
+
+/*****************************************************************************!
+ * Function : AddMinorDifferWorksheet
+ *****************************************************************************/
+void
+SampleInformation::AddMinorDifferWorksheet
+(xlnt::workbook* InWorkbook)
+{
+  int                                   row;
+  xlnt::worksheet                       ws;
+  xlnt::font                            font;
+
+  font.bold(true);
+  font.name("Liberation Sans");
+  ws = InWorkbook->create_sheet();
+  ws.title("Samples All");
+
+  xlnt::cell  ce = ws.cell(1, 1);
+  ce.font(font);
+  ce.value("Equipment ID");
+  
+  row = 2;
+  for ( auto pair : samplePairs ) {
+    row = pair->AddXCLFullRows(&ws, row);
+  }
+}
+
+/*****************************************************************************!
+ * Function : AddTrack2OnlyWorksheet
+ *****************************************************************************/
+void
+SampleInformation::AddTrack2OnlyWorksheet
+(xlnt::workbook* InWorkbook)
+{
+  int                                   row;
+  xlnt::worksheet                       ws;
+  xlnt::font                            font;
+
+  font.bold(true);
+  font.name("Liberation Sans");
+  ws = InWorkbook->create_sheet();
+  ws.title("Samples All");
+
+  xlnt::cell  ce = ws.cell(1, 1);
+  ce.font(font);
+  ce.value("Equipment ID");
+  
+  row = 2;
+  for ( auto pair : samplePairs ) {
+    row = pair->AddXCLFullRows(&ws, row);
+  }
+}
+
+/*****************************************************************************!
+ * Function : AddTrack3OnlyWorksheet
+ *****************************************************************************/
+void
+SampleInformation::AddTrack3OnlyWorksheet
+(xlnt::workbook* InWorkbook)
+{
+  int                                   row;
+  xlnt::worksheet                       ws;
+
+  ws = InWorkbook->create_sheet();
+  ws.title("Samples All");
+
+  row = 2;
+  for ( auto pair : samplePairs ) {
+    row = pair->AddXCLFullRows(&ws, row);
+  }
+}
+
+/*****************************************************************************!
+ * Function : AddXCLHeaders
+ *****************************************************************************/
+void
+SampleInformation::AddXCLHeaders
+(xlnt::worksheet* InWorkSheet)
+{
+  int                                   n;
+  QStringList                           headerNames;
+  xlnt::font                            font;
+  int                                   column;
+
+  headerNames
+    << "Equipment ID"
+    << "Signal ID"
+    << "Name"
+    << "Unit"
+    << "Signal Index"
+    << "Signal Channel"
+    << "Value Type"
+    << "Store Threshold"
+    << "Store Int"
+    << "Eval Expression RPN"
+    << "Eval Expression Full"
+    << "Range"
+    << "Display Attribute"
+    << "Display Level"
+    << "Display ID"
+    << "Display Format"
+    << "Display Expression RPN"
+    << "Display Expression Full"
+    << "Enums";
+  
+
+  font.bold(true);
+  font.name("Liberation Sans");
+
+  n = headerNames.size();
+  for (column = 0; column < n; column++) {
+    xlnt::cell  ce = InWorkSheet->cell(column + 1, 1);
+    ce.font(font);
+    ce.value(headerNames[column].toStdString());
+  }
+}

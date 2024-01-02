@@ -8,22 +8,22 @@ QMAKE_LINK                      = @echo [LD] $@ && g++
 
 QMAKE_RC                        = @echo [RC] $@ && windres 
 
-QMAKE_LFLAGS_WINDOWS            += -mwindows -LD:/usr/local/lib
+QMAKE_LFLAGS_WINDOWS            += -mwindows -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
 
-QMAKE_CXXFLAGS                  += -ID:/usr/local/include
+QMAKE_CXXFLAGS                  += -ID:/usr/local/include -I../Qxlnt/xlnt/include
 
 RESOURCES                       += SignalsDB.qrc
 
-QMAKE_LIBS                      = -lwsock32 -ltraceclient
+QMAKE_LIBS                      = -lwsock32 -ltraceclient -lQxlnt
 
 TARGET                          = SignalsDB
 
-VERSION                         = "0.0.0"
-QMAKE_TARGET_COMPANY            = "Greg Saltis"
+VERSION                         = "0.9.0"
+QMAKE_TARGET_COMPANY            = "Vertiv"
 
 QMAKE_TARGET_PRODUCT            = "Signals Database"
 
-QMAKE_TARGET_COPYRIGHT          = "Copyright (C) 2023 Greg Saltis"
+QMAKE_TARGET_COPYRIGHT          = "Copyright (C) 2023 Vertiv Company"
 
 QT                              += core gui widgets
 
@@ -40,8 +40,8 @@ SOURCES                         += \
 				   ControlSignalPair.cpp                        \
 				   ElementDisplayLine.cpp                       \
 				   ElementDisplayLineFormat.cpp                 \
-				   EquipmentDisplayWindow.cpp                   \
 				   EquipmentDisplayForm.cpp                     \
+				   EquipmentDisplayWindow.cpp                   \
 				   EquipmentInformation.cpp                     \
 				   EquipmentSignalPair.cpp                      \
 				   MainConfig.cpp                               \
@@ -70,6 +70,8 @@ SOURCES                         += \
 				   SignalsInformation.cpp                       \
 				   SystemConfig.cpp                             \
 				   WindowHeader.cpp                             \
+				   XCLOptions.cpp                               \
+				   XMLCreateDialog.cpp                          \
 				   main.cpp                                     \
 				   sqlite3.c                                    \
 
@@ -115,6 +117,8 @@ HEADERS                         += \
 				   SignalsInformation.h                         \
 				   SystemConfig.h                               \
 				   WindowHeader.h                               \
+				   XCLOptions.h                                 \
+				   XMLCreateDialog.h                            \
 				   sqlite3.h                                    \
 
 FORMS                           += \

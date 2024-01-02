@@ -367,3 +367,27 @@ EquipmentInformation::GetPairCount
 {
   return equipmentPairs.size();
 }
+
+/*****************************************************************************!
+ * Function : AddSummary
+ *****************************************************************************/
+void
+EquipmentInformation::AddSummary
+(FILE* InFile)
+{
+  int                                   track3Missing;
+  int                                   track2Missing;
+  int                                   track3Count;
+  int                                   track2Count;
+  track2Count = GetTrack2Count();
+  track3Count = GetTrack3Count();
+
+  track2Missing = GetTrack2MissingCount();
+  track3Missing = GetTrack3MissingCount();
+
+  fprintf(InFile,"EQUIPMENT\n");
+  fprintf(InFile,"  Track 2 Count :             %d\n", track2Count);
+  fprintf(InFile,"  Track 3 Count :             %d\n", track3Count);
+  fprintf(InFile,"  Tracks Missing in Track 2 : %d\n", track2Missing);
+  fprintf(InFile,"  Tracks Missing in Track s : %d\n", track3Missing);
+}

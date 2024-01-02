@@ -13,11 +13,14 @@
 #include <QtGui>
 #include <QWidget>
 #include <QCheckBox>
+#include <xlnt/xlnt.hpp>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
 #include "NavigationWindow.h"
+#include "XMLCreateDialog.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : NavigationWindow
@@ -321,6 +324,18 @@ NavigationWindow::resizeEvent
 void
 NavigationWindow::SlotXCLButtonPushed(void)
 {
+  int                                   n;
+  XMLCreateDialog*                      dialog;
+  XCLOptions                            options;
+  
+  dialog = new XMLCreateDialog(&options);
+
+  n = dialog->exec();
+  delete dialog;
+  if ( n ) {
+    GenerateSpreadsheets(&options);
+  }
+
   emit SignalXCL();
 }
 
@@ -456,7 +471,6 @@ NavigationWindow::SlotOnly3CheckToggle
   
   MajorMinorFlags &= NAVIGATION_ONLY2_FLAG;
   MajorMinorFlags |= flags;
-  TRACE_FUNCTION_INT(MajorMinorFlags);
 }
 
 /*****************************************************************************!
@@ -478,7 +492,6 @@ NavigationWindow::SlotOnly2CheckToggle
   
   MajorMinorFlags &= NAVIGATION_ONLY3_FLAG;
   MajorMinorFlags |= flags;
-  TRACE_FUNCTION_INT(MajorMinorFlags);
 }
 
 /*****************************************************************************!
@@ -491,4 +504,45 @@ NavigationWindow::HideCheckBoxes(void)
   MinorCheckBox->hide();
   Only3CheckBox->hide();
   Only2CheckBox->hide();
+}
+
+/*****************************************************************************!
+ * Function : GenerateSpreadsheets
+ *****************************************************************************/
+void
+NavigationWindow::GenerateSpreadsheets
+(XCLOptions* InOptions)
+{
+  xlnt::workbook                        wb;
+  xlnt::worksheet                       ws;
+
+  ws = wb.active_sheet();
+  wb.remove_sheet(ws);
+  
+  if ( InOptions->GetOption("SampleAll") ) {
+    MainConfiguration->sampleInformation->AddAllWorksheet(&wb);
+  }
+
+  if ( InOptions->GetOption("SampleMajor") ) {
+    MainConfiguration->sampleInformation->AddMajorDifferWorksheet(&wb);
+    ws = wb.create_sheet();
+    ws.title("Samples Major");
+  }
+  
+  if ( InOptions->GetOption("SampleMinor") ) {
+    ws = wb.create_sheet();
+    ws.title("Samples Minor");
+  }
+  
+  if ( InOptions->GetOption("SampleMissing2") ) {
+    ws = wb.create_sheet();
+    ws.title("Samples Missing 2");
+  }
+  
+  if ( InOptions->GetOption("SampleMissing3") ) {
+    ws = wb.create_sheet();
+    ws.title("Samples Missing 3");
+  }
+  
+  wb.save("Sheets.xlsx");
 }

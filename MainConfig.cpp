@@ -158,3 +158,18 @@ MainConfig::GetElementLineFormats
 {
   return formats[InSignalTypeName];
 }
+
+/*****************************************************************************!
+ * Function : CreateSummaryFile
+ *****************************************************************************/
+void
+MainConfig::CreateSummaryFile(void)
+{
+  FILE*                         file;
+
+  file = fopen("Summary.txt", "wb");
+
+  equipmentInformation->AddSummary(file);
+
+  fclose(file);
+}

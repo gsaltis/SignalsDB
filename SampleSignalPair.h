@@ -13,6 +13,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <xlnt/xlnt.hpp>
 
 /*****************************************************************************!
  * Local Headers
@@ -49,6 +50,8 @@ class SampleSignalPair : public QWidget
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
   void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
+  int                           AddXCLFullRows          (xlnt::worksheet* InWorksheet, int InStartingRow);
+  int                           AddXCLMajorDifferRows   (xlnt::worksheet* InWorksheet, int InStartingRow);
 
  //! Public Data
  public :

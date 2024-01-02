@@ -50,7 +50,8 @@ class MainConfig : public QWidget
   static int                    ReadElementLineFormatsCB (void* InPointer, int InColumnCounts, char** InColumnValues, char** InColumnNames);
   void                          AddElementDisplayLineFormat (QString InSignalTypeName, ElementDisplayLineFormat* InFormat);
   QList<ElementDisplayLineFormat*> GetElementLineFormats (QString InSignalTypeName);
-
+  static void                   CreateSummaryFile       (void);
+  
  //! Public Data
  public :
   static sqlite3*                       database;
@@ -59,7 +60,7 @@ class MainConfig : public QWidget
   static AlarmInformation*              alarmInformation;
   static SettingInformation*            settingInformation;
   static SampleInformation*             sampleInformation;
-  
+
  //! Protected Methods
  protected :
 

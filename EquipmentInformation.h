@@ -55,6 +55,7 @@ class EquipmentInformation : public SignalsInformation
   int                           GetCountByTrack         (int InTrack);
   EquipmentSignalPair*          GetPairByIndex          (int InIndex);
   int                           GetPairCount            (void);
+  void                          AddSummary              (FILE* InFile);
   
  //! Public Data
  public :

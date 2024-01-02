@@ -21,6 +21,7 @@
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
+#include "XCLOptions.h"
 
 /*****************************************************************************!
  * Exported Macros
@@ -67,6 +68,7 @@ class NavigationWindow : public QFrame
   void                          CreateSubWindows        ();
   void                          InitializeSubWindows    ();
   void                          resizeEvent             (QResizeEvent* InEvent);
+  void                          GenerateSpreadsheets    (XCLOptions* InOptions);
 
  //! Private Data
  private :

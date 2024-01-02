@@ -1,4 +1,5 @@
-DELETE FROM ElementDisplay;
+DROP TABLE ElementDisplay;
+CREATE TABLE ElementDisplay (SignalTypeName text, LineOrder integer, ElementKey text, ElementName text, DifferenceSeverity text, LineHeightMultiplier integer);
 INSERT INTO ElementDisplay VALUES ("Alarm", 1, "AlarmName",    "Alarm Name",                                            "Major", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 2, "Level",        "Level",                                                 "Minor", 1);
 INSERT INTO ElementDisplay VALUES ("Alarm", 3, "ExpRPN",       "Expression RPN",                                        "Major", 2);

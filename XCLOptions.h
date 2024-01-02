@@ -1,11 +1,11 @@
 /*****************************************************************************
- * FILE NAME    : NCUSampleSignal.h
- * DATE         : November 20 2023
+ * FILE NAME    : XCLOptions.h
+ * DATE         : December 14 2023
  * PROJECT      : 
  * COPYRIGHT    : Copyright (C) 2023 by Gregory R Saltis
  *****************************************************************************/
-#ifndef _ncusamplesignal_h_
-#define _ncusamplesignal_h_
+#ifndef _xcloptions_h_
+#define _xcloptions_h_
 
 /*****************************************************************************!
  * Global Headers
@@ -13,40 +13,37 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
-#include <xlnt/xlnt.hpp>
 
 /*****************************************************************************!
  * Local Headers
  *****************************************************************************/
-#include "NCUSignal.h"
 
 /*****************************************************************************!
  * Exported Macros
  *****************************************************************************/
 
 /*****************************************************************************!
- * Exported Class : NCUSampleSignal
+ * Exported Class : XCLOptions
  *****************************************************************************/
-class NCUSampleSignal : public NCUSignal
+class XCLOptions : public QWidget
 {
   Q_OBJECT;
 
  //! Constructors
  public :
-  NCUSampleSignal               ();
+  XCLOptions                    ();
 
  //! Destructor
  public :
-  ~NCUSampleSignal              ();
+  ~XCLOptions                   ();
 
  //! Public Methods
  public :
-  bool                                  Equal   (NCUSampleSignal* InSample);
-  void                                  AddXCLRow               (xlnt::worksheet* InWorkSheet, int InRow, int InStartingColumn, bool InBottomBorder = false);
-  
+  bool                          GetOption               (QString InOption);
+  void                          SetOption               (QString InOption, bool InValue);
+
  //! Public Data
  public :
-  static QStringList            Tags;
 
  //! Protected Methods
  protected :
@@ -56,9 +53,12 @@ class NCUSampleSignal : public NCUSignal
 
  //! Private Methods
  private :
+  void                          Initialize              (void);
 
  //! Private Data
  private :
+  QStringList                   Options;
+  QHash<QString, bool>          Values;
 
  //! Public Slots
  public slots :
@@ -71,4 +71,4 @@ class NCUSampleSignal : public NCUSignal
 
 };
 
-#endif /* _ncusamplesignal_h_*/
+#endif /* _xcloptions_h_*/

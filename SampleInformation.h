@@ -13,6 +13,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
+#include <xlnt/xlnt.hpp>
 
 /*****************************************************************************!
  * Local Headers
@@ -57,6 +58,11 @@ class SampleInformation : public SignalsInformation
   int                           GetPairCount            (void);
   void                          GetTrackDifferCount     (int &InSignalMajorCount, int &InMajorCount,
                                                          int &InSignalMinorCount, int &InMinorCount);
+  void                          AddAllWorksheet         (xlnt::workbook* InWorkbook);
+  void                          AddMajorDifferWorksheet (xlnt::workbook* InWorkbook);
+  void                          AddMinorDifferWorksheet (xlnt::workbook* InWorkbook);
+  void                          AddTrack2OnlyWorksheet  (xlnt::workbook* InWorkbook);
+  void                          AddTrack3OnlyWorksheet  (xlnt::workbook* InWorkbook);
   
  //! Public Data
  public :
@@ -71,6 +77,7 @@ class SampleInformation : public SignalsInformation
  private :
   void                          CreatePairs             (void);
   int                           GetTrackCount           (int InTrack);
+  void                          AddXCLHeaders           (xlnt::worksheet* InWorkSheet);
 
  //! Private Data
  private :

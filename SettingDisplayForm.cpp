@@ -343,7 +343,6 @@ SettingDisplayForm::SlotNextElement
     return;
   }
 
-  TRACE_FUNCTION_INT(InMajorMinorFlags);
   if ( InMajorMinorFlags == 0 ) {
     currentSettingIndex++;
   } else if ( InMajorMinorFlags == NAVIGATION_MAJOR_FLAG ) {
