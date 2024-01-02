@@ -91,7 +91,7 @@ EquipmentDisplayForm::CreateSubWindows()
   label->move(x2, y);
   label->resize(labelWidth, headingLabelHeight);
   label->setFont(labelFont);
-  label->setText(QString("TRACK 2"));
+  label->setText(QString("TRACK A"));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   
   label = new QLabel();
@@ -99,9 +99,9 @@ EquipmentDisplayForm::CreateSubWindows()
   label->move(x3, y);
   label->resize(labelWidth, headingLabelHeight);
   label->setFont(labelFont);
-  label->setText(QString("TRACK 3"));
+  label->setText(QString("TRACK B"));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-  Track3Label = label;
+  TrackBLabel = label;
   
   //!
   y = 10;
@@ -110,7 +110,7 @@ EquipmentDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Equipment ID : "));
+  label->setText(QString("Equipment ID"));
   label->setAlignment(Qt::AlignRight);
 
   EquipmentIDLabel = new QLabel(this);
@@ -174,7 +174,7 @@ EquipmentDisplayForm::resizeEvent
   navigationWindowW = width;
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
-  Track3Label->move(x4, Track3Label->pos().y());
+  TrackBLabel->move(x4, TrackBLabel->pos().y());
 
   lastLine = NULL;
   for ( auto i : elementLines ) {
@@ -278,8 +278,8 @@ EquipmentDisplayForm::SetTrackInformation
 
   EquipmentIDLabel->setText(QString("%1").arg(InPair->GetID()));
 
-  track2 = InPair->GetTrack2();
-  track3 = InPair->GetTrack3();
+  track2 = InPair->GetTrackA();
+  track3 = InPair->GetTrackB();
 
   keys = elementLines.keys();
   keysSize = keys.size();
@@ -288,27 +288,27 @@ EquipmentDisplayForm::SetTrackInformation
   }
 
   if ( track2 ) {
-    elementLines["Type"]->SetTrack2Value(QString("%1").arg(track2->Type));
-    elementLines["Name"]->SetTrack2Value(track2->GetValue("Name"));
-    elementLines["TypeName"]->SetTrack2Value(track2->GetValue("TypeName"));
-    elementLines["GroupName"]->SetTrack2Value(track2->GetValue("GroupName"));
-    elementLines["NumofSamples"]->SetTrack2Value(track2->GetValue("NumofSamples"));
-    elementLines["NumofCtrl"]->SetTrack2Value(track2->GetValue("NumofCtrl"));
-    elementLines["NumofAlarm"]->SetTrack2Value(track2->GetValue("NumofAlarm"));
-    elementLines["NumofSet"]->SetTrack2Value(track2->GetValue("NumofSet"));
-    elementLines["Related"]->SetTrack2Value(track2->GetValue("Related"));
+    elementLines["Type"]->SetTrackAValue(QString("%1").arg(track2->Type));
+    elementLines["Name"]->SetTrackAValue(track2->GetValue("Name"));
+    elementLines["TypeName"]->SetTrackAValue(track2->GetValue("TypeName"));
+    elementLines["GroupName"]->SetTrackAValue(track2->GetValue("GroupName"));
+    elementLines["NumofSamples"]->SetTrackAValue(track2->GetValue("NumofSamples"));
+    elementLines["NumofCtrl"]->SetTrackAValue(track2->GetValue("NumofCtrl"));
+    elementLines["NumofAlarm"]->SetTrackAValue(track2->GetValue("NumofAlarm"));
+    elementLines["NumofSet"]->SetTrackAValue(track2->GetValue("NumofSet"));
+    elementLines["Related"]->SetTrackAValue(track2->GetValue("Related"));
   }
 
   if ( track3 ) {
-    elementLines["Type"]->SetTrack3Value(QString("%1").arg(track3->Type));
-    elementLines["Name"]->SetTrack3Value(track3->GetValue("Name"));
-    elementLines["TypeName"]->SetTrack3Value(track3->GetValue("TypeName"));
-    elementLines["GroupName"]->SetTrack3Value(track3->GetValue("GroupName"));
-    elementLines["NumofSamples"]->SetTrack3Value(track3->GetValue("NumofSamples"));
-    elementLines["NumofCtrl"]->SetTrack3Value(track3->GetValue("NumofCtrl"));
-    elementLines["NumofAlarm"]->SetTrack3Value(track3->GetValue("NumofAlarm"));
-    elementLines["NumofSet"]->SetTrack3Value(track3->GetValue("NumofSet"));
-    elementLines["Related"]->SetTrack3Value(track3->GetValue("Related"));
+    elementLines["Type"]->SetTrackBValue(QString("%1").arg(track3->Type));
+    elementLines["Name"]->SetTrackBValue(track3->GetValue("Name"));
+    elementLines["TypeName"]->SetTrackBValue(track3->GetValue("TypeName"));
+    elementLines["GroupName"]->SetTrackBValue(track3->GetValue("GroupName"));
+    elementLines["NumofSamples"]->SetTrackBValue(track3->GetValue("NumofSamples"));
+    elementLines["NumofCtrl"]->SetTrackBValue(track3->GetValue("NumofCtrl"));
+    elementLines["NumofAlarm"]->SetTrackBValue(track3->GetValue("NumofAlarm"));
+    elementLines["NumofSet"]->SetTrackBValue(track3->GetValue("NumofSet"));
+    elementLines["Related"]->SetTrackBValue(track3->GetValue("Related"));
   }
 
   for ( i = 0 ; i < keysSize ; i++ ) {

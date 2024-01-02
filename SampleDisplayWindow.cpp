@@ -113,27 +113,27 @@ SampleDisplayWindow::SetSampleInformation(void)
   int                                   trackMinorDiffer;
   int                                   trackMajorDiffer;
   int                                   combinedSignals;
-  int                                   track2Missing;
-  int                                   track3Missing;
-  int                                   track3Count;
-  int                                   track2Count;
+  int                                   trackAMissing;
+  int                                   trackBMissing;
+  int                                   trackBCount;
+  int                                   trackACount;
   SampleInformation*                    sampleInfo;
   
   sampleInfo = MainConfig::sampleInformation;
 
-  track2Count = sampleInfo->GetTrack2Count();
-  track3Count = sampleInfo->GetTrack3Count();
+  trackACount = sampleInfo->GetTrackACount();
+  trackBCount = sampleInfo->GetTrackBCount();
 
-  track2Missing = sampleInfo->GetTrack2MissingCount();
-  track3Missing = sampleInfo->GetTrack3MissingCount();
+  trackAMissing = sampleInfo->GetTrackAMissingCount();
+  trackBMissing = sampleInfo->GetTrackBMissingCount();
 
   sampleInfo->GetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                   totalMinorDiffer, trackMinorDiffer);
   
   combinedSignals = sampleInfo->GetPairCount();
   
-  statsWindow->SetTrackCounts(track2Count, track3Count);
-  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackCounts(trackACount, trackBCount);
+  statsWindow->SetMissingTrackCounts(trackAMissing, trackBMissing);
   statsWindow->SetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                    totalMinorDiffer, trackMinorDiffer);
   statsWindow->SetCombinedSignalCount(combinedSignals);  

@@ -214,7 +214,7 @@ SampleInformation::CreatePairs(void)
   n = samples.size();
   for (i = 0; i < n; i++) {
     e = samples[i];
-    if ( e->Track != 2 ) {
+    if ( e->Track != MainTrackAID->GetNumber() ) {
       continue;
     }
 
@@ -224,7 +224,7 @@ SampleInformation::CreatePairs(void)
 
   for ( i = 0; i < n; i++ ){
     e = samples[i];
-    if ( e->Track != 3 ) {
+    if ( e->Track != MainTrackBID->GetNumber() ) {
       continue;
     }
     samplePair = FindPairByID(e->ID, e->Type);
@@ -233,7 +233,7 @@ SampleInformation::CreatePairs(void)
       samplePairs << samplePair;
       continue;
     }
-    samplePair->AddTrack3Signal(e);
+    samplePair->AddTrackBSignal(e);
   }
 }
 
@@ -258,21 +258,21 @@ SampleInformation::FindPairByID
 }
 
 /*****************************************************************************!
- * Function : GetTrack2Count
+ * Function : GetTrackACount
  *****************************************************************************/
 int
-SampleInformation::GetTrack2Count(void)
+SampleInformation::GetTrackACount(void)
 {
-  return GetTrackCount(2);
+  return GetTrackCount(MainTrackAID->GetNumber());
 }
 
 /*****************************************************************************!
- * Function : GetTrack3Count
+ * Function : GetTrackBCount
  *****************************************************************************/
 int
-SampleInformation::GetTrack3Count(void)
+SampleInformation::GetTrackBCount(void)
 {
-  return GetTrackCount(3);
+  return GetTrackCount(MainTrackBID->GetNumber());
 }
 
 /*****************************************************************************!
@@ -300,10 +300,10 @@ SampleInformation::GetTrackCount
 }
 
 /*****************************************************************************!
- * Function : GetTrack2MissingCount
+ * Function : GetTrackAMissingCount
  *****************************************************************************/
 int
-SampleInformation::GetTrack2MissingCount(void)
+SampleInformation::GetTrackAMissingCount(void)
 {
   SampleSignalPair*                     ep;
   int                                   i;
@@ -314,7 +314,7 @@ SampleInformation::GetTrack2MissingCount(void)
   n = samplePairs.size();
   for (i = 0; i < n; i++) {
     ep = samplePairs[i];
-    if ( ep->GetTrack2() == NULL ) {
+    if ( ep->GetTrackA() == NULL ) {
       count++;
     }
   }
@@ -322,10 +322,10 @@ SampleInformation::GetTrack2MissingCount(void)
 }
 
 /*****************************************************************************!
- * Function : GetTrack3MissingCount
+ * Function : GetTrackBMissingCount
  *****************************************************************************/
 int
-SampleInformation::GetTrack3MissingCount(void)
+SampleInformation::GetTrackBMissingCount(void)
 {
   SampleSignalPair*                     ep;
   int                                   i;
@@ -336,7 +336,7 @@ SampleInformation::GetTrack3MissingCount(void)
   n = samplePairs.size();
   for (i = 0; i < n; i++) {
     ep = samplePairs[i];
-    if ( ep->GetTrack3() == NULL ) {
+    if ( ep->GetTrackB() == NULL ) {
       count++;
     }
   }
@@ -499,10 +499,10 @@ SampleInformation::AddMinorDifferWorksheet
 }
 
 /*****************************************************************************!
- * Function : AddTrack2OnlyWorksheet
+ * Function : AddTrackAOnlyWorksheet
  *****************************************************************************/
 void
-SampleInformation::AddTrack2OnlyWorksheet
+SampleInformation::AddTrackAOnlyWorksheet
 (xlnt::workbook* InWorkbook)
 {
   int                                   row;
@@ -525,10 +525,10 @@ SampleInformation::AddTrack2OnlyWorksheet
 }
 
 /*****************************************************************************!
- * Function : AddTrack3OnlyWorksheet
+ * Function : AddTrackBOnlyWorksheet
  *****************************************************************************/
 void
-SampleInformation::AddTrack3OnlyWorksheet
+SampleInformation::AddTrackBOnlyWorksheet
 (xlnt::workbook* InWorkbook)
 {
   int                                   row;

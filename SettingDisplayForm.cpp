@@ -93,7 +93,7 @@ SettingDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Setting ID : "));
+  label->setText(QString("Setting ID"));
   label->setAlignment(Qt::AlignRight);
 
   SettingIDLabel = new QLabel(this);
@@ -108,7 +108,7 @@ SettingDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Signal ID : "));
+  label->setText(QString("Signal ID"));
   label->setAlignment(Qt::AlignRight);
 
   SignalIDLabel = new QLabel(this);
@@ -134,7 +134,7 @@ SettingDisplayForm::CreateSubWindows()
   label->setFont(labelFont);
   label->setText(QString("TRACK 3"));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-  Track3Label = label;
+  TrackBLabel = label;
   
   
   //!
@@ -192,7 +192,7 @@ SettingDisplayForm::resizeEvent
   navigationWindowW = width;
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
-  Track3Label->move(x4, Track3Label->pos().y());
+  TrackBLabel->move(x4, TrackBLabel->pos().y());
   
   lastLine = NULL;
   for ( auto i : elementLines ) {
@@ -263,8 +263,8 @@ SettingDisplayForm::SetTrackInformation
   SettingIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
-  track2 = InPair->GetTrack2();
-  track3 = InPair->GetTrack3();
+  track2 = InPair->GetTrackA();
+  track3 = InPair->GetTrackB();
 
   keys = elementLines.keys();
   keysSize = keys.size();
@@ -274,56 +274,56 @@ SettingDisplayForm::SetTrackInformation
 
   if ( track2 ) {
     i = 0;
-    elementLines["SETName"]->SetTrack2Value(track2->GetValue("SETName"));
-    elementLines["Unit"]->SetTrack2Value(track2->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrack2Value(track2->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrack2Value(track2->GetValue("SChan"));
-    elementLines["ValType"]->SetTrack2Value(track2->GetValue("ValType"));
-    elementLines["Def"]->SetTrack2Value(track2->GetValue("Def"));
-    elementLines["Range"]->SetTrack2Value(track2->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrack2Value(track2->GetValue("DisplayAttr"));
-    elementLines["SetAttr"]->SetTrack2Value(track2->GetValue("SetAttr"));
-    elementLines["SetExpRPN"]->SetTrack2Value(track2->GetValue("SetExpRPN"));
-    elementLines["SetExpFull"]->SetTrack2Value(track2->GetValue("SetExpFull"));
-    elementLines["Auth"]->SetTrack2Value(track2->GetValue("Auth"));
-    elementLines["DisplayID"]->SetTrack2Value(track2->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrack2Value(track2->GetValue("DispFmt"));
-    elementLines["ChID"]->SetTrack2Value(track2->GetValue("ChID"));
-    elementLines["Step"]->SetTrack2Value(track2->GetValue("Step"));
-    elementLines["CExpRPN"]->SetTrack2Value(track2->GetValue("CExpRPN"));
-    elementLines["CExpFull"]->SetTrack2Value(track2->GetValue("CExpFull"));
-    elementLines["Persist"]->SetTrack2Value(track2->GetValue("Persist"));
-    elementLines["DispExpRPN"]->SetTrack2Value(track2->GetValue("DispExpRPN"));
-    elementLines["DispExpFull"]->SetTrack2Value(track2->GetValue("DispExpFull"));
-    elementLines["States"]->SetTrack2Value(track2->GetValue("States"));
-    elementLines["OnCtrl"]->SetTrack2Value(track2->GetValue("OnCtrl"));
+    elementLines["SETName"]->SetTrackAValue(track2->GetValue("SETName"));
+    elementLines["Unit"]->SetTrackAValue(track2->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrackAValue(track2->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrackAValue(track2->GetValue("SChan"));
+    elementLines["ValType"]->SetTrackAValue(track2->GetValue("ValType"));
+    elementLines["Def"]->SetTrackAValue(track2->GetValue("Def"));
+    elementLines["Range"]->SetTrackAValue(track2->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrackAValue(track2->GetValue("DisplayAttr"));
+    elementLines["SetAttr"]->SetTrackAValue(track2->GetValue("SetAttr"));
+    elementLines["SetExpRPN"]->SetTrackAValue(track2->GetValue("SetExpRPN"));
+    elementLines["SetExpFull"]->SetTrackAValue(track2->GetValue("SetExpFull"));
+    elementLines["Auth"]->SetTrackAValue(track2->GetValue("Auth"));
+    elementLines["DisplayID"]->SetTrackAValue(track2->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrackAValue(track2->GetValue("DispFmt"));
+    elementLines["ChID"]->SetTrackAValue(track2->GetValue("ChID"));
+    elementLines["Step"]->SetTrackAValue(track2->GetValue("Step"));
+    elementLines["CExpRPN"]->SetTrackAValue(track2->GetValue("CExpRPN"));
+    elementLines["CExpFull"]->SetTrackAValue(track2->GetValue("CExpFull"));
+    elementLines["Persist"]->SetTrackAValue(track2->GetValue("Persist"));
+    elementLines["DispExpRPN"]->SetTrackAValue(track2->GetValue("DispExpRPN"));
+    elementLines["DispExpFull"]->SetTrackAValue(track2->GetValue("DispExpFull"));
+    elementLines["States"]->SetTrackAValue(track2->GetValue("States"));
+    elementLines["OnCtrl"]->SetTrackAValue(track2->GetValue("OnCtrl"));
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines["SETName"]->SetTrack3Value(track3->GetValue("SETName"));
-    elementLines["Unit"]->SetTrack3Value(track3->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrack3Value(track3->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrack3Value(track3->GetValue("SChan"));
-    elementLines["ValType"]->SetTrack3Value(track3->GetValue("ValType"));
-    elementLines["Def"]->SetTrack3Value(track3->GetValue("Def"));
-    elementLines["Range"]->SetTrack3Value(track3->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrack3Value(track3->GetValue("DisplayAttr"));
-    elementLines["SetAttr"]->SetTrack3Value(track3->GetValue("SetAttr"));
-    elementLines["SetExpRPN"]->SetTrack3Value(track3->GetValue("SetExpRPN"));
-    elementLines["SetExpFull"]->SetTrack3Value(track3->GetValue("SetExpFull"));
-    elementLines["Auth"]->SetTrack3Value(track3->GetValue("Auth"));
-    elementLines["DisplayID"]->SetTrack3Value(track3->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrack3Value(track3->GetValue("DispFmt"));
-    elementLines["ChID"]->SetTrack3Value(track3->GetValue("ChID"));
-    elementLines["Step"]->SetTrack3Value(track3->GetValue("Step"));
-    elementLines["CExpRPN"]->SetTrack3Value(track3->GetValue("CExpRPN"));
-    elementLines["CExpFull"]->SetTrack3Value(track3->GetValue("CExpFull"));
-    elementLines["Persist"]->SetTrack3Value(track3->GetValue("Persist"));
-    elementLines["DispExpRPN"]->SetTrack3Value(track3->GetValue("DispExpRPN"));
-    elementLines["DispExpFull"]->SetTrack3Value(track3->GetValue("DispExpFull"));
-    elementLines["States"]->SetTrack3Value(track3->GetValue("States"));
-    elementLines["OnCtrl"]->SetTrack3Value(track3->GetValue("OnCtrl"));
+    elementLines["SETName"]->SetTrackBValue(track3->GetValue("SETName"));
+    elementLines["Unit"]->SetTrackBValue(track3->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrackBValue(track3->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrackBValue(track3->GetValue("SChan"));
+    elementLines["ValType"]->SetTrackBValue(track3->GetValue("ValType"));
+    elementLines["Def"]->SetTrackBValue(track3->GetValue("Def"));
+    elementLines["Range"]->SetTrackBValue(track3->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrackBValue(track3->GetValue("DisplayAttr"));
+    elementLines["SetAttr"]->SetTrackBValue(track3->GetValue("SetAttr"));
+    elementLines["SetExpRPN"]->SetTrackBValue(track3->GetValue("SetExpRPN"));
+    elementLines["SetExpFull"]->SetTrackBValue(track3->GetValue("SetExpFull"));
+    elementLines["Auth"]->SetTrackBValue(track3->GetValue("Auth"));
+    elementLines["DisplayID"]->SetTrackBValue(track3->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrackBValue(track3->GetValue("DispFmt"));
+    elementLines["ChID"]->SetTrackBValue(track3->GetValue("ChID"));
+    elementLines["Step"]->SetTrackBValue(track3->GetValue("Step"));
+    elementLines["CExpRPN"]->SetTrackBValue(track3->GetValue("CExpRPN"));
+    elementLines["CExpFull"]->SetTrackBValue(track3->GetValue("CExpFull"));
+    elementLines["Persist"]->SetTrackBValue(track3->GetValue("Persist"));
+    elementLines["DispExpRPN"]->SetTrackBValue(track3->GetValue("DispExpRPN"));
+    elementLines["DispExpFull"]->SetTrackBValue(track3->GetValue("DispExpFull"));
+    elementLines["States"]->SetTrackBValue(track3->GetValue("States"));
+    elementLines["OnCtrl"]->SetTrackBValue(track3->GetValue("OnCtrl"));
   }
 
   for ( i = 0 ; i < keysSize ; i++ ) {
@@ -634,20 +634,20 @@ SettingDisplayForm::SkipToNextMissingSignal
   for ( n = currentSettingIndex ; n + 1 < m ; n++ ) {
     pair = settingInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentSettingIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentSettingIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentSettingIndex = n;
       return;
     }
@@ -669,20 +669,20 @@ SettingDisplayForm::SkipToPrevMissingSignal
   for ( n = currentSettingIndex ; n > 0 ; n-- ) {
     pair = settingInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentSettingIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentSettingIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentSettingIndex = n;
       return;
     }

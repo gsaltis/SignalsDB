@@ -32,7 +32,7 @@ class EquipmentSignalPair : public QWidget
 
  //! Constructors
  public :
-  EquipmentSignalPair           (int InID, NCUEquipment* InTrack2Signal, NCUEquipment* InTrack3Signal);
+  EquipmentSignalPair           (int InID, NCUEquipment* InTrackASignal, NCUEquipment* InTrackBSignal);
 
  //! Destructor
  public :
@@ -41,9 +41,9 @@ class EquipmentSignalPair : public QWidget
  //! Public Methods
  public :
   int                           GetID                   (void);
-  void                          AddTrack3Signal         (NCUEquipment* InTrack3);
-  NCUEquipment*                 GetTrack2               (void);
-  NCUEquipment*                 GetTrack3               (void);
+  void                          AddTrackBSignal         (NCUEquipment* InTrackB);
+  NCUEquipment*                 GetTrackA               (void);
+  NCUEquipment*                 GetTrackB               (void);
   bool                          Differ                  (void);
 
  //! Public Data
@@ -60,8 +60,8 @@ class EquipmentSignalPair : public QWidget
 
  //! Private Data
  private :
-  NCUEquipment*                 Track2Signal;
-  NCUEquipment*                 Track3Signal;
+  NCUEquipment*                 TrackASignal;
+  NCUEquipment*                 TrackBSignal;
   int                           id;
 
  //! Public Slots

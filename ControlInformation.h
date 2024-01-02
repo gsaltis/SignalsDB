@@ -47,10 +47,10 @@ class ControlInformation : public SignalsInformation
   NCUControlSignal*             FindControlByID         (int InTrack, int InID);
   void                          SQLRead                 (sqlite3* InDatabase);
   ControlSignalPair*            FindPairByID            (int InID, int InSID);
-  int                           GetTrack2Count          (void);
-  int                           GetTrack3Count          (void);
-  int                           GetTrack2MissingCount   (void);
-  int                           GetTrack3MissingCount   (void);
+  int                           GetTrackACount          (void);
+  int                           GetTrackBCount          (void);
+  int                           GetTrackAMissingCount   (void);
+  int                           GetTrackBMissingCount   (void);
   int                           GetTrackDifferCount     (void);
   int                           GetCountByTrack         (int InTrack);
   ControlSignalPair*            GetPairByIndex          (int InIndex);

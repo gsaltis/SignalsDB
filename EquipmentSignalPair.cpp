@@ -22,11 +22,11 @@
  * Function : EquipmentSignalPair
  *****************************************************************************/
 EquipmentSignalPair::EquipmentSignalPair
-(int InID, NCUEquipment* InTrack2Signal, NCUEquipment* InTrack3Signal) : QWidget()
+(int InID, NCUEquipment* InTrackASignal, NCUEquipment* InTrackBSignal) : QWidget()
 {
   id = InID;
-  Track2Signal = InTrack2Signal;
-  Track3Signal = InTrack3Signal;
+  TrackASignal = InTrackASignal;
+  TrackBSignal = InTrackBSignal;
 }
 
 /*****************************************************************************!
@@ -47,31 +47,31 @@ EquipmentSignalPair::GetID(void)
 }
 
 /*****************************************************************************!
- * Function : AddTrack3Signal
+ * Function : AddTrackBSignal
  *****************************************************************************/
 void
-EquipmentSignalPair::AddTrack3Signal
-(NCUEquipment* InTrack3)
+EquipmentSignalPair::AddTrackBSignal
+(NCUEquipment* InTrackB)
 {
-  Track3Signal = InTrack3;
+  TrackBSignal = InTrackB;
 }
 
 /*****************************************************************************!
- * Function : GetTrack2
+ * Function : GetTrackA
  *****************************************************************************/
 NCUEquipment*
-EquipmentSignalPair::GetTrack2(void)
+EquipmentSignalPair::GetTrackA(void)
 {
-  return Track2Signal;
+  return TrackASignal;
 }
 
 /*****************************************************************************!
- * Function : GetTrack3
+ * Function : GetTrackB
  *****************************************************************************/
 NCUEquipment*
-EquipmentSignalPair::GetTrack3(void)
+EquipmentSignalPair::GetTrackB(void)
 {
-  return Track3Signal;
+  return TrackBSignal;
 }
 
 /*****************************************************************************!
@@ -80,8 +80,8 @@ EquipmentSignalPair::GetTrack3(void)
 bool
 EquipmentSignalPair::Differ(void)
 {
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return false;
   }
-  return ! Track2Signal->Equal(Track3Signal);
+  return ! TrackASignal->Equal(TrackBSignal);
 }

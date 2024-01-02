@@ -48,10 +48,10 @@ class SampleInformation : public SignalsInformation
   NCUSampleSignal*              FindSampleByID          (int InTrack, int InID);
   void                          SQLRead                 (sqlite3* InDatabase);
   SampleSignalPair*             FindPairByID            (int InID, int InSID);
-  int                           GetTrack2Count          (void);
-  int                           GetTrack3Count          (void);
-  int                           GetTrack2MissingCount   (void);
-  int                           GetTrack3MissingCount   (void);
+  int                           GetTrackACount          (void);
+  int                           GetTrackBCount          (void);
+  int                           GetTrackAMissingCount   (void);
+  int                           GetTrackBMissingCount   (void);
   int                           GetTrackDifferCount     (void);
   int                           GetCountByTrack         (int InTrack);
   SampleSignalPair*             GetPairByIndex          (int InIndex);
@@ -61,8 +61,8 @@ class SampleInformation : public SignalsInformation
   void                          AddAllWorksheet         (xlnt::workbook* InWorkbook);
   void                          AddMajorDifferWorksheet (xlnt::workbook* InWorkbook);
   void                          AddMinorDifferWorksheet (xlnt::workbook* InWorkbook);
-  void                          AddTrack2OnlyWorksheet  (xlnt::workbook* InWorkbook);
-  void                          AddTrack3OnlyWorksheet  (xlnt::workbook* InWorkbook);
+  void                          AddTrackAOnlyWorksheet  (xlnt::workbook* InWorkbook);
+  void                          AddTrackBOnlyWorksheet  (xlnt::workbook* InWorkbook);
   
  //! Public Data
  public :

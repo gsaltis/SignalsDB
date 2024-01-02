@@ -82,25 +82,25 @@ ControlDisplayWindow::SetControlInformation
   int                                   trackMinorDiffer;
   int                                   trackMajorDiffer;
   int                                   combinedSignals;
-  int                                   track2Missing;
-  int                                   track3Missing;
-  int                                   track3Count;
-  int                                   track2Count;
+  int                                   trackAMissing;
+  int                                   trackBMissing;
+  int                                   trackACount;
+  int                                   trackBCount;
 
   controlInfo = MainConfig::controlInformation;
 
-  track2Count = controlInfo->GetTrack2Count();
-  track3Count = controlInfo->GetTrack3Count();
+  trackACount = controlInfo->GetTrackACount();
+  trackBCount = controlInfo->GetTrackBCount();
 
-  track2Missing = controlInfo->GetTrack2MissingCount();
-  track3Missing = controlInfo->GetTrack3MissingCount();
+  trackAMissing = controlInfo->GetTrackAMissingCount();
+  trackBMissing = controlInfo->GetTrackBMissingCount();
 
   controlInfo->GetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                    totalMinorDiffer, trackMinorDiffer);
   combinedSignals = controlInfo->GetPairCount();
   
-  statsWindow->SetTrackCounts(track2Count, track3Count);
-  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackCounts(trackACount, trackBCount);
+  statsWindow->SetMissingTrackCounts(trackAMissing, trackBMissing);
   statsWindow->SetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                    totalMinorDiffer, trackMinorDiffer);
   statsWindow->SetCombinedSignalCount(combinedSignals);

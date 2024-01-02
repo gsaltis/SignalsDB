@@ -19,6 +19,7 @@
  *****************************************************************************/
 #include "EquipmentInformation.h"
 #include "MainConfig.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : EquipmentInformation
@@ -194,7 +195,7 @@ EquipmentInformation::CreatePairs(void)
   n = equipment.size();
   for (i = 0; i < n; i++) {
     e = equipment[i];
-    if ( e->Track != 2 ) {
+    if ( e->Track != MainTrackAID->GetNumber() ) {
       continue;
     }
 
@@ -204,7 +205,7 @@ EquipmentInformation::CreatePairs(void)
 
   for ( i = 0; i < n; i++ ){
     e = equipment[i];
-    if ( e->Track != 3 ) {
+    if ( e->Track != MainTrackBID->GetNumber() ) {
       continue;
     }
     equipmentPair = FindPairByID(e->ID);
@@ -213,7 +214,7 @@ EquipmentInformation::CreatePairs(void)
       equipmentPairs << equipmentPair;
       continue;
     }
-    equipmentPair->AddTrack3Signal(e);
+    equipmentPair->AddTrackBSignal(e);
   }
 }
 
@@ -243,7 +244,7 @@ EquipmentInformation::FindPairByID
 int
 EquipmentInformation::GetTrack2Count(void)
 {
-  return GetTrackCount(2);
+  return GetTrackCount(MainTrackAID->GetNumber());
 }
 
 /*****************************************************************************!
@@ -252,7 +253,7 @@ EquipmentInformation::GetTrack2Count(void)
 int
 EquipmentInformation::GetTrack3Count(void)
 {
-  return GetTrackCount(3);
+  return GetTrackCount(MainTrackBID->GetNumber());
 }
 
 /*****************************************************************************!
@@ -294,7 +295,7 @@ EquipmentInformation::GetTrack2MissingCount(void)
   n = equipmentPairs.size();
   for (i = 0; i < n; i++) {
     ep = equipmentPairs[i];
-    if ( ep->GetTrack2() == NULL ) {
+    if ( ep->GetTrackA() == NULL ) {
       count++;
     }
   }
@@ -316,7 +317,7 @@ EquipmentInformation::GetTrack3MissingCount(void)
   n = equipmentPairs.size();
   for (i = 0; i < n; i++) {
     ep = equipmentPairs[i];
-    if ( ep->GetTrack3() == NULL ) {
+    if ( ep->GetTrackB() == NULL ) {
       count++;
     }
   }

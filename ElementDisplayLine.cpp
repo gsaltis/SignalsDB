@@ -104,25 +104,25 @@ ElementDisplayLine::CreateSubWindows()
   SignalLabel->setAutoFillBackground(true);
 
   //! Create label
-  Track2Value = new QLabel();
-  Track2Value->setParent(this);
-  Track2Value->move(0, 0);
-  Track2Value->resize(100, lineHeight);
-  Track2Value->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-  Track2Value->setFont(dataFont);
-  Track2Value->setIndent(5);
-  Track2Value->setAutoFillBackground(true);
-  Track2Value->setWordWrap(true);
+  TrackAValue = new QLabel();
+  TrackAValue->setParent(this);
+  TrackAValue->move(0, 0);
+  TrackAValue->resize(100, lineHeight);
+  TrackAValue->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+  TrackAValue->setFont(dataFont);
+  TrackAValue->setIndent(5);
+  TrackAValue->setAutoFillBackground(true);
+  TrackAValue->setWordWrap(true);
   
-  Track3Value = new QLabel();
-  Track3Value->setParent(this);
-  Track3Value->move(0, 0);
-  Track3Value->resize(100, lineHeight);
-  Track3Value->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-  Track3Value->setFont(dataFont);
-  Track3Value->setIndent(5);
-  Track3Value->setAutoFillBackground(true);
-  Track3Value->setWordWrap(true);
+  TrackBValue = new QLabel();
+  TrackBValue->setParent(this);
+  TrackBValue->move(0, 0);
+  TrackBValue->resize(100, lineHeight);
+  TrackBValue->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+  TrackBValue->setFont(dataFont);
+  TrackBValue->setIndent(5);
+  TrackBValue->setAutoFillBackground(true);
+  TrackBValue->setWordWrap(true);
 
   Spacer = new QLabel(this);
   Spacer->resize(SpacerWidth, size().height());
@@ -134,13 +134,13 @@ ElementDisplayLine::CreateSubWindows()
   pal.setBrush(QPalette::Window, QBrush(SpacerColor));
   Spacer->setPalette(pal);
 
-  pal = Track2Value->palette();
+  pal = TrackAValue->palette();
   pal.setBrush(QPalette::Window, QBrush(ValueColor));
-  Track2Value->setPalette(pal);
+  TrackAValue->setPalette(pal);
 
-  pal = Track3Value->palette();
+  pal = TrackBValue->palette();
   pal.setBrush(QPalette::Window, QBrush(ValueColor));
-  Track3Value->setPalette(pal);
+  TrackBValue->setPalette(pal);
 }
 
 /*****************************************************************************!
@@ -212,37 +212,37 @@ ElementDisplayLine::resizeEvent
   track3H = height;
 
   //!
-  Track2Value->move(track2X, track2Y);
-  Track2Value->resize(track2W, track2H);
+  TrackAValue->move(track2X, track2Y);
+  TrackAValue->resize(track2W, track2H);
 
   Spacer->move(spacerX, spacerY);
   Spacer->resize(spacerW, spacerH);
 
-  Track3Value->move(track3X, track3Y);
-  Track3Value->resize(track3W, track3H);
+  TrackBValue->move(track3X, track3Y);
+  TrackBValue->resize(track3W, track3H);
 
   SignalLabel->move(signalLabelX, signalLabelY);
   SignalLabel->resize(signalLabelW, signalLabelH);
 }
 
 /*****************************************************************************!
- * Function : SetTrack2Value
+ * Function : SetTrackAValue
  *****************************************************************************/
 void
-ElementDisplayLine::SetTrack2Value
+ElementDisplayLine::SetTrackAValue
 (QString InValue)
 {
-  Track2Value->setText(InValue);
+  TrackAValue->setText(InValue);
 }
 
 /*****************************************************************************!
- * Function : SetTrack3Value
+ * Function : SetTrackBValue
  *****************************************************************************/
 void
-ElementDisplayLine::SetTrack3Value
+ElementDisplayLine::SetTrackBValue
 (QString InValue)
 {
-  Track3Value->setText(InValue);
+  TrackBValue->setText(InValue);
 }
 
 /*****************************************************************************!
@@ -251,8 +251,8 @@ ElementDisplayLine::SetTrack3Value
 void
 ElementDisplayLine::Clear(void)
 {
-  Track2Value->setText("");
-  Track3Value->setText("");
+  TrackAValue->setText("");
+  TrackBValue->setText("");
 }
 
 /*****************************************************************************!
@@ -265,26 +265,26 @@ ElementDisplayLine::Compare(void)
   QFont                                 normalFont = QFont("Segoe UI", 10, QFont::Normal);
   QFont                                 differFont = QFont("Segoe UI", 10, QFont::Bold);
   
-  pal = Track2Value->palette();
+  pal = TrackAValue->palette();
   pal.setBrush(QPalette::WindowText, QBrush(NormalColor));
-  Track2Value->setPalette(pal);
-  Track2Value->setFont(normalFont);
+  TrackAValue->setPalette(pal);
+  TrackAValue->setFont(normalFont);
 
-  pal = Track3Value->palette();
+  pal = TrackBValue->palette();
   pal.setBrush(QPalette::WindowText, QBrush(NormalColor));
-  Track3Value->setPalette(pal);
-  Track3Value->setFont(normalFont);
+  TrackBValue->setPalette(pal);
+  TrackBValue->setFont(normalFont);
 
-  if ( Track2Value->text() != Track3Value->text() ) {
-    pal = Track2Value->palette();
+  if ( TrackAValue->text() != TrackBValue->text() ) {
+    pal = TrackAValue->palette();
     pal.setBrush(QPalette::WindowText, differType == Major ? QBrush(DifferMajorColor) : QBrush(DifferMinorColor));
-    Track2Value->setPalette(pal);
-    Track2Value->setFont(differFont);
+    TrackAValue->setPalette(pal);
+    TrackAValue->setFont(differFont);
     
-    pal = Track3Value->palette();
+    pal = TrackBValue->palette();
     pal.setBrush(QPalette::WindowText, differType == Major ? QBrush(DifferMajorColor) : QBrush(DifferMinorColor));
-    Track3Value->setPalette(pal);
-    Track3Value->setFont(differFont);
+    TrackBValue->setPalette(pal);
+    TrackBValue->setFont(differFont);
   }
 }
 

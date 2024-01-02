@@ -18,6 +18,7 @@
  *****************************************************************************/
 #include "sqlite3.h"
 #include "MainConfig.h"
+#include "TrackNumber.h"
 
 /*****************************************************************************!
  * Exported Functions
@@ -40,5 +41,11 @@ MainDB;
 extern
 MainConfig*
 MainConfiguration;
+
+extern TrackNumber*
+MainTrackAID;
+
+extern TrackNumber*
+MainTrackBID;
 
 #endif /* _main_h_*/

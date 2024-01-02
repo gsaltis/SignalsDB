@@ -33,7 +33,7 @@ class AlarmSignalPair : public QWidget
 
  //! Constructors
  public :
-  AlarmSignalPair           (int InID, int SID, NCUAlarmSignal* InTrack2Signal, NCUAlarmSignal* InTrack3Signal);
+  AlarmSignalPair           (int InID, int SID, NCUAlarmSignal* InTrackASignal, NCUAlarmSignal* InTrackBSignal);
 
  //! Destructor
  public :
@@ -43,9 +43,9 @@ class AlarmSignalPair : public QWidget
  public :
   int                           GetID                   ();
   int                           GetSID                  ();
-  void                          AddTrack3Signal         (NCUAlarmSignal* InTrack3);
-  NCUAlarmSignal*               GetTrack2               ();
-  NCUAlarmSignal*               GetTrack3               ();
+  void                          AddTrackBSignal         (NCUAlarmSignal* InTrack3);
+  NCUAlarmSignal*               GetTrackA               ();
+  NCUAlarmSignal*               GetTrackB               ();
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
   void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
@@ -63,8 +63,8 @@ class AlarmSignalPair : public QWidget
 
  //! Private Data
  private :
-  NCUAlarmSignal*               Track2Signal;
-  NCUAlarmSignal*               Track3Signal;
+  NCUAlarmSignal*               TrackASignal;
+  NCUAlarmSignal*               TrackBSignal;
   int                           id;
   int                           sid;
   

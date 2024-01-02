@@ -51,12 +51,15 @@ void
 AlarmDisplayForm::initialize()
 {
   AlarmSignalPair*                      pair;
-
+  int                                   pairCount;
+  
   currentAlarmIndex = 0;
   alarmInformation = MainConfig::alarmInformation;
   InitializeSubWindows();  
   CreateSubWindows();
   CreateConnections();
+  pairCount = alarmInformation->GetPairCount();
+  TRACE_FUNCTION_INT(pairCount);
   pair = alarmInformation->GetPairByIndex(0);
   SetTrackInformation(pair);
   navigationWindow->SlotSetCurrentSignalIndex(1);
@@ -92,7 +95,7 @@ AlarmDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Alarm ID : "));
+  label->setText(QString("Alarm ID"));
   label->setAlignment(Qt::AlignRight);
 
   AlarmIDLabel = new QLabel(this);
@@ -107,7 +110,7 @@ AlarmDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Signal ID : "));
+  label->setText(QString("Signal ID"));
   label->setAlignment(Qt::AlignRight);
 
   SignalIDLabel = new QLabel(this);
@@ -123,7 +126,7 @@ AlarmDisplayForm::CreateSubWindows()
   label->move(x2, y);
   label->resize(labelWidth, headingLabelHeight);
   label->setFont(labelFont);
-  label->setText(QString("TRACK 2"));
+  label->setText(QString("TRACK %1").arg(MainTrackAID->GetNumber()));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   
   label = new QLabel();
@@ -131,9 +134,9 @@ AlarmDisplayForm::CreateSubWindows()
   label->move(x3, y);
   label->resize(labelWidth, headingLabelHeight);
   label->setFont(labelFont);
-  label->setText(QString("TRACK 3"));
+  label->setText(QString("TRACK %1").arg(MainTrackBID->GetNumber()));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-  Track3Label = label;
+  TrackBLabel = label;
   
   
   //!
@@ -190,7 +193,7 @@ AlarmDisplayForm::resizeEvent
   navigationWindowW = width;
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
-  Track3Label->move(x4, Track3Label->pos().y());
+  TrackBLabel->move(x4, TrackBLabel->pos().y());
 
   lastLine = NULL;
   for ( auto i : elementLines ) {
@@ -253,14 +256,14 @@ AlarmDisplayForm::SetTrackInformation
   int                                   n;
   QStringList                           keys;
   int                                   i;
-  NCUAlarmSignal*                       track2;
-  NCUAlarmSignal*                       track3;
+  NCUAlarmSignal*                       trackA;
+  NCUAlarmSignal*                       trackB;
 
   AlarmIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
-  track2 = InPair->GetTrack2();
-  track3 = InPair->GetTrack3();
+  trackA = InPair->GetTrackA();
+  trackB = InPair->GetTrackB();
 
   keys = elementLines.keys();
   n = keys.size();
@@ -268,30 +271,30 @@ AlarmDisplayForm::SetTrackInformation
     elementLines[keys[i]]->Clear();
   }
 
-  if ( track2 ) {
+  if ( trackA ) {
     i = 0;
-    elementLines["AlarmName"]->SetTrack2Value(track2->GetValue("AlarmName"));
-    elementLines["Level"]->SetTrack2Value(track2->GetValue("Level"));
-    elementLines["ExpRPN"]->SetTrack2Value(track2->GetValue("ExpRPN"));
-    elementLines["ExpFull"]->SetTrack2Value(track2->GetValue("EXPFull"));
-    elementLines["Delay"]->SetTrack2Value(track2->GetValue("Delay"));
-    elementLines["SuppressRPN"]->SetTrack2Value(track2->GetValue("SuppressRPN"));
-    elementLines["SuppressFull"]->SetTrack2Value(track2->GetValue("SuppressFull"));
-    elementLines["Relay"]->SetTrack2Value(track2->GetValue("Relay"));
-    elementLines["Help"]->SetTrack2Value(track2->GetValue("Help"));
+    elementLines["AlarmName"]->SetTrackAValue(trackA->GetValue("AlarmName"));
+    elementLines["Level"]->SetTrackAValue(trackA->GetValue("Level"));
+    elementLines["ExpRPN"]->SetTrackAValue(trackA->GetValue("ExpRPN"));
+    elementLines["ExpFull"]->SetTrackAValue(trackA->GetValue("EXPFull"));
+    elementLines["Delay"]->SetTrackAValue(trackA->GetValue("Delay"));
+    elementLines["SuppressRPN"]->SetTrackAValue(trackA->GetValue("SuppressRPN"));
+    elementLines["SuppressFull"]->SetTrackAValue(trackA->GetValue("SuppressFull"));
+    elementLines["Relay"]->SetTrackAValue(trackA->GetValue("Relay"));
+    elementLines["Help"]->SetTrackAValue(trackA->GetValue("Help"));
   }
 
-  if ( track3 ) {
+  if ( trackB ) {
     i = 0;
-    elementLines["AlarmName"]->SetTrack3Value(track3->GetValue("AlarmName"));
-    elementLines["Level"]->SetTrack3Value(track3->GetValue("Level"));
-    elementLines["ExpRPN"]->SetTrack3Value(track3->GetValue("ExpRPN"));
-    elementLines["ExpFull"]->SetTrack3Value(track3->GetValue("EXPFull"));
-    elementLines["Delay"]->SetTrack3Value(track3->GetValue("Delay"));
-    elementLines["SuppressRPN"]->SetTrack3Value(track3->GetValue("SuppressRPN"));
-    elementLines["SuppressFull"]->SetTrack3Value(track3->GetValue("SuppressFull"));
-    elementLines["Relay"]->SetTrack3Value(track3->GetValue("Relay"));
-    elementLines["Help"]->SetTrack3Value(track3->GetValue("Help"));
+    elementLines["AlarmName"]->SetTrackBValue(trackB->GetValue("AlarmName"));
+    elementLines["Level"]->SetTrackBValue(trackB->GetValue("Level"));
+    elementLines["ExpRPN"]->SetTrackBValue(trackB->GetValue("ExpRPN"));
+    elementLines["ExpFull"]->SetTrackBValue(trackB->GetValue("EXPFull"));
+    elementLines["Delay"]->SetTrackBValue(trackB->GetValue("Delay"));
+    elementLines["SuppressRPN"]->SetTrackBValue(trackB->GetValue("SuppressRPN"));
+    elementLines["SuppressFull"]->SetTrackBValue(trackB->GetValue("SuppressFull"));
+    elementLines["Relay"]->SetTrackBValue(trackB->GetValue("Relay"));
+    elementLines["Help"]->SetTrackBValue(trackB->GetValue("Help"));
   }
 
   keys = elementLines.keys();
@@ -600,20 +603,20 @@ AlarmDisplayForm::SkipToNextMissingSignal
   for ( n = currentAlarmIndex ; n + 1 < m ; n++ ) {
     pair = alarmInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentAlarmIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentAlarmIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentAlarmIndex = n;
       return;
     }
@@ -635,20 +638,20 @@ AlarmDisplayForm::SkipToPrevMissingSignal
   for ( n = currentAlarmIndex ; n > 0 ; n-- ) {
     pair = alarmInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentAlarmIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentAlarmIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentAlarmIndex = n;
       return;
     }

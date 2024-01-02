@@ -72,7 +72,7 @@ class EquipmentDisplayForm : public SignalDisplayForm
   EquipmentInformation*         equipmentInformation;
   QLabel*                       EquipmentIDLabel;
   int                           currentEquipIndex;
-  QLabel*                       Track3Label;
+  QLabel*                       TrackBLabel;
   
  //! Public Slots
  public slots :

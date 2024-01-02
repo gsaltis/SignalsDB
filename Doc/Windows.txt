@@ -1,6 +1,7 @@
 MainWindow
   MainDisplayWindow
     AlarmDisplayWindow                                  alarmDisplayWindow
+      AlarmDisplayForm                                  alarmForm
     ControlDisplayWindow                                controlDisplayWindow
     EquipmentDisplayWindow : SignalDisplayWindow        equipmentDisplayWindow
       EquipmentInformation

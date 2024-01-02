@@ -222,7 +222,7 @@ ControlInformation::CreatePairs(void)
   n = controls.size();
   for (i = 0; i < n; i++) {
     e = controls[i];
-    if ( e->Track != 2 ) {
+    if ( e->Track != MainTrackAID->GetNumber() ) {
       continue;
     }
 
@@ -232,7 +232,7 @@ ControlInformation::CreatePairs(void)
 
   for ( i = 0; i < n; i++ ){
     e = controls[i];
-    if ( e->Track != 3 ) {
+    if ( e->Track != MainTrackBID->GetNumber() ) {
       continue;
     }
     controlPair = FindPairByID(e->ID, e->Type);
@@ -241,7 +241,7 @@ ControlInformation::CreatePairs(void)
       controlPairs << controlPair;
       continue;
     }
-    controlPair->AddTrack3Signal(e);
+    controlPair->AddTrackBSignal(e);
   }
 }
 
@@ -266,21 +266,21 @@ ControlInformation::FindPairByID
 }
 
 /*****************************************************************************!
- * Function : GetTrack2Count
+ * Function : GetTrackACount
  *****************************************************************************/
 int
-ControlInformation::GetTrack2Count(void)
+ControlInformation::GetTrackACount(void)
 {
-  return GetTrackCount(2);
+  return GetTrackCount(MainTrackAID->GetNumber());
 }
 
 /*****************************************************************************!
- * Function : GetTrack3Count
+ * Function : GetTrackBCount
  *****************************************************************************/
 int
-ControlInformation::GetTrack3Count(void)
+ControlInformation::GetTrackBCount(void)
 {
-  return GetTrackCount(3);
+  return GetTrackCount(MainTrackBID->GetNumber());
 }
 
 /*****************************************************************************!
@@ -308,10 +308,10 @@ ControlInformation::GetTrackCount
 }
 
 /*****************************************************************************!
- * Function : GetTrack2MissingCount
+ * Function : GetTrackAMissingCount
  *****************************************************************************/
 int
-ControlInformation::GetTrack2MissingCount(void)
+ControlInformation::GetTrackAMissingCount(void)
 {
   ControlSignalPair*                    ep;
   int                                   i;
@@ -322,7 +322,7 @@ ControlInformation::GetTrack2MissingCount(void)
   n = controlPairs.size();
   for (i = 0; i < n; i++) {
     ep = controlPairs[i];
-    if ( ep->GetTrack2() == NULL ) {
+    if ( ep->GetTrackA() == NULL ) {
       count++;
     }
   }
@@ -330,10 +330,10 @@ ControlInformation::GetTrack2MissingCount(void)
 }
 
 /*****************************************************************************!
- * Function : GetTrack3MissingCount
+ * Function : GetTrackBMissingCount
  *****************************************************************************/
 int
-ControlInformation::GetTrack3MissingCount(void)
+ControlInformation::GetTrackBMissingCount(void)
 {
   ControlSignalPair*                  ep;
   int                                   i;
@@ -344,7 +344,7 @@ ControlInformation::GetTrack3MissingCount(void)
   n = controlPairs.size();
   for (i = 0; i < n; i++) {
     ep = controlPairs[i];
-    if ( ep->GetTrack3() == NULL ) {
+    if ( ep->GetTrackB() == NULL ) {
       count++;
     }
   }

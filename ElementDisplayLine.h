@@ -49,8 +49,8 @@ public :
 
  //! Public Methods
  public :
-  void                          SetTrack2Value          (QString InValue);
-  void                          SetTrack3Value          (QString InValue);
+  void                          SetTrackAValue          (QString InValue);
+  void                          SetTrackBValue          (QString InValue);
   void                          Clear                   (void);
   void                          Compare                 (void);
   DifferLevel                   GetDifferType           (void);
@@ -80,8 +80,8 @@ public :
   QColor                        NormalColor;
   QColor                        DifferMinorColor;
   QColor                        DifferMajorColor;
-  QLabel*                       Track2Value;
-  QLabel*                       Track3Value;
+  QLabel*                       TrackAValue;
+  QLabel*                       TrackBValue;
   QLabel*                       Spacer;
   QColor                        SpacerColor;
   int                           SpacerWidth;

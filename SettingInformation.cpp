@@ -226,7 +226,7 @@ SettingInformation::CreatePairs(void)
   n = settings.size();
   for (i = 0; i < n; i++) {
     e = settings[i];
-    if ( e->Track != 2 ) {
+    if ( e->Track != MainTrackAID->GetNumber() ) {
       continue;
     }
 
@@ -235,8 +235,8 @@ SettingInformation::CreatePairs(void)
   }
 
   for ( i = 0; i < n; i++ ){
-    e = settings[i];
-    if ( e->Track != 3 ) {
+    e = settings[i]; 
+    if ( e->Track != MainTrackBID->GetNumber() ) {
       continue;
     }
     settingPair = FindPairByID(e->ID, e->Type);
@@ -245,7 +245,7 @@ SettingInformation::CreatePairs(void)
       settingPairs << settingPair;
       continue;
     }
-    settingPair->AddTrack3Signal(e);
+    settingPair->AddTrackBSignal(e);
   }
 }
 
@@ -270,21 +270,21 @@ SettingInformation::FindPairByID
 }
 
 /*****************************************************************************!
- * Function : GetTrack2Count
+ * Function : GetTrackACount
  *****************************************************************************/
 int
-SettingInformation::GetTrack2Count(void)
+SettingInformation::GetTrackACount(void)
 {
-  return GetTrackCount(2);
+  return GetTrackCount(MainTrackAID->GetNumber());
 }
 
 /*****************************************************************************!
- * Function : GetTrack3Count
+ * Function : GetTrackBCount
  *****************************************************************************/
 int
-SettingInformation::GetTrack3Count(void)
+SettingInformation::GetTrackBCount(void)
 {
-  return GetTrackCount(3);
+  return GetTrackCount(MainTrackBID->GetNumber());
 }
 
 /*****************************************************************************!
@@ -312,10 +312,10 @@ SettingInformation::GetTrackCount
 }
 
 /*****************************************************************************!
- * Function : GetTrack2MissingCount
+ * Function : GetTrackAMissingCount
  *****************************************************************************/
 int
-SettingInformation::GetTrack2MissingCount(void)
+SettingInformation::GetTrackAMissingCount(void)
 {
   SettingSignalPair*                    ep;
   int                                   i;
@@ -326,7 +326,7 @@ SettingInformation::GetTrack2MissingCount(void)
   n = settingPairs.size();
   for (i = 0; i < n; i++) {
     ep = settingPairs[i];
-    if ( ep->GetTrack2() == NULL ) {
+    if ( ep->GetTrackA() == NULL ) {
       count++;
     }
   }
@@ -334,10 +334,10 @@ SettingInformation::GetTrack2MissingCount(void)
 }
 
 /*****************************************************************************!
- * Function : GetTrack3MissingCount
+ * Function : GetTrackBMissingCount
  *****************************************************************************/
 int
-SettingInformation::GetTrack3MissingCount(void)
+SettingInformation::GetTrackBMissingCount(void)
 {
   SettingSignalPair*                  ep;
   int                                   i;
@@ -348,7 +348,7 @@ SettingInformation::GetTrack3MissingCount(void)
   n = settingPairs.size();
   for (i = 0; i < n; i++) {
     ep = settingPairs[i];
-    if ( ep->GetTrack3() == NULL ) {
+    if ( ep->GetTrackB() == NULL ) {
       count++;
     }
   }

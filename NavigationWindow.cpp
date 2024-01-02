@@ -124,14 +124,14 @@ NavigationWindow::CreateSubWindows()
   MinorCheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(MinorCheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotMinorCheckToggle);
   
-  Only2CheckBox = new QCheckBox("Only in Track 2", this);
+  Only2CheckBox = new QCheckBox("Only in Track A", this);
   Only2CheckBox->move(0, 0);
   Only2CheckBox->resize(100, 32);
   Only2CheckBox->setFont(CheckBoxFont);
   Only2CheckBox->setStyleSheet("QCheckBox::indicator { width:11px; height:11px }");
   connect(Only2CheckBox, QCheckBox::stateChanged, this, NavigationWindow::SlotOnly2CheckToggle);
   
-  Only3CheckBox = new QCheckBox("Only in Track 3", this);
+  Only3CheckBox = new QCheckBox("Only in Track B", this);
   Only3CheckBox->move(0, 0);
   Only3CheckBox->resize(100, 32);
   Only3CheckBox->setFont(CheckBoxFont);

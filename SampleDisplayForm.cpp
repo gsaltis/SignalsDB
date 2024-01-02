@@ -93,7 +93,7 @@ SampleDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Sample ID : "));
+  label->setText(QString("Sample ID"));
   label->setAlignment(Qt::AlignRight);
 
   SampleIDLabel = new QLabel(this);
@@ -108,7 +108,7 @@ SampleDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Signal ID : "));
+  label->setText(QString("Signal ID"));
   label->setAlignment(Qt::AlignRight);
 
   SignalIDLabel = new QLabel(this);
@@ -134,7 +134,7 @@ SampleDisplayForm::CreateSubWindows()
   label->setFont(labelFont);
   label->setText(QString("TRACK 3"));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-  Track3Label = label;
+  TrackBLabel = label;
   
   
   //!
@@ -191,7 +191,7 @@ SampleDisplayForm::resizeEvent
   navigationWindowW = width;
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
-  Track3Label->move(x4, Track3Label->pos().y());
+  TrackBLabel->move(x4, TrackBLabel->pos().y());
   
   for ( auto i : elementLines ) {
     i->resize(width, ELEMENT_DISPLAY_LINE_HEIGHT);
@@ -264,8 +264,8 @@ SampleDisplayForm::SetTrackInformation
   SampleIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
-  track2 = InPair->GetTrack2();
-  track3 = InPair->GetTrack3();
+  track2 = InPair->GetTrackA();
+  track3 = InPair->GetTrackB();
 
   keys = elementLines.keys();
   keysSize = keys.size();
@@ -275,44 +275,44 @@ SampleDisplayForm::SetTrackInformation
 
   if ( track2 ) {
     i = 0;
-    elementLines["SAMPLEName"]->SetTrack2Value(track2->GetValue("SAMPLEName"));
-    elementLines["Unit"]->SetTrack2Value(track2->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrack2Value(track2->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrack2Value(track2->GetValue("SChan"));
-    elementLines["ValType"]->SetTrack2Value(track2->GetValue("ValType"));
-    elementLines["StorThreshold"]->SetTrack2Value(track2->GetValue("StorThreshold"));
-    elementLines["StorInt"]->SetTrack2Value(track2->GetValue("StorInt"));
-    elementLines["EvalExpRPN"]->SetTrack2Value(track2->GetValue("EvalExpRPN"));
-    elementLines["EvalExpFull"]->SetTrack2Value(track2->GetValue("EvalExpFull"));
-    elementLines["Range"]->SetTrack2Value(track2->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrack2Value(track2->GetValue("DisplayAttr"));
-    elementLines["DisplayLvl"]->SetTrack2Value(track2->GetValue("DisplayLvl"));
-    elementLines["DisplayID"]->SetTrack2Value(track2->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrack2Value(track2->GetValue("DispFmt"));
-    elementLines["DispExpRPN"]->SetTrack2Value(track2->GetValue("DispExpRPN"));
-    elementLines["DispExpFull"]->SetTrack2Value(track2->GetValue("DispExpFull"));
-    elementLines["Enums"]->SetTrack2Value(track2->GetValue("Enums"));
+    elementLines["SAMPLEName"]->SetTrackAValue(track2->GetValue("SAMPLEName"));
+    elementLines["Unit"]->SetTrackAValue(track2->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrackAValue(track2->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrackAValue(track2->GetValue("SChan"));
+    elementLines["ValType"]->SetTrackAValue(track2->GetValue("ValType"));
+    elementLines["StorThreshold"]->SetTrackAValue(track2->GetValue("StorThreshold"));
+    elementLines["StorInt"]->SetTrackAValue(track2->GetValue("StorInt"));
+    elementLines["EvalExpRPN"]->SetTrackAValue(track2->GetValue("EvalExpRPN"));
+    elementLines["EvalExpFull"]->SetTrackAValue(track2->GetValue("EvalExpFull"));
+    elementLines["Range"]->SetTrackAValue(track2->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrackAValue(track2->GetValue("DisplayAttr"));
+    elementLines["DisplayLvl"]->SetTrackAValue(track2->GetValue("DisplayLvl"));
+    elementLines["DisplayID"]->SetTrackAValue(track2->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrackAValue(track2->GetValue("DispFmt"));
+    elementLines["DispExpRPN"]->SetTrackAValue(track2->GetValue("DispExpRPN"));
+    elementLines["DispExpFull"]->SetTrackAValue(track2->GetValue("DispExpFull"));
+    elementLines["Enums"]->SetTrackAValue(track2->GetValue("Enums"));
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines["SAMPLEName"]->SetTrack3Value(track3->GetValue("SAMPLEName"));
-    elementLines["Unit"]->SetTrack3Value(track3->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrack3Value(track3->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrack3Value(track3->GetValue("SChan"));
-    elementLines["ValType"]->SetTrack3Value(track3->GetValue("ValType"));
-    elementLines["StorThreshold"]->SetTrack3Value(track3->GetValue("StorThreshold"));
-    elementLines["StorInt"]->SetTrack3Value(track3->GetValue("StorInt"));
-    elementLines["EvalExpRPN"]->SetTrack3Value(track3->GetValue("EvalExpRPN"));
-    elementLines["EvalExpFull"]->SetTrack3Value(track3->GetValue("EvalExpFull"));
-    elementLines["Range"]->SetTrack3Value(track3->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrack3Value(track3->GetValue("DisplayAttr"));
-    elementLines["DisplayLvl"]->SetTrack3Value(track3->GetValue("DisplayLvl"));
-    elementLines["DisplayID"]->SetTrack3Value(track3->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrack3Value(track3->GetValue("DispFmt"));
-    elementLines["DispExpRPN"]->SetTrack3Value(track3->GetValue("DispExpRPN"));
-    elementLines["DispExpFull"]->SetTrack3Value(track3->GetValue("DispExpFull"));
-    elementLines["Enums"]->SetTrack3Value(track3->GetValue("Enums"));
+    elementLines["SAMPLEName"]->SetTrackBValue(track3->GetValue("SAMPLEName"));
+    elementLines["Unit"]->SetTrackBValue(track3->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrackBValue(track3->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrackBValue(track3->GetValue("SChan"));
+    elementLines["ValType"]->SetTrackBValue(track3->GetValue("ValType"));
+    elementLines["StorThreshold"]->SetTrackBValue(track3->GetValue("StorThreshold"));
+    elementLines["StorInt"]->SetTrackBValue(track3->GetValue("StorInt"));
+    elementLines["EvalExpRPN"]->SetTrackBValue(track3->GetValue("EvalExpRPN"));
+    elementLines["EvalExpFull"]->SetTrackBValue(track3->GetValue("EvalExpFull"));
+    elementLines["Range"]->SetTrackBValue(track3->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrackBValue(track3->GetValue("DisplayAttr"));
+    elementLines["DisplayLvl"]->SetTrackBValue(track3->GetValue("DisplayLvl"));
+    elementLines["DisplayID"]->SetTrackBValue(track3->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrackBValue(track3->GetValue("DispFmt"));
+    elementLines["DispExpRPN"]->SetTrackBValue(track3->GetValue("DispExpRPN"));
+    elementLines["DispExpFull"]->SetTrackBValue(track3->GetValue("DispExpFull"));
+    elementLines["Enums"]->SetTrackBValue(track3->GetValue("Enums"));
   }
   
   for ( i = 0 ; i < keysSize ; i++ ) {
@@ -623,20 +623,20 @@ SampleDisplayForm::SkipToNextMissingSignal
   for ( n = currentSampleIndex ; n + 1 < m ; n++ ) {
     pair = sampleInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentSampleIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentSampleIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentSampleIndex = n;
       return;
     }
@@ -658,20 +658,20 @@ SampleDisplayForm::SkipToPrevMissingSignal
   for ( n = currentSampleIndex ; n > 0 ; n-- ) {
     pair = sampleInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentSampleIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentSampleIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentSampleIndex = n;
       return;
     }

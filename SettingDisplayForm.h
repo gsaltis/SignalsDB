@@ -87,7 +87,7 @@ class SettingDisplayForm : public SignalDisplayForm
   SettingInformation*           settingInformation;
   QLabel*                       SettingIDLabel;
   int                           currentSettingIndex;
-  QLabel*                       Track3Label;
+  QLabel*                       TrackBLabel;
   QLabel*                       SignalIDLabel;
 
  //! Public Slots

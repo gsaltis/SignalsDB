@@ -93,7 +93,7 @@ ControlDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Control ID : "));
+  label->setText(QString("Control ID"));
   label->setAlignment(Qt::AlignRight);
 
   ControlIDLabel = new QLabel(this);
@@ -108,7 +108,7 @@ ControlDisplayForm::CreateSubWindows()
   label->move(x1, y);
   label->resize(225, labelHeight);
   label->setFont(labelFont);
-  label->setText(QString("Signal ID : "));
+  label->setText(QString("Signal ID"));
   label->setAlignment(Qt::AlignRight);
 
   SignalIDLabel = new QLabel(this);
@@ -134,7 +134,7 @@ ControlDisplayForm::CreateSubWindows()
   label->setFont(labelFont);
   label->setText(QString("TRACK 3"));
   label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-  Track3Label = label;
+  TrackBLabel = label;
   
   
   //!
@@ -191,7 +191,7 @@ ControlDisplayForm::resizeEvent
   navigationWindowW = width;
   navigationWindowH = NAVIGATION_WINDOW_HEIGHT;
   
-  Track3Label->move(x4, Track3Label->pos().y());
+  TrackBLabel->move(x4, TrackBLabel->pos().y());
 
   lastLine = NULL;
   for ( auto i : elementLines ) {
@@ -261,8 +261,8 @@ ControlDisplayForm::SetTrackInformation
   ControlIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
-  track2 = InPair->GetTrack2();
-  track3 = InPair->GetTrack3();
+  track2 = InPair->GetTrackA();
+  track3 = InPair->GetTrackB();
 
   keys = elementLines.keys();
   keysSize  = keys.size();
@@ -272,54 +272,54 @@ ControlDisplayForm::SetTrackInformation
 
   if ( track2 ) {
     i = 0;
-    elementLines["CTRLName"]->SetTrack2Value(track2->GetValue("CTRLName"));
-    elementLines["Unit"]->SetTrack2Value(track2->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrack2Value(track2->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrack2Value(track2->GetValue("SChan"));
-    elementLines["ValType"]->SetTrack2Value(track2->GetValue("ValType"));
-    elementLines["Defaults"]->SetTrack2Value(track2->GetValue("Defaults"));
-    elementLines["Range"]->SetTrack2Value(track2->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrack2Value(track2->GetValue("DisplayAttr"));
-    elementLines["CtrlAttr"]->SetTrack2Value(track2->GetValue("CtrlAttr"));
-    elementLines["Threshold"]->SetTrack2Value(track2->GetValue("Threshold"));
-    elementLines["CableExpRPN"]->SetTrack2Value(track2->GetValue("CableExpRPN"));
-    elementLines["CableExpFull"]->SetTrack2Value(track2->GetValue("CableExpFull"));
-    elementLines["Auth"]->SetTrack2Value(track2->GetValue("Auth"));
-    elementLines["DisplayID"]->SetTrack2Value(track2->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrack2Value(track2->GetValue("DispFmt"));
-    elementLines["ChID"]->SetTrack2Value(track2->GetValue("ChID"));
-    elementLines["CStep"]->SetTrack2Value(track2->GetValue("CStep"));
-    elementLines["CParam"]->SetTrack2Value(track2->GetValue("CParam"));
-    elementLines["CexpRPN"]->SetTrack2Value(track2->GetValue("CexpRPN"));
-    elementLines["CexpFullDispExp"]->SetTrack2Value(track2->GetValue("CexpFullDispExp"));
-    elementLines["States"]->SetTrack2Value(track2->GetValue("States"));
-    elementLines["CAction"]->SetTrack2Value(track2->GetValue("CAction"));
+    elementLines["CTRLName"]->SetTrackAValue(track2->GetValue("CTRLName"));
+    elementLines["Unit"]->SetTrackAValue(track2->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrackAValue(track2->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrackAValue(track2->GetValue("SChan"));
+    elementLines["ValType"]->SetTrackAValue(track2->GetValue("ValType"));
+    elementLines["Defaults"]->SetTrackAValue(track2->GetValue("Defaults"));
+    elementLines["Range"]->SetTrackAValue(track2->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrackAValue(track2->GetValue("DisplayAttr"));
+    elementLines["CtrlAttr"]->SetTrackAValue(track2->GetValue("CtrlAttr"));
+    elementLines["Threshold"]->SetTrackAValue(track2->GetValue("Threshold"));
+    elementLines["CableExpRPN"]->SetTrackAValue(track2->GetValue("CableExpRPN"));
+    elementLines["CableExpFull"]->SetTrackAValue(track2->GetValue("CableExpFull"));
+    elementLines["Auth"]->SetTrackAValue(track2->GetValue("Auth"));
+    elementLines["DisplayID"]->SetTrackAValue(track2->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrackAValue(track2->GetValue("DispFmt"));
+    elementLines["ChID"]->SetTrackAValue(track2->GetValue("ChID"));
+    elementLines["CStep"]->SetTrackAValue(track2->GetValue("CStep"));
+    elementLines["CParam"]->SetTrackAValue(track2->GetValue("CParam"));
+    elementLines["CexpRPN"]->SetTrackAValue(track2->GetValue("CexpRPN"));
+    elementLines["CexpFullDispExp"]->SetTrackAValue(track2->GetValue("CexpFullDispExp"));
+    elementLines["States"]->SetTrackAValue(track2->GetValue("States"));
+    elementLines["CAction"]->SetTrackAValue(track2->GetValue("CAction"));
   }
 
   if ( track3 ) {
     i = 0;
-    elementLines["CTRLName"]->SetTrack3Value(track3->GetValue("CTRLName"));
-    elementLines["Unit"]->SetTrack3Value(track3->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrack3Value(track3->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrack3Value(track3->GetValue("SChan"));
-    elementLines["ValType"]->SetTrack3Value(track3->GetValue("ValType"));
-    elementLines["Defaults"]->SetTrack3Value(track3->GetValue("Defaults"));
-    elementLines["Range"]->SetTrack3Value(track3->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrack3Value(track3->GetValue("DisplayAttr"));
-    elementLines["CtrlAttr"]->SetTrack3Value(track3->GetValue("CtrlAttr"));
-    elementLines["Threshold"]->SetTrack3Value(track3->GetValue("Threshold"));
-    elementLines["CableExpRPN"]->SetTrack3Value(track3->GetValue("CableExpRPN"));
-    elementLines["CableExpFull"]->SetTrack3Value(track3->GetValue("CableExpFull"));
-    elementLines["Auth"]->SetTrack3Value(track3->GetValue("Auth"));
-    elementLines["DisplayID"]->SetTrack3Value(track3->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrack3Value(track3->GetValue("DispFmt"));
-    elementLines["ChID"]->SetTrack3Value(track3->GetValue("ChID"));
-    elementLines["CStep"]->SetTrack3Value(track3->GetValue("CStep"));
-    elementLines["CParam"]->SetTrack3Value(track3->GetValue("CParam"));
-    elementLines["CexpRPN"]->SetTrack3Value(track3->GetValue("CexpRPN"));
-    elementLines["CexpFullDispExp"]->SetTrack3Value(track3->GetValue("CexpFullDispExp"));
-    elementLines["States"]->SetTrack3Value(track3->GetValue("States"));
-    elementLines["CAction"]->SetTrack3Value(track3->GetValue("CAction"));
+    elementLines["CTRLName"]->SetTrackBValue(track3->GetValue("CTRLName"));
+    elementLines["Unit"]->SetTrackBValue(track3->GetValue("Unit"));
+    elementLines["SIndx"]->SetTrackBValue(track3->GetValue("SIndx"));
+    elementLines["SChan"]->SetTrackBValue(track3->GetValue("SChan"));
+    elementLines["ValType"]->SetTrackBValue(track3->GetValue("ValType"));
+    elementLines["Defaults"]->SetTrackBValue(track3->GetValue("Defaults"));
+    elementLines["Range"]->SetTrackBValue(track3->GetValue("Range"));
+    elementLines["DisplayAttr"]->SetTrackBValue(track3->GetValue("DisplayAttr"));
+    elementLines["CtrlAttr"]->SetTrackBValue(track3->GetValue("CtrlAttr"));
+    elementLines["Threshold"]->SetTrackBValue(track3->GetValue("Threshold"));
+    elementLines["CableExpRPN"]->SetTrackBValue(track3->GetValue("CableExpRPN"));
+    elementLines["CableExpFull"]->SetTrackBValue(track3->GetValue("CableExpFull"));
+    elementLines["Auth"]->SetTrackBValue(track3->GetValue("Auth"));
+    elementLines["DisplayID"]->SetTrackBValue(track3->GetValue("DisplayID"));
+    elementLines["DispFmt"]->SetTrackBValue(track3->GetValue("DispFmt"));
+    elementLines["ChID"]->SetTrackBValue(track3->GetValue("ChID"));
+    elementLines["CStep"]->SetTrackBValue(track3->GetValue("CStep"));
+    elementLines["CParam"]->SetTrackBValue(track3->GetValue("CParam"));
+    elementLines["CexpRPN"]->SetTrackBValue(track3->GetValue("CexpRPN"));
+    elementLines["CexpFullDispExp"]->SetTrackBValue(track3->GetValue("CexpFullDispExp"));
+    elementLines["States"]->SetTrackBValue(track3->GetValue("States"));
+    elementLines["CAction"]->SetTrackBValue(track3->GetValue("CAction"));
   }
 
   for ( i = 0 ; i < keysSize ; i ++) {
@@ -628,20 +628,20 @@ ControlDisplayForm::SkipToNextMissingSignal
   for ( n = currentControlIndex ; n + 1 < m ; n++ ) {
     pair = controlInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentControlIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentControlIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentControlIndex = n;
       return;
     }
@@ -663,20 +663,20 @@ ControlDisplayForm::SkipToPrevMissingSignal
   for ( n = currentControlIndex ; n > 0 ; n-- ) {
     pair = controlInformation->GetPairByIndex(n);
     if ( InMissingTracks == NAVIGATION_ONLY3_FLAG ) {
-      if ( pair->GetTrack2() == NULL ) {
+      if ( pair->GetTrackA() == NULL ) {
         currentControlIndex = n;
         return;
       }
       continue;
     }
     if ( InMissingTracks == NAVIGATION_ONLY2_FLAG ) {
-      if ( pair->GetTrack3() == NULL ) {
+      if ( pair->GetTrackB() == NULL ) {
         currentControlIndex = n;
         return;
       }
       continue;
     }
-    if ( pair->GetTrack2() == NULL || pair->GetTrack3() == NULL ) {
+    if ( pair->GetTrackA() == NULL || pair->GetTrackB() == NULL ) {
       currentControlIndex = n;
       return;
     }

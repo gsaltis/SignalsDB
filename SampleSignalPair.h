@@ -34,7 +34,7 @@ class SampleSignalPair : public QWidget
 
  //! Constructors
  public :
-  SampleSignalPair           (int InID, int SID, NCUSampleSignal* InTrack2Signal, NCUSampleSignal* InTrack3Signal);
+  SampleSignalPair           (int InID, int SID, NCUSampleSignal* InTrackASignal, NCUSampleSignal* InTrackBSignal);
 
  //! Destructor
  public :
@@ -44,9 +44,9 @@ class SampleSignalPair : public QWidget
  public :
   int                           GetID                   ();
   int                           GetSID                  ();
-  void                          AddTrack3Signal         (NCUSampleSignal* InTrack3);
-  NCUSampleSignal*              GetTrack2               ();
-  NCUSampleSignal*              GetTrack3               ();
+  void                          AddTrackBSignal         (NCUSampleSignal* InTrackB);
+  NCUSampleSignal*              GetTrackA               ();
+  NCUSampleSignal*              GetTrackB               ();
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
   void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
@@ -67,8 +67,8 @@ class SampleSignalPair : public QWidget
 
  //! Private Data
  private :
-  NCUSampleSignal*              Track2Signal;
-  NCUSampleSignal*              Track3Signal;
+  NCUSampleSignal*              TrackASignal;
+  NCUSampleSignal*              TrackBSignal;
   int                           id;
   int                           sid;
   

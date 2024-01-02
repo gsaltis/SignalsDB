@@ -22,12 +22,12 @@
  * Function : ControlSignalPair
  *****************************************************************************/
 ControlSignalPair::ControlSignalPair
-(int InID, int InSID, NCUControlSignal* InTrack2Signal, NCUControlSignal* InTrack3Signal) : QWidget()
+(int InID, int InSID, NCUControlSignal* InTrackASignal, NCUControlSignal* InTrackBSignal) : QWidget()
 {
   id = InID;
   sid = InSID;
-  Track2Signal = InTrack2Signal;
-  Track3Signal = InTrack3Signal;
+  TrackASignal = InTrackASignal;
+  TrackBSignal = InTrackBSignal;
 }
 
 /*****************************************************************************!
@@ -57,31 +57,31 @@ ControlSignalPair::GetSID()
 }
 
 /*****************************************************************************!
- * Function : AddTrack3Signal
+ * Function : AddTrackBSignal
  *****************************************************************************/
 void
-ControlSignalPair::AddTrack3Signal
-(NCUControlSignal* InTrack3)
+ControlSignalPair::AddTrackBSignal
+(NCUControlSignal* InTrackB)
 {
-  Track3Signal = InTrack3;
+  TrackBSignal = InTrackB;
 }
 
 /*****************************************************************************!
- * Function : GetTrack2
+ * Function : GetTrackA
  *****************************************************************************/
 NCUControlSignal*
-ControlSignalPair::GetTrack2()
+ControlSignalPair::GetTrackA()
 {
-  return Track2Signal;
+  return TrackASignal;
 }
 
 /*****************************************************************************!
- * Function : GetTrack3
+ * Function : GetTrackB
  *****************************************************************************/
 NCUControlSignal*
-ControlSignalPair::GetTrack3()
+ControlSignalPair::GetTrackB()
 {
-  return Track3Signal;
+  return TrackBSignal;
 }
 
 /*****************************************************************************!
@@ -90,10 +90,10 @@ ControlSignalPair::GetTrack3()
 bool
 ControlSignalPair::Differ()
 {
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return false;
   }
-  return ! Track2Signal->Equal(Track3Signal);
+  return ! TrackASignal->Equal(TrackBSignal);
 }
 
 /*****************************************************************************!
@@ -103,10 +103,10 @@ bool
 ControlSignalPair::Differ
 (QString InTag)
 {
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return false;
   }
-  return Track2Signal->GetValue(InTag) != Track3Signal->GetValue(InTag);
+  return TrackASignal->GetValue(InTag) != TrackBSignal->GetValue(InTag);
 }
 
 /*****************************************************************************!
@@ -122,13 +122,13 @@ ControlSignalPair::GetDifferCounts
   InMinor = 0;
   InMajor = 0;
 
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return;
   }
 
   for ( auto format : InFormats ) {
     tag = format->GetElementKey();
-    if ( Track2Signal->GetValue(tag) == Track3Signal->GetValue(tag) ) {
+    if ( TrackASignal->GetValue(tag) == TrackBSignal->GetValue(tag) ) {
       continue;
     }
     differsev = format->GetDifferenceSeverity();

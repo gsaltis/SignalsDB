@@ -73,27 +73,27 @@ SettingDisplayWindow::SetSettingInformation
   int                                   trackMinorDiffer;
   int                                   trackMajorDiffer;
   int                                   combinedSignals;
-  int                                   track2Missing;
-  int                                   track3Missing;
-  int                                   track3Count;
-  int                                   track2Count;
+  int                                   trackAMissing;
+  int                                   trackBMissing;
+  int                                   trackBCount;
+  int                                   trackACount;
   SettingInformation*                   settingInfo;
   
   settingInfo = MainConfig::settingInformation;
 
-  track2Count = settingInfo->GetTrack2Count();
-  track3Count = settingInfo->GetTrack3Count();
+  trackACount = settingInfo->GetTrackACount();
+  trackBCount = settingInfo->GetTrackBCount();
 
-  track2Missing = settingInfo->GetTrack2MissingCount();
-  track3Missing = settingInfo->GetTrack3MissingCount();
+  trackAMissing = settingInfo->GetTrackAMissingCount();
+  trackBMissing = settingInfo->GetTrackBMissingCount();
 
   settingInfo->GetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                    totalMinorDiffer, trackMinorDiffer);
   
   combinedSignals = settingInfo->GetPairCount();
   
-  statsWindow->SetTrackCounts(track2Count, track3Count);
-  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackCounts(trackACount, trackBCount);
+  statsWindow->SetMissingTrackCounts(trackAMissing, trackBMissing);
   statsWindow->SetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                    totalMinorDiffer, trackMinorDiffer);
   statsWindow->SetCombinedSignalCount(combinedSignals);

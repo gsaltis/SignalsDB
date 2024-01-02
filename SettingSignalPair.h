@@ -33,7 +33,7 @@ class SettingSignalPair : public QWidget
 
  //! Constructors
  public :
-  SettingSignalPair           (int InID, int SID, NCUSettingSignal* InTrack2Signal, NCUSettingSignal* InTrack3Signal);
+  SettingSignalPair           (int InID, int SID, NCUSettingSignal* InTrackASignal, NCUSettingSignal* InTrackBSignal);
 
  //! Destructor
  public :
@@ -43,9 +43,9 @@ class SettingSignalPair : public QWidget
  public :
   int                           GetID                   ();
   int                           GetSID                  ();
-  void                          AddTrack3Signal         (NCUSettingSignal* InTrack3);
-  NCUSettingSignal*             GetTrack2               ();
-  NCUSettingSignal*             GetTrack3               ();
+  void                          AddTrackBSignal         (NCUSettingSignal* InTrackB);
+  NCUSettingSignal*             GetTrackA               ();
+  NCUSettingSignal*             GetTrackB               ();
   bool                          Differ                  ();
   bool                          Differ                  (QString InTag);
   void                          GetDifferCounts         (int &InMajor, int &InMinor, QList<ElementDisplayLineFormat*> InFormats);
@@ -66,8 +66,8 @@ class SettingSignalPair : public QWidget
 
  //! Private Data
  private :
-  NCUSettingSignal*             Track2Signal;
-  NCUSettingSignal*             Track3Signal;
+  NCUSettingSignal*             TrackASignal;
+  NCUSettingSignal*             TrackBSignal;
   int                           id;
   int                           sid;
   

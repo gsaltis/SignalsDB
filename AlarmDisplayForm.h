@@ -87,7 +87,7 @@ class AlarmDisplayForm : public SignalDisplayForm
   AlarmInformation*             alarmInformation;
   QLabel*                       AlarmIDLabel;
   int                           currentAlarmIndex;
-  QLabel*                       Track3Label;
+  QLabel*                       TrackBLabel;
   QLabel*                       SignalIDLabel;
 
  //! Public Slots

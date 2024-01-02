@@ -8,6 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -114,25 +115,28 @@ AlarmDisplayWindow::SetAlarmInformation
   int                                   trackMinorDiffer;
   int                                   trackMajorDiffer;
   int                                   combinedSignals;
-  int                                   track2Missing;
-  int                                   track3Missing;
-  int                                   track3Count;
-  int                                   track2Count;
+  int                                   trackAMissing;
+  int                                   trackBMissing;
+  int                                   trackACount;
+  int                                   trackBCount;
 
   alarmInfo = MainConfig::alarmInformation;
 
-  track2Count = alarmInfo->GetTrack2Count();
-  track3Count = alarmInfo->GetTrack3Count();
+  trackACount = alarmInfo->GetTrackACount();
+  trackBCount = alarmInfo->GetTrackBCount();
 
-  track2Missing = alarmInfo->GetTrack2MissingCount();
-  track3Missing = alarmInfo->GetTrack3MissingCount();
+  TRACE_FUNCTION_INT(trackACount);
+  TRACE_FUNCTION_INT(trackBCount);
+  
+  trackAMissing = alarmInfo->GetTrackAMissingCount();
+  trackBMissing = alarmInfo->GetTrackBMissingCount();
 
   alarmInfo->GetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                  totalMinorDiffer, trackMinorDiffer);
   combinedSignals = alarmInfo->GetPairCount();
   
-  statsWindow->SetTrackCounts(track2Count, track3Count);
-  statsWindow->SetMissingTrackCounts(track2Missing, track3Missing);
+  statsWindow->SetTrackCounts(trackACount, trackBCount);
+  statsWindow->SetMissingTrackCounts(trackAMissing, trackBMissing);
   statsWindow->SetTrackDifferCount(totalMajorDiffer, trackMajorDiffer,
                                    totalMinorDiffer, trackMinorDiffer);
   statsWindow->SetCombinedSignalCount(combinedSignals);

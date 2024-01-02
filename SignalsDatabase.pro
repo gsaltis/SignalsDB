@@ -8,7 +8,8 @@ QMAKE_LINK                      = @echo [LD] $@ && g++
 
 QMAKE_RC                        = @echo [RC] $@ && windres 
 
-QMAKE_LFLAGS_WINDOWS            += -mwindows -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
+QMAKE_LFLAGS_WINDOWS            += -Wl,--subsystem,console -L../Trace/Client -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
+#QMAKE_LFLAGS_WINDOWS           += -mwindows -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
 
 QMAKE_CXXFLAGS                  += -ID:/usr/local/include -I../Qxlnt/xlnt/include
 
@@ -69,6 +70,7 @@ SOURCES                         += \
 				   SignalTabWindow.cpp                          \
 				   SignalsInformation.cpp                       \
 				   SystemConfig.cpp                             \
+				   TrackNumber.cpp                              \
 				   WindowHeader.cpp                             \
 				   XCLOptions.cpp                               \
 				   XMLCreateDialog.cpp                          \
@@ -116,6 +118,7 @@ HEADERS                         += \
 				   SignalTabWindow.h                            \
 				   SignalsInformation.h                         \
 				   SystemConfig.h                               \
+				   TrackNumber.h                                \
 				   WindowHeader.h                               \
 				   XCLOptions.h                                 \
 				   XMLCreateDialog.h                            \

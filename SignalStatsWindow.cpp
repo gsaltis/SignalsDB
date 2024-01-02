@@ -8,7 +8,7 @@
 /*****************************************************************************!
  * Global Headers
  *****************************************************************************/
-#include <trace_winnet.h>
+#include <trace_winnetqt.h>
 #include <QtCore>
 #include <QtGui>
 #include <QWidget>
@@ -17,6 +17,7 @@
  * Local Headers
  *****************************************************************************/
 #include "SignalStatsWindow.h"
+#include "main.h"
 
 /*****************************************************************************!
  * Function : SignalStatsWindow
@@ -53,6 +54,8 @@ SignalStatsWindow::initialize()
 void
 SignalStatsWindow::CreateSubWindows()
 {
+  QString                               trackAName;
+  QString                               trackBName;
   int                                   labelWidth2;
   int                                   x0, x1, x2, x3, x4, x5;
   int                                   y;
@@ -62,12 +65,12 @@ SignalStatsWindow::CreateSubWindows()
   y = WINDOW_HEADER_HEIGHT;
 
   labelWidth = 100;
-  labelWidth2 = 175;
+  labelWidth2 = 200;
   
   labelHeight = 20;
   
 
-  x0 = 0;
+  x0 = 35;
   x1 = labelWidth2 + 10;
   x2 = x1 + labelWidth + 10;
   x3 = x2 + labelWidth + 10;;
@@ -82,7 +85,12 @@ SignalStatsWindow::CreateSubWindows()
   CreateSimpleLabel("COMBINED",  x5, y, labelWidth, labelHeight);
   y += labelHeight;
 
-  CreateSimpleLabel("TRACK 2", x0, y, labelWidth2, labelHeight);
+  trackAName = QString("TRACK A (%1)").arg(MainTrackAID->ToString());
+  trackBName = QString("TRACK B (%1)").arg(MainTrackBID->ToString());
+  TRACE_FUNCTION_QSTRING(trackAName);
+  TRACE_FUNCTION_QSTRING(trackBName);
+  
+  CreateSimpleLabel(trackAName, x0, y, labelWidth2, labelHeight);
   Track2TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
   Track2MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
   TrackMajorDifferLabel = CreateDisplayLabel(x3, y, labelWidth, labelHeight);
@@ -90,7 +98,7 @@ SignalStatsWindow::CreateSubWindows()
   CombinedSignalsLabel = CreateDisplayLabel(x5, y, labelWidth, labelHeight);
   y += labelHeight;
 
-  CreateSimpleLabel("TRACK 3", x0, y, labelWidth2, labelHeight);
+  CreateSimpleLabel(trackBName, x0, y, labelWidth2, labelHeight);
   Track3TotalLabel = CreateDisplayLabel(x1, y, labelWidth, labelHeight);
   Track3MissingLabel = CreateDisplayLabel(x2, y, labelWidth, labelHeight);
   

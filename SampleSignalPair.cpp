@@ -22,12 +22,12 @@
  * Function : SampleSignalPair
  *****************************************************************************/
 SampleSignalPair::SampleSignalPair
-(int InID, int InSID, NCUSampleSignal* InTrack2Signal, NCUSampleSignal* InTrack3Signal) : QWidget()
+(int InID, int InSID, NCUSampleSignal* InTrackASignal, NCUSampleSignal* InTrackBSignal) : QWidget()
 {
   id = InID;
   sid = InSID;
-  Track2Signal = InTrack2Signal;
-  Track3Signal = InTrack3Signal;
+  TrackASignal = InTrackASignal;
+  TrackBSignal = InTrackBSignal;
 }
 
 /*****************************************************************************!
@@ -57,31 +57,31 @@ SampleSignalPair::GetSID()
 }
 
 /*****************************************************************************!
- * Function : AddTrack3Signal
+ * Function : AddTrackBSignal
  *****************************************************************************/
 void
-SampleSignalPair::AddTrack3Signal
-(NCUSampleSignal* InTrack3)
+SampleSignalPair::AddTrackBSignal
+(NCUSampleSignal* InTrackB)
 {
-  Track3Signal = InTrack3;
+  TrackBSignal = InTrackB;
 }
 
 /*****************************************************************************!
- * Function : GetTrack2
+ * Function : GetTrackA
  *****************************************************************************/
 NCUSampleSignal*
-SampleSignalPair::GetTrack2()
+SampleSignalPair::GetTrackA()
 {
-  return Track2Signal;
+  return TrackASignal;
 }
 
 /*****************************************************************************!
- * Function : GetTrack3
+ * Function : GetTrackB
  *****************************************************************************/
 NCUSampleSignal*
-SampleSignalPair::GetTrack3()
+SampleSignalPair::GetTrackB()
 {
-  return Track3Signal;
+  return TrackBSignal;
 }
 
 /*****************************************************************************!
@@ -90,10 +90,10 @@ SampleSignalPair::GetTrack3()
 bool
 SampleSignalPair::Differ()
 {
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return false;
   }
-  return ! Track2Signal->Equal(Track3Signal);
+  return ! TrackASignal->Equal(TrackBSignal);
 }
 
 /*****************************************************************************!
@@ -103,10 +103,10 @@ bool
 SampleSignalPair::Differ
 (QString InTag)
 {
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return false;
   }
-  return Track2Signal->GetValue(InTag) != Track3Signal->GetValue(InTag);
+  return TrackASignal->GetValue(InTag) != TrackBSignal->GetValue(InTag);
 }
 
 /*****************************************************************************!
@@ -122,13 +122,13 @@ SampleSignalPair::GetDifferCounts
   InMinor = 0;
   InMajor = 0;
 
-  if ( NULL == Track2Signal || NULL == Track3Signal ) {
+  if ( NULL == TrackASignal || NULL == TrackBSignal ) {
     return;
   }
 
   for ( auto format : InFormats ) {
     tag = format->GetElementKey();
-    if ( Track2Signal->GetValue(tag) == Track3Signal->GetValue(tag) ) {
+    if ( TrackASignal->GetValue(tag) == TrackBSignal->GetValue(tag) ) {
       continue;
     }
     differsev = format->GetDifferenceSeverity();
@@ -153,12 +153,12 @@ SampleSignalPair::AddXCLFullRows
   InWorksheet->cell(1, InStartingRow).value(GetID());
   InWorksheet->cell(2, InStartingRow).value(GetSID());
   row = InStartingRow;
-  if ( Track2Signal ) {
-    Track2Signal->AddXCLRow(InWorksheet, row, 3);
+  if ( TrackASignal ) {
+    TrackASignal->AddXCLRow(InWorksheet, row, 3);
     row++;
   }
-  if ( Track3Signal ) {
-    Track3Signal->AddXCLRow(InWorksheet, row, 3);
+  if ( TrackBSignal ) {
+    TrackBSignal->AddXCLRow(InWorksheet, row, 3);
     row++;
   }
   return row;
@@ -178,13 +178,13 @@ SampleSignalPair::AddXCLMajorDifferRows
   if ( ! Differ() ) {
     return row;
   }
-  if ( Track2Signal == NULL || Track3Signal == NULL ) {
+  if ( TrackASignal == NULL || TrackBSignal == NULL ) {
     return row;
   }
-  Track2Signal->AddXCLRow(InWorksheet, row, 3);
+  TrackASignal->AddXCLRow(InWorksheet, row, 3);
   row++;
 
-  Track3Signal->AddXCLRow(InWorksheet, row, 3, true);
+  TrackBSignal->AddXCLRow(InWorksheet, row, 3, true);
   row++;
   return row;
 }

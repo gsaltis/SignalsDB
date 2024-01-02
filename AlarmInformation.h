@@ -47,10 +47,10 @@ class AlarmInformation : public SignalsInformation
   NCUAlarmSignal*               FindAlarmByID           (int InTrack, int InID);
   void                          SQLRead                 (sqlite3* InDatabase);
   AlarmSignalPair*              FindPairByID            (int InID, int InSID);
-  int                           GetTrack2Count          (void);
-  int                           GetTrack3Count          (void);
-  int                           GetTrack2MissingCount   (void);
-  int                           GetTrack3MissingCount   (void);
+  int                           GetTrackACount          (void);
+  int                           GetTrackBCount          (void);
+  int                           GetTrackAMissingCount   (void);
+  int                           GetTrackBMissingCount   (void);
   void                          GetTrackDifferCount     (int &InSignalMajorCount, int &InMajorCount,
                                                          int &InSignalMinorCount, int &InMinorCount);
   int                           GetCountByTrack         (int InTrack);

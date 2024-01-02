@@ -202,7 +202,7 @@ AlarmInformation::CreatePairs(void)
   n = alarms.size();
   for (i = 0; i < n; i++) {
     e = alarms[i];
-    if ( e->Track != 2 ) {
+    if ( e->Track != MainTrackAID->GetNumber() ) {
       continue;
     }
 
@@ -212,7 +212,7 @@ AlarmInformation::CreatePairs(void)
 
   for ( i = 0; i < n; i++ ){
     e = alarms[i];
-    if ( e->Track != 3 ) {
+    if ( e->Track != MainTrackBID->GetNumber() ) {
       continue;
     }
     alarmPair = FindPairByID(e->ID, e->Type);
@@ -221,7 +221,7 @@ AlarmInformation::CreatePairs(void)
       alarmPairs << alarmPair;
       continue;
     }
-    alarmPair->AddTrack3Signal(e);
+    alarmPair->AddTrackBSignal(e);
   }
 }
 
@@ -246,21 +246,21 @@ AlarmInformation::FindPairByID
 }
 
 /*****************************************************************************!
- * Function : GetTrack2Count
+ * Function : GetTrackACount
  *****************************************************************************/
 int
-AlarmInformation::GetTrack2Count(void)
+AlarmInformation::GetTrackACount(void)
 {
-  return GetTrackCount(2);
+  return GetTrackCount(MainTrackAID->GetNumber());
 }
 
 /*****************************************************************************!
- * Function : GetTrack3Count
+ * Function : GetTrackBCount
  *****************************************************************************/
 int
-AlarmInformation::GetTrack3Count(void)
+AlarmInformation::GetTrackBCount(void)
 {
-  return GetTrackCount(3);
+  return GetTrackCount(MainTrackBID->GetNumber());
 }
 
 /*****************************************************************************!
@@ -288,10 +288,10 @@ AlarmInformation::GetTrackCount
 }
 
 /*****************************************************************************!
- * Function : GetTrack2MissingCount
+ * Function : GetTrackAMissingCount
  *****************************************************************************/
 int
-AlarmInformation::GetTrack2MissingCount(void)
+AlarmInformation::GetTrackAMissingCount(void)
 {
   AlarmSignalPair*                    ep;
   int                                   i;
@@ -302,7 +302,7 @@ AlarmInformation::GetTrack2MissingCount(void)
   n = alarmPairs.size();
   for (i = 0; i < n; i++) {
     ep = alarmPairs[i];
-    if ( ep->GetTrack2() == NULL ) {
+    if ( ep->GetTrackA() == NULL ) {
       count++;
     }
   }
@@ -310,10 +310,10 @@ AlarmInformation::GetTrack2MissingCount(void)
 }
 
 /*****************************************************************************!
- * Function : GetTrack3MissingCount
+ * Function : GetTrackBMissingCount
  *****************************************************************************/
 int
-AlarmInformation::GetTrack3MissingCount(void)
+AlarmInformation::GetTrackBMissingCount(void)
 {
   AlarmSignalPair*                  ep;
   int                                   i;
@@ -324,7 +324,7 @@ AlarmInformation::GetTrack3MissingCount(void)
   n = alarmPairs.size();
   for (i = 0; i < n; i++) {
     ep = alarmPairs[i];
-    if ( ep->GetTrack3() == NULL ) {
+    if ( ep->GetTrackB() == NULL ) {
       count++;
     }
   }

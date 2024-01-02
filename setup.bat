@@ -6,7 +6,7 @@ doskey md=make -j 4 -f Makefile.Debug
 doskey mc=make cleanall
 doskey mq=qmake
 doskey si=release\SignalsDB $*
-doskey sid=debug\SignalsDB $*
+doskey sid=color 07 $t gdb debug\SignalsDB $*
 title Signals Database
 git status | head -1 | gawk "{print $3;}"> .branch.txt
 set /p P=<.branch.txt

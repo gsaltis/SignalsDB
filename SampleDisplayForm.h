@@ -87,7 +87,7 @@ class SampleDisplayForm : public SignalDisplayForm
   SampleInformation*            sampleInformation;
   QLabel*                       SampleIDLabel;
   int                           currentSampleIndex;
-  QLabel*                       Track3Label;
+  QLabel*                       TrackBLabel;
   QLabel*                       SignalIDLabel;
 
  //! Public Slots
