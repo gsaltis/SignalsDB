@@ -8,8 +8,8 @@ QMAKE_LINK                      = @echo [LD] $@ && g++
 
 QMAKE_RC                        = @echo [RC] $@ && windres 
 
-QMAKE_LFLAGS_WINDOWS            += -Wl,--subsystem,console -L../Trace/Client -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
-#QMAKE_LFLAGS_WINDOWS           += -mwindows -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
+#QMAKE_LFLAGS_WINDOWS            += -Wl,--subsystem,console -L../Trace/Client -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
+QMAKE_LFLAGS_WINDOWS            += -mwindows -LD:/usr/local/lib -L../Qxlnt/Qxlnt/release
 
 QMAKE_CXXFLAGS                  += -ID:/usr/local/include -I../Qxlnt/xlnt/include
 
