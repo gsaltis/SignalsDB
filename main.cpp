@@ -25,6 +25,7 @@
 #include "MainConfig.h"
 #include "main.h"
 #include "sqlite3.h"
+#include "SystemSettings.h"
 
 /*****************************************************************************!
  * Local Macros
@@ -79,6 +80,9 @@ MainTrackBID = NULL;
 bool
 MainListTrackVersions = false;
 
+SystemSettings*
+MainSystemSettings = NULL;
+
 /*****************************************************************************!
  * Function : main
  *****************************************************************************/
@@ -94,9 +98,18 @@ main
   QPoint                                position;
   QSize                                 size;
   QCommandLineParser                    commandLineParser;
+  int                                   trackAVersion;
+  int                                   trackBVersion;
 
-  MainTrackAID = new TrackNumber(20221);
-  MainTrackBID = new TrackNumber(30224);
+  //!
+  MainSystemSettings = new SystemSettings();
+  MainSystemSettings->GetTrackVersionsTrackAVersion(trackAVersion);
+  MainSystemSettings->GetTrackVersionsTrackBVersion(trackBVersion);
+  
+  MainTrackAID = new TrackNumber(trackAVersion);
+  MainTrackBID = new TrackNumber(trackBVersion);
+
+  //!
   application.setApplicationName("SignalsDatabase");
   application.setApplicationVersion("0.0.0");
   application.setOrganizationName("Greg Saltis");
@@ -179,13 +192,14 @@ Initialize
 ()
 {
   QList<int>                            trackVersions;
-  
+
   MainOpenDB();
 
   if ( MainListTrackVersions ) {
     ListTrackVersions();
     exit(EXIT_SUCCESS);
   }
+
   
   MainConfig::equipmentInformation = new EquipmentInformation();
   MainConfig::equipmentInformation->SQLRead(MainConfig::database);
@@ -258,12 +272,8 @@ void
 MainSetMainWindowGeometry
 (QPoint InPosition, QSize InSize)
 {
-  QSettings                             settings(MainOrginzationName, MainApplicationName);
-
-  settings.setValue("MainWindow/X", InPosition.x());
-  settings.setValue("MainWindow/Y", InPosition.y());
-  settings.setValue("MainWindow/Width", InSize.width());
-  settings.setValue("MainWindow/Height", InSize.height());
+  MainSystemSettings->SetMainWindowPosition(InPosition.x(), InPosition.y());
+  MainSystemSettings->SetMainWindowSize(InSize.width(), InSize.height());
 }
 
 /*****************************************************************************!
@@ -273,13 +283,10 @@ void
 MainGetMainWindowGeometry
 (QPoint &InPosition, QSize &InSize)
 {
-  QSettings                             settings(MainOrginzationName, MainApplicationName);
   int                                   x, y, width, height;
 
-  x = settings.value("MainWindow/X", MAIN_WINDOW_X).toInt();
-  y = settings.value("MainWindow/Y", MAIN_WINDOW_Y).toInt();
-  width = settings.value("MainWindow/Width", MAIN_WINDOW_WIDTH).toInt();
-  height = settings.value("MainWindow/Height", MAIN_WINDOW_HEIGHT).toInt();
+  MainSystemSettings->GetMainWindowPosition(x, y);
+  MainSystemSettings->GetMainWindowSize(width, height);
 
   InPosition.setX(x);
   InPosition.setY(y);

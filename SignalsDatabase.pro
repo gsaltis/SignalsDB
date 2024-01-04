@@ -35,6 +35,7 @@ SOURCES                         += \
 				   AlarmDisplayWindow.cpp                       \
 				   AlarmInformation.cpp                         \
 				   AlarmSignalPair.cpp                          \
+				   ConfigurationDialog.cpp                      \
 				   ControlDisplayForm.cpp                       \
 				   ControlDisplayWindow.cpp                     \
 				   ControlInformation.cpp                       \
@@ -70,6 +71,7 @@ SOURCES                         += \
 				   SignalTabWindow.cpp                          \
 				   SignalsInformation.cpp                       \
 				   SystemConfig.cpp                             \
+                                   SystemSettings.cpp                           \
 				   TrackNumber.cpp                              \
 				   WindowHeader.cpp                             \
 				   XCLOptions.cpp                               \
@@ -83,6 +85,7 @@ HEADERS                         += \
 				   AlarmDisplayWindow.h                         \
 				   AlarmInformation.h                           \
 				   AlarmSignalPair.h                            \
+				   ConfigurationDialog.h                        \
 				   ControlDisplayForm.h                         \
 				   ControlDisplayWindow.h                       \
 				   ControlInformation.h                         \
@@ -118,6 +121,7 @@ HEADERS                         += \
 				   SignalTabWindow.h                            \
 				   SignalsInformation.h                         \
 				   SystemConfig.h                               \
+                                   SystemSettings.h                             \
 				   TrackNumber.h                                \
 				   WindowHeader.h                               \
 				   XCLOptions.h                                 \

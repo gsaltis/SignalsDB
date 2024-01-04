@@ -77,6 +77,7 @@ class MainWindow : public QMainWindow
  //! Public Slots
  public slots :
   void                          SlotExit                (void);
+  void                          SlotPreferences         (void);
 
  //! Public Signals
  signals :
@@ -84,6 +85,7 @@ class MainWindow : public QMainWindow
  //! Public Actions
  public :
   QAction*                      ActionExit;
+  QAction*                      ActionPreferences;
 
 };
 

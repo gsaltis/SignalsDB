@@ -19,6 +19,7 @@
 #include "sqlite3.h"
 #include "MainConfig.h"
 #include "TrackNumber.h"
+#include "SystemSettings.h"
 
 /*****************************************************************************!
  * Exported Functions
@@ -30,6 +31,10 @@ MainSetMainWindowGeometry
 void
 MainGetMainWindowGeometry
 (QPoint &InPosition, QSize &InSize);
+
+QList<int>
+GetTrackVersions
+();
 
 /*****************************************************************************!
  * Exported Data
@@ -47,5 +52,8 @@ MainTrackAID;
 
 extern TrackNumber*
 MainTrackBID;
+
+extern SystemSettings*
+MainSystemSettings;
 
 #endif /* _main_h_*/

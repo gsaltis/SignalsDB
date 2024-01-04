@@ -20,6 +20,7 @@
  *****************************************************************************/
 #include "MainWindow.h"
 #include "main.h"
+#include "ConfigurationDialog.h"
 
 /*****************************************************************************!
  * Function : MainWindow
@@ -109,6 +110,8 @@ MainWindow::CreateActions()
 {
   ActionExit = new QAction("E&xit", this);
   connect(ActionExit, SIGNAL(triggered()), this, SLOT(SlotExit()));
+  ActionPreferences = new QAction("&Preferences", this);
+  connect(ActionPreferences, SIGNAL(triggered()), this, SLOT(SlotPreferences()));
 }
 
 /*****************************************************************************!
@@ -120,6 +123,7 @@ MainWindow::CreateMenus()
 {
   menubar = menuBar();  
   fileMenu = menubar->addMenu("&File");
+  fileMenu->addAction(ActionPreferences);
   fileMenu->addAction(ActionExit);
 }
 
@@ -142,4 +146,19 @@ MainWindow::moveEvent
   QPoint                                pos;
   pos = InEvent->pos();
   MainSetMainWindowGeometry(pos, size());
+}
+
+/*****************************************************************************!
+ * Function : SlotPreferences
+ *****************************************************************************/
+void
+MainWindow::SlotPreferences(void)
+{
+  int                                   n;
+  ConfigurationDialog*                  dialog;
+
+  dialog = new ConfigurationDialog();
+  n = dialog->exec();
+
+  TRACE_FUNCTION_INT(n);
 }
