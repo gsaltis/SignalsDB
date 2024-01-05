@@ -1,7 +1,9 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file>Images/Left.png</file>
+    <file>Images/LeftHome.png</file>
     <file>Images/Right.png</file>
+    <file>Images/RightEnd.png</file>
     <file>Images/DoubleRight.png</file>
     <file>Images/DoubleLeft.png</file>
     <file>Images/Folder.png</file>

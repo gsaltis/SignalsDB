@@ -21,6 +21,7 @@
 #include "ElementDisplayLine.h"
 #include "MainConfig.h"
 #include "main.h"
+#include "ElementDisplayLineFormat.h"
 
 /*****************************************************************************!
  * Function : AlarmDisplayForm
@@ -253,7 +254,7 @@ void
 AlarmDisplayForm::SetTrackInformation
 (AlarmSignalPair* InPair)
 {
-  int                                   n;
+  int                                   keysSize;
   QStringList                           keys;
   int                                   i;
   NCUAlarmSignal*                       trackA;
@@ -266,40 +267,23 @@ AlarmDisplayForm::SetTrackInformation
   trackB = InPair->GetTrackB();
 
   keys = elementLines.keys();
-  n = keys.size();
-  for ( i = 0 ; i < n ; i++ ) {
+  keysSize = keys.size();
+  for ( i = 0 ; i < keysSize ; i++ ) {
     elementLines[keys[i]]->Clear();
   }
-
+  
   if ( trackA ) {
-    i = 0;
-    elementLines["AlarmName"]->SetTrackAValue(trackA->GetValue("AlarmName"));
-    elementLines["Level"]->SetTrackAValue(trackA->GetValue("Level"));
-    elementLines["ExpRPN"]->SetTrackAValue(trackA->GetValue("ExpRPN"));
-    elementLines["ExpFull"]->SetTrackAValue(trackA->GetValue("EXPFull"));
-    elementLines["Delay"]->SetTrackAValue(trackA->GetValue("Delay"));
-    elementLines["SuppressRPN"]->SetTrackAValue(trackA->GetValue("SuppressRPN"));
-    elementLines["SuppressFull"]->SetTrackAValue(trackA->GetValue("SuppressFull"));
-    elementLines["Relay"]->SetTrackAValue(trackA->GetValue("Relay"));
-    elementLines["Help"]->SetTrackAValue(trackA->GetValue("Help"));
+    for (i = 0; i < keysSize; i++) {
+      elementLines[keys[i]]->SetTrackAValue(trackA->GetValue(keys[i]));
+    }
   }
-
   if ( trackB ) {
-    i = 0;
-    elementLines["AlarmName"]->SetTrackBValue(trackB->GetValue("AlarmName"));
-    elementLines["Level"]->SetTrackBValue(trackB->GetValue("Level"));
-    elementLines["ExpRPN"]->SetTrackBValue(trackB->GetValue("ExpRPN"));
-    elementLines["ExpFull"]->SetTrackBValue(trackB->GetValue("EXPFull"));
-    elementLines["Delay"]->SetTrackBValue(trackB->GetValue("Delay"));
-    elementLines["SuppressRPN"]->SetTrackBValue(trackB->GetValue("SuppressRPN"));
-    elementLines["SuppressFull"]->SetTrackBValue(trackB->GetValue("SuppressFull"));
-    elementLines["Relay"]->SetTrackBValue(trackB->GetValue("Relay"));
-    elementLines["Help"]->SetTrackBValue(trackB->GetValue("Help"));
+    for (i = 0; i < keysSize; i++) {
+      elementLines[keys[i]]->SetTrackBValue(trackB->GetValue(keys[i]));
+    }
   }
 
-  keys = elementLines.keys();
-  n = keys.size();
-  for ( i = 0 ; i < n ; i++ ) {
+  for ( i = 0 ; i < keysSize ; i++ ) {
     elementLines[keys[i]]->Compare();
   }
 }

@@ -84,14 +84,14 @@ NavigationWindow::CreateSubWindows()
   HomeButton->setParent(this);
   HomeButton->move(0, 0);
   HomeButton->resize(buttonWidth,buttonHeight);
-  HomeButton->setText("H");
+  HomeButton->setIcon(QIcon(QPixmap(":/Images/LeftHome.png")));
   connect(HomeButton, SIGNAL(pressed()), this, SLOT(SlotHomeButtonPushed()));
 
   EndButton = new QPushButton();
   EndButton->setParent(this);
   EndButton->move(0, 0);
   EndButton->resize(buttonWidth,buttonHeight);
-  EndButton->setText("E");
+  EndButton->setIcon(QIcon(QPixmap(":/Images/RightEnd.png")));
   connect(EndButton, SIGNAL(pressed()), this, SLOT(SlotEndButtonPushed()));
 
   //! Create the NextElementButton button  

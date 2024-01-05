@@ -1,6 +1,120 @@
-CREATE TABLE Equipment (Track int,Eq text,Type text,Name text,TypeName text,GroupName text,NumofSamples text,NumofCtrl text,NumofSet text,NumofAlarm text,Related text);
-CREATE TABLE Settings (Track int,Eq text,SID text,SETName text,Unit text,SIndx text,SChan text,ValType text,Def text,Range text,DisplayAttr text,SetAttr text,SetExpRPN text,SetExpFull text,Auth text,DisplayID text,DispFmt text,ChID text,Step text,CExpRPN text,CExpFull text,Persist text,DispExpRPN text,DispExpFull text,States text,OnCtrl text);
-CREATE TABLE Sample (Track int,Eq text,SID text,SAMPLEName text,Unit text,SIndx text,SChan text,ValType text,StorThreshold text,StorInt text,EvalExpRPN text,EvalExpFull text,Range text,DisplayAttr text,DisplayLvl text,DisplayID text,DispFmt text,DispExpRPN text,DispExpFull text,Enums text);
-CREATE TABLE Control (Track int,Eq text,SID text,CTRLName text,Unit text,SIndx text,SChan text,ValType text,Defaults text,Range text,DisplayAttr text,CtrlAttr text,Threshold text,CableExpRPN text,CableExpFull text,Auth text,DisplayID text,DispFmt text,ChID text,CStep text,CParam text,CexpRPN text,CexpFullDispExp text,States text,CAction text);
-CREATE TABLE Alarms (Track int,Eq text,SID text,ALARMName text,Level text,ExpRPN text,EXPFull text,Delay text,SuppressRPN text,SuppressFull text,Relay text,Help text);
-CREATE TABLE ElementDisplay (SignalTypeName text, LineOrder integer, ElementKey text, ElementName text, DifferenceSeverity text, LineHeightMultiplier integer);
+CREATE TABLE Equipment 
+  (
+    0 Track int
+    1 Eq text
+    2 Type text
+    3 Name text
+    4 TypeName text
+    5 GroupName text
+    6 NumberOfSamples text
+    7 NumberOfCtrl text
+    8 NumberOfSet text
+    9 NumberOfAlarm text
+   10 Related text
+  );
+
+CREATE TABLE Settings 
+  (
+    0 Track int
+    1 Eq text
+    2 SID text
+    3 SettingName text
+    4 ResourceID text
+    5 Unit text
+    6 SamplerIndex text
+    7 SamplerChannel text
+    8 ValueType text
+    9 Defaults text
+   10 Range text
+   11 DisplayAttr text
+   12 SetAttr text
+   13 SetExprRPN text
+   14 SetExprFull text
+   15 AuthLevel text
+   16 DisplayID text
+   17 DisplayFormat text
+   18 ChannelID text
+   19 ControlStep text
+   20 ControlExprRPN text
+   21 ControlExprFull text
+   22 PersistentFlag text
+   23 OnControlAction text
+   24 DisplayExprRPN text
+   25 DisplayExprFull text
+   26 States text
+  );
+
+CREATE TABLE Sample 
+  (
+    0 Track int
+    1 Eq text
+    2 SID text
+    3 SampleName text
+    4 ResourceID text
+    5 Unit text
+    6 SamplerIndex text
+    7 SamplerChannel text
+    8 ValueType text
+    9 StoringThreshold text
+   10 StoringInterval text
+   11 EvalExprRPN text
+   12 EvalExprFull text
+   13 Range text
+   14 DisplayAttr text
+   15 DisplayLevel text
+   16 DisplayID text
+   17 DisplayFormat text
+   18 DisplayExprRPN text
+   19 DisplayExprFull text
+   20 Enums text
+  );
+
+CREATE TABLE Control 
+  (
+    0 Track int
+    1 Eq text
+    2 SID text
+    3 ControlName text
+    4 ResourceID text
+    5 Unit text
+    6 SamplerIndx text
+    7 SamplerChannel text
+    8 ValueType text
+    9 Defaults text
+   10 Range text
+   11 DisplayAttr text
+   12 ControlAttr text
+   13 Threshold text
+   14 CableExprRPN text
+   15 CableExprFull text
+   16 AuthLevel text
+   17 DisplayID text
+   18 DisplayFormat text
+   19 ChannelID text
+   20 ControlStep text
+   21 ControlParam text
+   22 ControlExprRPN text
+   23 ControlExprFull text
+   24 States text
+   25 OnControlAction text
+   26 DispExprRPN text
+   27 DispExprFull text
+  );
+
+
+CREATE TABLE Alarms 
+  (
+    0 Track int
+    1 Eq text
+    2 SID text
+    3 AlarmName text
+    4 ResourceID text
+    5 Level text
+    6 AlarmExprRPN text
+    7 AlarmExprFull text
+    8 Delay text
+    9 SuppressExprRPN text
+   10 SuppressExprFull text
+   11 RelayNumber text
+   12 HelpInfo text
+  );

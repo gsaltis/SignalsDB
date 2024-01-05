@@ -72,39 +72,43 @@ void
 ControlInformation::SQLRead
 (sqlite3* InDatabase)
 {
+  int                                   i;
   NCUControlSignal*                     control;
   bool                                  finished;
   int                                   n;
   sqlite3_stmt*                         statement;
   QString                               sqlStatement;
   QString                               s;
-  
+
   sqlStatement = QString("SELECT "
                          "Track,"               // 0
                          "Eq,"                  // 1
                          "SID,"                 // 2
-                         "CTRLName,"            // 3
-                         "Unit,"                // 4
-                         "SIndx,"               // 5
-                         "SChan,"               // 6
-                         "ValType,"             // 7
-                         "Defaults,"            // 8
-                         "Range,"               // 9
-                         "DisplayAttr,"         // 10
-                         "CtrlAttr,"            // 11
-                         "Threshold,"           // 12
-                         "CableExpRPN,"         // 13
-                         "CableExpFull,"        // 14
-                         "Auth,"                // 15
-                         "DisplayID,"           // 16
-                         "DispFmt,"             // 17
-                         "ChID,"                // 18
-                         "CStep,"               // 19
-                         "CParam,"              // 20
-                         "CexpRPN,"             // 21
-                         "CexpFullDispExp,"     // 22
-                         "States,"              // 23
-                         "CAction "             // 24                         
+                         "ControlName,"         // 3
+                         "ResourceID,"          // 4
+                         "Unit,"                // 5
+                         "SamplerIndx,"         // 6
+                         "SamplerChannel,"      // 7
+                         "ValueType,"           // 8
+                         "Defaults,"            // 9
+                         "Range,"               // 10
+                         "DisplayAttr,"         // 11
+                         "ControlAttr,"         // 12
+                         "Threshold,"           // 13
+                         "CableExprRPN,"        // 14
+                         "CableExprFull,"       // 15
+                         "AuthLevel,"           // 16
+                         "DisplayID,"           // 17
+                         "DisplayFormat,"       // 18
+                         "ChannelID,"           // 19
+                         "ControlStep,"         // 20
+                         "ControlParam,"        // 21
+                         "ControlExprRPN,"      // 22
+                         "ControlExprFull,"     // 23
+                         "States,"              // 24
+                         "OnControlAction,"     // 25
+                         "DispExprRPN,"         // 26
+                         "DispExprFull "        // 27
                          "FROM Control ORDER by CAST(Eq AS INTEGER), CAST(SID AS INTEGER), Track;");
 
   n = sqlite3_prepare_v2(InDatabase, sqlStatement.toStdString().c_str(), sqlStatement.length(), &statement, NULL);
@@ -148,28 +152,33 @@ ControlInformation::SQLRead
         control->SetType(s.toInt());
 
         //!
-        control->SetValue("CTRLName",           QString((char*)sqlite3_column_text(statement, 3)));
-        control->SetValue("Unit",               QString((char*)sqlite3_column_text(statement, 4)));
-        control->SetValue("SIndx",              QString((char*)sqlite3_column_text(statement, 5)));
-        control->SetValue("SChan",              QString((char*)sqlite3_column_text(statement, 6)));
-        control->SetValue("ValType",            QString((char*)sqlite3_column_text(statement, 7)));
-        control->SetValue("Defaults",           QString((char*)sqlite3_column_text(statement, 8)));
-        control->SetValue("Range",              QString((char*)sqlite3_column_text(statement, 9)));
-        control->SetValue("DisplayAttr",        QString((char*)sqlite3_column_text(statement, 10)));
-        control->SetValue("CtrlAttr",           QString((char*)sqlite3_column_text(statement, 11)));
-        control->SetValue("Threshold",          QString((char*)sqlite3_column_text(statement, 12)));
-        control->SetValue("CableExpRPN",        QString((char*)sqlite3_column_text(statement, 13)));
-        control->SetValue("CableExpFull",       QString((char*)sqlite3_column_text(statement, 14)));
-        control->SetValue("Auth",               QString((char*)sqlite3_column_text(statement, 15)));
-        control->SetValue("DisplayID",          QString((char*)sqlite3_column_text(statement, 16)));
-        control->SetValue("DispFmt",            QString((char*)sqlite3_column_text(statement, 17)));
-        control->SetValue("ChID",               QString((char*)sqlite3_column_text(statement, 18)));
-        control->SetValue("CStep",              QString((char*)sqlite3_column_text(statement, 19)));
-        control->SetValue("CParam",             QString((char*)sqlite3_column_text(statement, 20)));
-        control->SetValue("CexpRPN",            QString((char*)sqlite3_column_text(statement, 21)));
-        control->SetValue("CexpFullDispExp",    QString((char*)sqlite3_column_text(statement, 22)));
-        control->SetValue("States",             QString((char*)sqlite3_column_text(statement, 23)));
-        control->SetValue("CAction",            QString((char*)sqlite3_column_text(statement, 24)));
+        i = 3;
+        control->SetValue("ControlName",        QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ResourceID",         QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("Unit",               QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("SamplerIndx",        QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("SamplerChannel",     QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ValueType",          QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("Defaults",           QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("Range",              QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("DisplayAttr",        QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ControlAttr",        QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("Threshold",          QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("CableExprRPN",       QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("CableExprFull",      QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("AuthLevel",          QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("DisplayID",          QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("DisplayFormat",      QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ChannelID",          QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ControlStep",        QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ControlParam",       QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ControlExprRPN",     QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("ControlExprFull",    QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("States",             QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("OnControlAction",    QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("DispExprRPN",        QString((char*)sqlite3_column_text(statement, i++)));
+        control->SetValue("DispExprFull",       QString((char*)sqlite3_column_text(statement, i++)));
+                           
         controls << control;
         break;
       }

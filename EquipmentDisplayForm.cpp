@@ -273,13 +273,13 @@ EquipmentDisplayForm::SetTrackInformation
   int                                   keysSize;
   QStringList                           keys;
   int                                   i;
-  NCUEquipment*                         track2;
-  NCUEquipment*                         track3;
+  NCUEquipment*                         trackA;
+  NCUEquipment*                         trackB;
 
   EquipmentIDLabel->setText(QString("%1").arg(InPair->GetID()));
 
-  track2 = InPair->GetTrackA();
-  track3 = InPair->GetTrackB();
+  trackA = InPair->GetTrackA();
+  trackB = InPair->GetTrackB();
 
   keys = elementLines.keys();
   keysSize = keys.size();
@@ -287,30 +287,17 @@ EquipmentDisplayForm::SetTrackInformation
     elementLines[keys[i]]->Clear();
   }
 
-  if ( track2 ) {
-    elementLines["Type"]->SetTrackAValue(QString("%1").arg(track2->Type));
-    elementLines["Name"]->SetTrackAValue(track2->GetValue("Name"));
-    elementLines["TypeName"]->SetTrackAValue(track2->GetValue("TypeName"));
-    elementLines["GroupName"]->SetTrackAValue(track2->GetValue("GroupName"));
-    elementLines["NumofSamples"]->SetTrackAValue(track2->GetValue("NumofSamples"));
-    elementLines["NumofCtrl"]->SetTrackAValue(track2->GetValue("NumofCtrl"));
-    elementLines["NumofAlarm"]->SetTrackAValue(track2->GetValue("NumofAlarm"));
-    elementLines["NumofSet"]->SetTrackAValue(track2->GetValue("NumofSet"));
-    elementLines["Related"]->SetTrackAValue(track2->GetValue("Related"));
+  if ( trackA ) {
+    for (i = 0; i < keysSize; i++) {
+      elementLines[keys[i]]->SetTrackAValue(trackA->GetValue(keys[i]));
+    }
   }
-
-  if ( track3 ) {
-    elementLines["Type"]->SetTrackBValue(QString("%1").arg(track3->Type));
-    elementLines["Name"]->SetTrackBValue(track3->GetValue("Name"));
-    elementLines["TypeName"]->SetTrackBValue(track3->GetValue("TypeName"));
-    elementLines["GroupName"]->SetTrackBValue(track3->GetValue("GroupName"));
-    elementLines["NumofSamples"]->SetTrackBValue(track3->GetValue("NumofSamples"));
-    elementLines["NumofCtrl"]->SetTrackBValue(track3->GetValue("NumofCtrl"));
-    elementLines["NumofAlarm"]->SetTrackBValue(track3->GetValue("NumofAlarm"));
-    elementLines["NumofSet"]->SetTrackBValue(track3->GetValue("NumofSet"));
-    elementLines["Related"]->SetTrackBValue(track3->GetValue("Related"));
+  if ( trackB ) {
+    for (i = 0; i < keysSize; i++) {
+      elementLines[keys[i]]->SetTrackBValue(trackB->GetValue(keys[i]));
+    }
   }
-
+  
   for ( i = 0 ; i < keysSize ; i++ ) {
     elementLines[keys[i]]->Compare();
   }

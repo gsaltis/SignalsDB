@@ -79,30 +79,31 @@ SampleInformation::SQLRead
   QString                               sqlStatement;
   QString                               s;
   int                                   i;
-  
-  sqlStatement = QString("SELECT "
-                         "Track,"               // 0
-                         "Eq,"                  // 1
-                         "SID,"                 // 2
-                         "SAMPLEName,"          // 3
-                         "Unit,"                // 4
-                         "SIndx,"               // 5
-                         "SChan,"               // 6
-                         "ValType,"             // 7
-                         "StorThreshold,"       // 8
-                         "StorInt,"             // 9
-                         "EvalExpRPN,"          // 10
-                         "EvalExpFull,"         // 11
-                         "Range,"               // 12
-                         "DisplayAttr,"         // 13
-                         "DisplayLvl,"          // 14
-                         "DisplayID,"           // 15
-                         "DispFmt,"             // 16
-                         "DispExpRPN,"          // 17
-                         "DispExpFull,"         // 18
-                         "Enums "               // 19
-                         "FROM Sample ORDER by CAST(Eq AS INTEGER), CAST(SID AS INTEGER), Track;");
 
+  sqlStatement = QString("SELECT "
+                         "Track,"                       // 0
+                         "Eq,"                          // 1
+                         "SID,"                         // 2
+                         "SampleName,"                  // 3
+                         "ResourceID,"                  // 4
+                         "Unit,"                        // 5
+                         "SamplerIndex,"                // 6
+                         "SamplerChannel,"              // 7
+                         "ValueType,"                   // 8
+                         "StoringThreshold,"            // 9
+                         "StoringInterval,"             // 10
+                         "EvalExprRPN,"                 // 11
+                         "EvalExprFull,"                // 12
+                         "Range,"                       // 13
+                         "DisplayAttr,"                 // 14
+                         "DisplayLevel,"                // 15
+                         "DisplayID,"                   // 16
+                         "DisplayFormat,"               // 17
+                         "DisplayExprRPN,"              // 18
+                         "DisplayExprFull,"             // 19
+                         "Enums "                       // 20
+                         "FROM Sample ORDER by CAST(Eq AS INTEGER), CAST(SID AS INTEGER), Track;");
+                         
   n = sqlite3_prepare_v2(InDatabase, sqlStatement.toStdString().c_str(), sqlStatement.length(), &statement, NULL);
   if ( n != SQLITE_OK ) {
 
@@ -145,22 +146,23 @@ SampleInformation::SQLRead
 
         //!
         i = 3;
-        sample->SetValue("SAMPLEName", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("SampleName", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("ResourceID", 		QString((char*)sqlite3_column_text(statement, i++)));
         sample->SetValue("Unit", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("SIndx", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("SChan", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("ValType", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("StorThreshold", 	QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("StorInt", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("EvalExpRPN", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("EvalExpFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("SamplerIndex", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("SamplerChannel", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("ValueType", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("StoringThreshold", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("StoringInterval", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("EvalExprRPN", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("EvalExprFull", 	QString((char*)sqlite3_column_text(statement, i++)));
         sample->SetValue("Range", 		QString((char*)sqlite3_column_text(statement, i++)));
         sample->SetValue("DisplayAttr", 	QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("DisplayLvl", 		QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayLevel", 	QString((char*)sqlite3_column_text(statement, i++)));
         sample->SetValue("DisplayID", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("DispFmt", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("DispExpRPN", 		QString((char*)sqlite3_column_text(statement, i++)));
-        sample->SetValue("DispExpFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayFormat", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayExprRPN", 	QString((char*)sqlite3_column_text(statement, i++)));
+        sample->SetValue("DisplayExprFull", 	QString((char*)sqlite3_column_text(statement, i++)));
         sample->SetValue("Enums", 		QString((char*)sqlite3_column_text(statement, i++)));
         samples << sample;
         break;

@@ -87,10 +87,10 @@ EquipmentInformation::SQLRead
                          "Name,"                             // 3
                          "TypeName,"                         // 4
                          "GroupName,"                        // 5
-                         "NumofSamples,"                     // 6
-                         "NumofCtrl,"                        // 7
-                         "NumofSet,"                         // 8
-                         "NumofAlarm,"                       // 9
+                         "NumberOfSamples,"                  // 6
+                         "NumberOfCtrl,"                     // 7
+                         "NumberOfSet,"                      // 8
+                         "NumberOfAlarm,"                    // 9
                          "Related "                          // 10
                          "FROM Equipment;");
 

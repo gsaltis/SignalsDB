@@ -79,34 +79,35 @@ SettingInformation::SQLRead
   QString                               sqlStatement;
   QString                               s;
   int                                   i;
-  
+
   sqlStatement = QString("SELECT "
                          "Track,"               // 0
                          "Eq,"                  // 1
                          "SID,"                 // 2
-                         "SETName,"             // 3
-                         "Unit,"                // 4
-                         "SIndx,"               // 5
-                         "SChan,"               // 6
-                         "ValType,"             // 7
-                         "Def,"                 // 8
-                         "Range,"               // 9
-                         "DisplayAttr,"         // 10
-                         "SetAttr,"             // 11
-                         "SetExpRPN,"           // 12
-                         "SetExpFull,"          // 13
-                         "Auth,"                // 14
-                         "DisplayID,"           // 15
-                         "DispFmt,"             // 16
-                         "ChID,"                // 17
-                         "Step,"                // 18
-                         "CExpRPN,"             // 19
-                         "CExpFull,"            // 20
-                         "Persist,"             // 21
-                         "DispExpRPN,"          // 22
-                         "DispExpFull,"         // 23
-                         "States,"              // 24
-                         "OnCtrl "              // 25
+                         "SettingName,"         // 3
+                         "ResourceID,"          // 4
+                         "Unit,"                // 5
+                         "SamplerIndex,"        // 6
+                         "SamplerChannel,"      // 7
+                         "ValueType,"           // 8
+                         "Defaults,"            // 9
+                         "Range,"               // 10
+                         "DisplayAttr,"         // 11
+                         "SetAttr,"             // 12
+                         "SetExprRPN,"          // 13
+                         "SetExprFull,"         // 14
+                         "AuthLevel,"           // 15
+                         "DisplayID,"           // 16
+                         "DisplayFormat,"       // 17
+                         "ChannelID,"           // 18
+                         "ControlStep,"         // 19
+                         "ControlExprRPN,"      // 20
+                         "ControlExprFull,"     // 21
+                         "PersistentFlag,"      // 22
+                         "OnControlAction,"     // 23
+                         "DisplayExprRPN,"      // 24
+                         "DisplayExprFull,"     // 25
+                         "States "              // 26
                          "FROM Settings ORDER by CAST(Eq AS INTEGER), CAST(SID AS INTEGER), Track;");
 
   n = sqlite3_prepare_v2(InDatabase, sqlStatement.toStdString().c_str(), sqlStatement.length(), &statement, NULL);
@@ -151,29 +152,30 @@ SettingInformation::SQLRead
 
         //!
         i = 3;
-        setting->SetValue("SETName", 		QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("SettingName", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("ResourceID", 	QString((char*)sqlite3_column_text(statement, i++)));
         setting->SetValue("Unit", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("SIndx", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("SChan", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("ValType", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("Def", 		QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("SamplerIndex", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("SamplerChannel", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("ValueType", 		QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("Defaults", 		QString((char*)sqlite3_column_text(statement, i++)));
         setting->SetValue("Range", 		QString((char*)sqlite3_column_text(statement, i++)));
         setting->SetValue("DisplayAttr", 	QString((char*)sqlite3_column_text(statement, i++)));
         setting->SetValue("SetAttr", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("SetExpRPN", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("SetExpFull", 	QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("Auth", 		QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("SetExprRPN", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("SetExprFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("AuthLevel", 		QString((char*)sqlite3_column_text(statement, i++)));
         setting->SetValue("DisplayID", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("DispFmt", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("ChID", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("Step", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("CExpRPN", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("CExpFull", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("Persist", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("DispExpRPN", 	QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("DispExpFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("DisplayFormat", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("ChannelID", 		QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("ControlStep", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("ControlExprRPN", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("ControlExprFull", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("PersistentFlag", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("OnControlAction", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("DisplayExprRPN", 	QString((char*)sqlite3_column_text(statement, i++)));
+        setting->SetValue("DisplayExprFull", 	QString((char*)sqlite3_column_text(statement, i++)));
         setting->SetValue("States", 		QString((char*)sqlite3_column_text(statement, i++)));
-        setting->SetValue("OnCtrl", 		QString((char*)sqlite3_column_text(statement, i++)));
         settings << setting;
         break;
       }

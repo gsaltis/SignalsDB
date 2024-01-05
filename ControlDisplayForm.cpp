@@ -255,14 +255,14 @@ ControlDisplayForm::SetTrackInformation
   QStringList                           keys;
   
   int                                   i;
-  NCUControlSignal*                     track2;
-  NCUControlSignal*                     track3;
+  NCUControlSignal*                     trackA;
+  NCUControlSignal*                     trackB;
 
   ControlIDLabel->setText(QString("%1").arg(InPair->GetID()));
   SignalIDLabel->setText(QString("%1").arg(InPair->GetSID()));
   
-  track2 = InPair->GetTrackA();
-  track3 = InPair->GetTrackB();
+  trackA = InPair->GetTrackA();
+  trackB = InPair->GetTrackB();
 
   keys = elementLines.keys();
   keysSize  = keys.size();
@@ -270,58 +270,17 @@ ControlDisplayForm::SetTrackInformation
     elementLines[keys[i]]->Clear();
   }
 
-  if ( track2 ) {
-    i = 0;
-    elementLines["CTRLName"]->SetTrackAValue(track2->GetValue("CTRLName"));
-    elementLines["Unit"]->SetTrackAValue(track2->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrackAValue(track2->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrackAValue(track2->GetValue("SChan"));
-    elementLines["ValType"]->SetTrackAValue(track2->GetValue("ValType"));
-    elementLines["Defaults"]->SetTrackAValue(track2->GetValue("Defaults"));
-    elementLines["Range"]->SetTrackAValue(track2->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrackAValue(track2->GetValue("DisplayAttr"));
-    elementLines["CtrlAttr"]->SetTrackAValue(track2->GetValue("CtrlAttr"));
-    elementLines["Threshold"]->SetTrackAValue(track2->GetValue("Threshold"));
-    elementLines["CableExpRPN"]->SetTrackAValue(track2->GetValue("CableExpRPN"));
-    elementLines["CableExpFull"]->SetTrackAValue(track2->GetValue("CableExpFull"));
-    elementLines["Auth"]->SetTrackAValue(track2->GetValue("Auth"));
-    elementLines["DisplayID"]->SetTrackAValue(track2->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrackAValue(track2->GetValue("DispFmt"));
-    elementLines["ChID"]->SetTrackAValue(track2->GetValue("ChID"));
-    elementLines["CStep"]->SetTrackAValue(track2->GetValue("CStep"));
-    elementLines["CParam"]->SetTrackAValue(track2->GetValue("CParam"));
-    elementLines["CexpRPN"]->SetTrackAValue(track2->GetValue("CexpRPN"));
-    elementLines["CexpFullDispExp"]->SetTrackAValue(track2->GetValue("CexpFullDispExp"));
-    elementLines["States"]->SetTrackAValue(track2->GetValue("States"));
-    elementLines["CAction"]->SetTrackAValue(track2->GetValue("CAction"));
+  if ( trackA ) {
+    for (i = 0; i < keysSize; i++) {
+      elementLines[keys[i]]->SetTrackAValue(trackA->GetValue(keys[i]));
+    }
   }
-
-  if ( track3 ) {
-    i = 0;
-    elementLines["CTRLName"]->SetTrackBValue(track3->GetValue("CTRLName"));
-    elementLines["Unit"]->SetTrackBValue(track3->GetValue("Unit"));
-    elementLines["SIndx"]->SetTrackBValue(track3->GetValue("SIndx"));
-    elementLines["SChan"]->SetTrackBValue(track3->GetValue("SChan"));
-    elementLines["ValType"]->SetTrackBValue(track3->GetValue("ValType"));
-    elementLines["Defaults"]->SetTrackBValue(track3->GetValue("Defaults"));
-    elementLines["Range"]->SetTrackBValue(track3->GetValue("Range"));
-    elementLines["DisplayAttr"]->SetTrackBValue(track3->GetValue("DisplayAttr"));
-    elementLines["CtrlAttr"]->SetTrackBValue(track3->GetValue("CtrlAttr"));
-    elementLines["Threshold"]->SetTrackBValue(track3->GetValue("Threshold"));
-    elementLines["CableExpRPN"]->SetTrackBValue(track3->GetValue("CableExpRPN"));
-    elementLines["CableExpFull"]->SetTrackBValue(track3->GetValue("CableExpFull"));
-    elementLines["Auth"]->SetTrackBValue(track3->GetValue("Auth"));
-    elementLines["DisplayID"]->SetTrackBValue(track3->GetValue("DisplayID"));
-    elementLines["DispFmt"]->SetTrackBValue(track3->GetValue("DispFmt"));
-    elementLines["ChID"]->SetTrackBValue(track3->GetValue("ChID"));
-    elementLines["CStep"]->SetTrackBValue(track3->GetValue("CStep"));
-    elementLines["CParam"]->SetTrackBValue(track3->GetValue("CParam"));
-    elementLines["CexpRPN"]->SetTrackBValue(track3->GetValue("CexpRPN"));
-    elementLines["CexpFullDispExp"]->SetTrackBValue(track3->GetValue("CexpFullDispExp"));
-    elementLines["States"]->SetTrackBValue(track3->GetValue("States"));
-    elementLines["CAction"]->SetTrackBValue(track3->GetValue("CAction"));
+  if ( trackB ) {
+    for (i = 0; i < keysSize; i++) {
+      elementLines[keys[i]]->SetTrackBValue(trackB->GetValue(keys[i]));
+    }
   }
-
+  
   for ( i = 0 ; i < keysSize ; i ++) {
     elementLines[keys[i]]->Compare();
   }
